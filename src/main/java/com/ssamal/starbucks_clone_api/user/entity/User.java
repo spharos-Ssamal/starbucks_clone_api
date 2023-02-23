@@ -1,55 +1,55 @@
 package com.ssamal.starbucks_clone_api.user.entity;
 
 
+import com.ssamal.starbucks_clone_api.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JdbcTypeCode;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @JdbcTypeCode(java.sql.Types.VARCHAR)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private UUID id;
 
     @Column(name = "email",
             columnDefinition = "varchar(45) Not NULL", unique = true)
-    private String user_email;
+    private String userEmail;
 
-    @Column(name = "user_id",
+    @Column(name = "username",
             unique = true, columnDefinition = "varchar(20) Not NULL")
-    private String user_id;
+    private String userName;
+
+    @Column(name = "nickname", unique = true, columnDefinition = "varchar(20) Not NULL")
+    private String userNickname;
 
     @Column(name = "password", columnDefinition = "varchar(20) Not NULL")
-    private String user_password;
+    private String userPassword;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "birthday", nullable = false, updatable = false)
-    private Date birthday;
+    private LocalDate birthday;
 
     @Column(name = "phone", columnDefinition = "varchar(20) Not NULL", unique = true)
-    private String phone_no;
+    private String phoneNo;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "last_login", nullable = false)
-    private Date last_login;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="join_day", nullable = false, updatable = false)
-    private Date create_at;
-
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<User_Shiping_Address> shiping_addressList = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserShippingAddress> shipingAddressList = new ArrayList<>();
 
 }
 
