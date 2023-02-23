@@ -16,7 +16,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"user_id"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

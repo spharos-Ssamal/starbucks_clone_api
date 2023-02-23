@@ -5,11 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity(name = "ship_address")
+@Entity
+@Table(name = "ship_address")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"user_id"})
 public class User_Shiping_Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
