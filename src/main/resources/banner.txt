@@ -1,13 +1,14 @@
-   _____ _             _                _
-  / ____| |           | |              | |
- | (___ | |_ __ _ _ __| |__  _   _  ___| | _____
-  \___ \| __/ _` | '__| '_ \| | | |/ __| |/ / __|
-  ____) | || (_| | |  | |_) | |_| | (__|   <\__ \
- |_____/ \__\__,_|_|  |_.__/ \__,_|\___|_|\_\___/
-   _____ _                     _____
-  / ____| |                   / ____|
- | |    | | ___  _ __   ___  | (___   ___ _ ____   _____ _ __
- | |    | |/ _ \| '_ \ / _ \  \___ \ / _ \ '__\ \ / / _ \ '__|
- | |____| | (_) | | | |  __/  ____) |  __/ |   \ V /  __/ |
-  \_____|_|\___/|_| |_|\___| |_____/ \___|_|    \_/ \___|_|
+${AnsiColor.GREEN}      )  (        ${AnsiColor.BRIGHT_YELLOW} __ _             _                _
+${AnsiColor.GREEN}     (   ) )      ${AnsiColor.BRIGHT_YELLOW}/ _\ |_ __ _ _ __| |__  _   _  ___| | _____
+${AnsiColor.GREEN}      ) ( (       ${AnsiColor.BRIGHT_YELLOW}\ \| __/ _` | '__| '_ \| | | |/ __| |/ / __|
+${AnsiColor.GREEN} mrf_______)_     ${AnsiColor.BRIGHT_YELLOW}_\ \ || (_| | |  | |_) | |_| | (__|   <\__ \
+${AnsiColor.GREEN} .-'---------|    ${AnsiColor.BRIGHT_YELLOW}\__/\__\__,_|_|  |_.__/ \__,_|\___|_|\_\___/
+${AnsiColor.GREEN}( C|/\/\/\/\/|    ${AnsiColor.BRIGHT_YELLOW}   ___ _                      ___           _           _
+${AnsiColor.GREEN} '-./\/\/\/\/|    ${AnsiColor.BRIGHT_YELLOW}  / __\ | ___  _ __   ___    / _ \_ __ ___ (_) ___  ___| |_
+${AnsiColor.GREEN}   '_________'    ${AnsiColor.BRIGHT_YELLOW} / /  | |/ _ \| '_ \ / _ \  / /_)/ '__/ _ \| |/ _ \/ __| __|
+${AnsiColor.GREEN}    '-------'     ${AnsiColor.BRIGHT_YELLOW}/ /___| | (_) | | | |  __/ / ___/| | | (_) | |  __/ (__| |_
+                  ${AnsiColor.BRIGHT_YELLOW}\____/|_|\___/|_| |_|\___| \/    |_|  \___// |\___|\___|\__|
+                  ${AnsiColor.BRIGHT_YELLOW}                                         |__/
 
+${AnsiColor.BRIGHT_GREEN}${application.title} ${application.version}
+${AnsiColor.BRIGHT_GREEN}Powered by Spring Boot ${spring-boot.version}
