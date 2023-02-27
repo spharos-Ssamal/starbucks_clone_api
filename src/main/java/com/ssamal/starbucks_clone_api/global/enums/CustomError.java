@@ -24,6 +24,9 @@ public enum CustomError {
 
     //CONFLICT
     DUPLICATE_USER(HttpStatus.CONFLICT, "이미 해당 유저가 존재합니다.", "ERROR-CF-001"),
+    DUPLICATE_USER_NAME(HttpStatus.CONFLICT, "이미 사용중인 유저 아이디입니다.", "ERROR-CF-002"),
+    DUPLICATE_USER_EMAIL(HttpStatus.CONFLICT, "이미 사용중인 유저 이메일입니다.", "ERROR-CF-003"),
+    DUPLICATE_USER_NICKNAME(HttpStatus.CONFLICT, "이미 사용중인 유저 닉네임입니다.", "ERROR-CF-004"),
 
     //INTERNAL SERVER ERROR
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,  "내부 서버 오류입니다. 관리자에게 문의하세요", "ERROR-ISE-001");
