@@ -1,11 +1,10 @@
 package com.ssamal.starbucks_clone_api.user.entity;
 
 
-import com.ssamal.starbucks_clone_api.global.entity.BaseEntity;
+import com.ssamal.starbucks_clone_api.global.entity.BaseTimeEntity;
+import com.ssamal.starbucks_clone_api.user.enums.UserRole;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
 
@@ -16,10 +15,11 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "user")
-@Data
+@Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class User extends BaseEntity {
+public class ServiceUser extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -41,6 +41,10 @@ public class User extends BaseEntity {
     @Column(name = "password", columnDefinition = "varchar(20) Not NULL")
     private String userPassword;
 
+    @Column(name = "role", nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRole role = UserRole.ROLE_USER;
+
     @Temporal(TemporalType.DATE)
     @Column(name = "birthday", nullable = false, updatable = false)
     private LocalDate birthday;
@@ -48,8 +52,11 @@ public class User extends BaseEntity {
     @Column(name = "phone", columnDefinition = "varchar(20) Not NULL", unique = true)
     private String phoneNo;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<UserShippingAddress> shipingAddressList = new ArrayList<>();
+    @Column(name = "is_agree", nullable = false)
+    private boolean isAgree = false;
+
+    @OneToMany(mappedBy = "serviceUser", cascade = CascadeType.ALL)
+    private List<ShippingAddress> shipingAddressList = new ArrayList<>();
 
 }
 

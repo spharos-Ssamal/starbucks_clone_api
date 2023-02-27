@@ -1,15 +1,14 @@
 package com.ssamal.starbucks_clone_api.user.entity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "ship_address")
-@Data
+@Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserShippingAddress {
+public class ShippingAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -23,6 +22,6 @@ public class UserShippingAddress {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    private User user;
+    private ServiceUser serviceUser;
 
 }
