@@ -13,7 +13,7 @@ public class CookieUtils {
         return ResponseCookie.from(cookieName, value)
                 .path("/")
                 .secure(true)
-                .sameSite("Lax")
+                .sameSite("None")
                 .httpOnly(true)
                 .maxAge(JwtUtils.REFRESH_TOKEN_VALID_TIME / 1000)
                 .build();
