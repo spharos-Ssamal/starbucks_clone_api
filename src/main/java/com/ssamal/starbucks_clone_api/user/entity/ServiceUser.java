@@ -2,11 +2,14 @@ package com.ssamal.starbucks_clone_api.user.entity;
 
 
 import com.ssamal.starbucks_clone_api.global.entity.BaseTimeEntity;
+import com.ssamal.starbucks_clone_api.user.dto.UserReq;
 import com.ssamal.starbucks_clone_api.user.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,6 +22,7 @@ import java.util.UUID;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ServiceUser extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -38,12 +42,12 @@ public class ServiceUser extends BaseTimeEntity {
     @Column(name = "nickname", unique = true, columnDefinition = "varchar(20) Not NULL")
     private String userNickname;
 
-    @Column(name = "password", columnDefinition = "varchar(20) Not NULL")
+    @Column(name = "password")
     private String userPassword;
 
-    @Column(name = "role", nullable = false)
+    @Column(name = "role", nullable = false, columnDefinition = "varchar(15) default 'ROLE_USER'")
     @Enumerated(value = EnumType.STRING)
-    private UserRole role = UserRole.ROLE_USER;
+    private UserRole role;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "birthday", nullable = false, updatable = false)
@@ -53,10 +57,22 @@ public class ServiceUser extends BaseTimeEntity {
     private String phoneNo;
 
     @Column(name = "is_agree", nullable = false)
-    private boolean isAgree = false;
+    private boolean isAgree;
 
-    @OneToMany(mappedBy = "serviceUser", cascade = CascadeType.ALL)
-    private List<ShippingAddress> shipingAddressList = new ArrayList<>();
+
+    public static ServiceUser newUser(UserReq.RegisterReq req) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return ServiceUser.builder()
+                .userEmail(req.getUserEmail())
+                .userName(req.getUserName())
+                .userNickname(req.getUserNickname())
+                .userPassword(passwordEncoder.encode(req.getPassword()))
+                .birthday(req.getBirthday())
+                .phoneNo(req.getPhoneNo())
+                .isAgree(req.isAgree())
+                .role(UserRole.USER)
+                .build();
+    }
 
 }
 
