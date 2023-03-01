@@ -13,10 +13,16 @@ public enum CustomError {
     INVALID_TOKEN(HttpStatus.BAD_REQUEST, "올바르지 않은 토큰 요청입니다.", "ERROR-BR-003"),
 
     //UNAUTHORIZED
-    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "Token Expired", "ERROR-UA-001"),
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "권한이 없습니다.", "ERROR-UA-001"),
+    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "Token Expired", "ERROR-UA-002"),
 
     //NOT_FOUND
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 유저의 정보를 찾을 수 없습니다.", "ERROR-NF-001"),
+    PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 상품 정보를 찾을 수 없습니다.", "ERROR-NF-002"),
+    CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 카테고리 정보를 찾을 수 없습니다.", "ERROR-NF-003"),
+    HASH_TAG_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 해시태그 정보를 찾을 수 없습니다.", "ERROR-NF-004"),
+    EVENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 이벤트 정보를 찾을 수 없습니다.", "ERROR-NF-005"),
+    SEASON_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 시즌 정보를 찾을 수 없습니다.", "ERROR-NF-006"),
 
     //FORBIDDEN
     FORBIDDEN(HttpStatus.FORBIDDEN,  "금지된 요청입니다.", "ERROR-FB-001"),
@@ -27,6 +33,11 @@ public enum CustomError {
     DUPLICATE_USER_NAME(HttpStatus.CONFLICT, "이미 사용중인 유저 아이디입니다.", "ERROR-CF-002"),
     DUPLICATE_USER_EMAIL(HttpStatus.CONFLICT, "이미 사용중인 유저 이메일입니다.", "ERROR-CF-003"),
     DUPLICATE_USER_NICKNAME(HttpStatus.CONFLICT, "이미 사용중인 유저 닉네임입니다.", "ERROR-CF-004"),
+    DUPLICATE_PRODUCT_NAME(HttpStatus.CONFLICT, "이미 등록 된 상품입니다.", "ERROR-CF-005"),
+    DUPLICATE_CATEGORY_NAME(HttpStatus.CONFLICT, "이미 등록 된 카테고리 이름입니다.", "ERROR-CF-006"),
+    DUPLICATE_EVENT_NAME(HttpStatus.CONFLICT, "이미 등록 된 이벤트 입니다.", "ERROR-CF-007"),
+    DUPLICATE_SEASON_NAME(HttpStatus.CONFLICT, "이미 등록 된 시즌 입니다.", "ERROR-CF-008"),
+    DUPLICATE_HASHTAG_NAME(HttpStatus.CONFLICT, "이미 등록 된 해시태그 입니다.", "ERROR-CF-009"),
 
     //INTERNAL SERVER ERROR
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,  "내부 서버 오류입니다. 관리자에게 문의하세요", "ERROR-ISE-001");

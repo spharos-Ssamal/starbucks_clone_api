@@ -20,4 +20,11 @@ public class ProductHashTag extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
 
+    public static ProductHashTag fromEntity(Product product, HashTag hashTag){
+        return ProductHashTag.builder()
+                .product(product)
+                .hashTag(hashTag)
+                .build();
+    }
+
 }

@@ -22,7 +22,7 @@ import org.springframework.web.cors.CorsUtils;
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -39,11 +39,14 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtils, redisUtils), UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .exceptionHandling()
+                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .accessDeniedHandler(new JwtAccessDeniedHandler())
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .requestMatchers("/api/auth/v1/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
+                .requestMatchers("/api/admin/v1/**").hasRole("ADMIN")
                 .requestMatchers("/api/v1/**").authenticated()
         ;
 
@@ -51,7 +54,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public WebSecurityCustomizer configure(){
+    public WebSecurityCustomizer configure() {
         return (web -> web.ignoring().requestMatchers("/css/**", "/js/**", "/img/**"));
     }
 }
