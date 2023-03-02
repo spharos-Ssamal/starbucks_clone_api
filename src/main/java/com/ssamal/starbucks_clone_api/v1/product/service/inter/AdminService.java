@@ -11,8 +11,6 @@ public interface AdminService {
     ProdAdminRes.AddProductToMenuRes addProductToCategory(ProdAdminReq.AddProductTo req);
     List<ProdAdminRes.AddMenuRes> addEvent(List<ProdAdminReq.AddEvent> req);
     ProdAdminRes.AddProductToMenuRes addProductToEvent(ProdAdminReq.AddProductTo req);
-    List<ProdAdminRes.AddMenuRes> addSeason(List<ProdAdminReq.AddSeason> req);
-    ProdAdminRes.AddProductToMenuRes addProductToSeason(ProdAdminReq.AddProductTo req);
     List<ProdAdminRes.AddMenuRes> addHashTag(List<ProdAdminReq.AddHashTag> req);
     ProdAdminRes.AddProductToMenuRes addProductToHashTag(ProdAdminReq.AddProductTo req);
     ProdAdminRes.DeleteProductRes deleteProduct(ProdAdminReq.DeleteProduct req);

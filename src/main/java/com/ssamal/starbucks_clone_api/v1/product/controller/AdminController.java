@@ -58,18 +58,6 @@ public class AdminController {
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
-    @PostMapping("/season/new")
-    public ResponseEntity<BaseRes<List<ProdAdminRes.AddMenuRes>>> newSeason(@RequestBody List<ProdAdminReq.AddSeason> req) {
-        List<ProdAdminRes.AddMenuRes> result = adminService.addSeason(req);
-        return ResponseEntity.ok().body(BaseRes.success(result));
-    }
-
-    @PostMapping("/season/addProduct")
-    public ResponseEntity<BaseRes<ProdAdminRes.AddProductToMenuRes>> addProductToSeason(@RequestBody ProdAdminReq.AddProductTo req) {
-        ProdAdminRes.AddProductToMenuRes result = adminService.addProductToSeason(req);
-        return ResponseEntity.ok().body(BaseRes.success(result));
-    }
-
     @DeleteMapping("/deleteProduct")
     public ResponseEntity<BaseRes<ProdAdminRes.DeleteProductRes>> deleteProduct(@RequestBody ProdAdminReq.DeleteProduct req) {
         ProdAdminRes.DeleteProductRes result = adminService.deleteProduct(req);

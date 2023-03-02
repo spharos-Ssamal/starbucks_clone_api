@@ -25,8 +25,6 @@ public class AdminServiceImpl implements AdminService {
     private final ProductCategoryRepository productCategoryRepository;
     private final EventRepository eventRepository;
     private final ProductEventRepository productEventRepository;
-    private final SeasonRepository seasonRepository;
-    private final ProductSeasonRepository productSeasonRepository;
     private final HashTagRepository hashTagRepository;
     private final ProductHashTagRepository productHashTagRepository;
     @Override
@@ -76,7 +74,7 @@ public class AdminServiceImpl implements AdminService {
                         .type(request.getType())
                         .build();
                 categoryRepository.save(newCategory);
-                response.add(new ProdAdminRes.AddMenuRes(newCategory.getCategoryId()));
+                response.add(new ProdAdminRes.AddMenuRes(newCategory.getId()));
             }
         });
 
@@ -94,7 +92,7 @@ public class AdminServiceImpl implements AdminService {
                 .category(category)
                 .build();
         productCategoryRepository.save(productCategory);
-        return new ProdAdminRes.AddProductToMenuRes(product.getId(), category.getCategoryId());
+        return new ProdAdminRes.AddProductToMenuRes(product.getId(), category.getId());
     }
 
     @Override
@@ -130,40 +128,6 @@ public class AdminServiceImpl implements AdminService {
                 .build();
         productEventRepository.save(productEvent);
         return new ProdAdminRes.AddProductToMenuRes(product.getId(), event.getId());
-    }
-
-    @Override
-    public List<ProdAdminRes.AddMenuRes> addSeason(List<ProdAdminReq.AddSeason> req) {
-        List<ProdAdminRes.AddMenuRes> response = new ArrayList<>();
-
-        req.forEach(request -> {
-            if (seasonRepository.existsByName(request.getName())) {
-                throw new CustomException(CustomError.DUPLICATE_SEASON_NAME);
-            } else {
-                Season newSeason = Season.builder()
-                        .name(request.getName())
-                        .build();
-                seasonRepository.save(newSeason);
-                response.add(new ProdAdminRes.AddMenuRes(newSeason.getId()));
-            }
-        });
-
-        return response;
-    }
-
-    @Override
-    public ProdAdminRes.AddProductToMenuRes addProductToSeason(ProdAdminReq.AddProductTo req) {
-
-        Product product = productRepository.findById(req.getProductId())
-                .orElseThrow(() -> new CustomException(CustomError.PRODUCT_NOT_FOUND));
-        Season season = seasonRepository.findById(req.getMenuId())
-                .orElseThrow(() -> new CustomException(CustomError.SEASON_NOT_FOUND));
-        ProductSeason productSeason = ProductSeason.builder()
-                .product(product)
-                .season(season)
-                .build();
-        productSeasonRepository.save(productSeason);
-        return new ProdAdminRes.AddProductToMenuRes(product.getId(), season.getId());
     }
 
     @Override
@@ -205,11 +169,10 @@ public class AdminServiceImpl implements AdminService {
     public ProdAdminRes.DeleteProductRes deleteProduct(ProdAdminReq.DeleteProduct req) {
 
         if(productRepository.existsById(req.getProductId())){
-            productRepository.deleteById(req.getProductId());
-            productSeasonRepository.deleteAllByProductId(req.getProductId());
             productEventRepository.deleteAllByProductId(req.getProductId());
             productCategoryRepository.deleteAllByProductId(req.getProductId());
             productHashTagRepository.deleteAllByProductId(req.getProductId());
+            productRepository.deleteById(req.getProductId());
         } else {
             throw new CustomException(CustomError.PRODUCT_NOT_FOUND);
         }

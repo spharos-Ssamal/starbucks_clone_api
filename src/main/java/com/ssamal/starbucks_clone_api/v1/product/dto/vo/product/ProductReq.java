@@ -1,5 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.product.dto.vo.product;
 
+import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,13 +16,13 @@ public class ProductReq {
     @ToString
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class SearchProducts {
+    public static class SearchProductsReq {
+        @Nullable
         private Long categoryId;
-        private Long eventId;
+        @Nullable
         private Long seasonId;
-        private Long hashTagId;
+        @Nullable
         private Integer price;
-        private String productName;
 
     }
 }
