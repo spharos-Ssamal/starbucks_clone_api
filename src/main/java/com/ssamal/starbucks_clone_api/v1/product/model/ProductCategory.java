@@ -16,9 +16,15 @@ public class ProductCategory extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Category category;
+    public static ProductCategory fromEntity(Product product, Category category){
+        return ProductCategory.builder()
+                .product(product)
+                .category(category)
+                .build();
+    }
 }
