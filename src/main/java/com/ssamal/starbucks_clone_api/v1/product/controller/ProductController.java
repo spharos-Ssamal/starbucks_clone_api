@@ -24,4 +24,10 @@ public class ProductController {
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
+    @GetMapping("/read")
+    public ResponseEntity<BaseRes<ProductRes.GetProductRes>> getProductById(@RequestParam(name = "productId", defaultValue = "") Long productId) {
+        ProductRes.GetProductRes result = productService.getProduct(productId);
+        return ResponseEntity.ok().body(BaseRes.success(result));
+    }
+
 }

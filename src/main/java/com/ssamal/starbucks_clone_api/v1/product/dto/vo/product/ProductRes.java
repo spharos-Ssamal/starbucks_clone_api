@@ -19,4 +19,11 @@ public class ProductRes {
         private List<ProductInfo> results;
     }
 
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class GetProductRes{
+        private ProductInfo productInfo;
+    }
+
 }
