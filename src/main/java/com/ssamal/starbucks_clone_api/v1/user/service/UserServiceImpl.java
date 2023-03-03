@@ -50,10 +50,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean verifyEmail(String email, int checkNumber) {
-        int verificationNum = Integer.parseInt(redisUtils.getData("check:"+email));
-        if(verificationNum == checkNumber){
-            redisUtils.deleteData("check:"+email);
+    public Boolean verifyEmail(UserReq.VerifyEmailReq req) {
+        int verificationNum = Integer.parseInt(redisUtils.getData("check:"+req.getEmail()));
+        if(verificationNum == req.getVerifyCode()){
+            redisUtils.deleteData("check:"+req.getEmail());
             return true;
         } else {
             return false;

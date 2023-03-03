@@ -36,4 +36,12 @@ public class UserReq {
             return new UsernamePasswordAuthenticationToken(this.userEmail, this.password);
         }
     }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class VerifyEmailReq {
+        private String email;
+        private int verifyCode;
+    }
 }
