@@ -17,6 +17,12 @@ public class RedisUtils {
         return valueOperations.get(key);
     }
 
+    public String setData(String key, String value){
+        ValueOperations<String, String> valueOperations = stringRedisTemplate.opsForValue();
+        valueOperations.set(key, value);
+        return key;
+    }
+
     public String setDataExpire(String key, String value, Long duration){
         ValueOperations<String, String> valueOperations = stringRedisTemplate.opsForValue();
         valueOperations.set(key, value, duration, TimeUnit.MILLISECONDS);

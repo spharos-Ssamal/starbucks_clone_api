@@ -31,6 +31,18 @@ public class UserController {
         return ResponseEntity.ok().body(BaseRes.success(res));
     }
 
+    @GetMapping("/email/confirm")
+    public ResponseEntity<BaseRes<String>> confirmEmail (@RequestParam(value = "email", defaultValue = "")String email) {
+        String toEmail = userService.sendVerificationEmail(email);
+        return ResponseEntity.ok().body(BaseRes.success(toEmail));
+    }
+
+    @PostMapping("/email/verify")
+    public ResponseEntity<BaseRes<Boolean>> verifyEmail (@RequestParam(value = "email", defaultValue = "")String email,
+                                                        @RequestParam(value = "code", defaultValue = "")int verifyCode) {
+        return ResponseEntity.ok().body(BaseRes.success(userService.verifyEmail(email, verifyCode)));
+    }
+
     @PostMapping("/login")
     public ResponseEntity<BaseRes<UserRes.LoginRes>> loginUser(@RequestBody UserReq.LoginReq req) {
         UserRes.LoginRes res = userService.loginUser(req);

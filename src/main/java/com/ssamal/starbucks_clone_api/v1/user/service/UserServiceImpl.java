@@ -4,10 +4,11 @@ import com.ssamal.starbucks_clone_api.global.enums.CustomError;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.global.utils.JwtUtils;
 import com.ssamal.starbucks_clone_api.global.utils.RedisUtils;
+import com.ssamal.starbucks_clone_api.global.utils.InternalDataUtils;
 import com.ssamal.starbucks_clone_api.v1.user.dto.UserReq;
 import com.ssamal.starbucks_clone_api.v1.user.dto.UserRes;
 import com.ssamal.starbucks_clone_api.v1.user.entity.ServiceUser;
-import com.ssamal.starbucks_clone_api.v1.user.repository.UserRepository;
+import com.ssamal.starbucks_clone_api.v1.user.entity.repository.ServiceUserRepository;
 import com.ssamal.starbucks_clone_api.v1.user.service.inter.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,8 +20,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    private final ServiceUserRepository userRepository;
     private final AuthenticationManager authenticationManager;
+    private final EmailService emailService;
     private final JwtUtils jwtUtils;
     private final RedisUtils redisUtils;
 
@@ -29,6 +31,33 @@ public class UserServiceImpl implements UserService {
         ServiceUser user = ServiceUser.newUser(req);
         userRepository.save(user);
         return new UserRes.RegisterRes(user.getUserEmail(), user.getUserNickname());
+    }
+
+    @Override
+    public String sendVerificationEmail(String toEmail) {
+        if(userRepository.existsByUserEmail(toEmail)){
+            throw new CustomException(CustomError.DUPLICATE_USER_EMAIL);
+        } else {
+            try {
+                int randNum = InternalDataUtils.makeRandNum();
+                emailService.joinEmail(toEmail, randNum);
+                redisUtils.setData("check:"+toEmail, Integer.toString(randNum));
+                return toEmail;
+            } catch (Exception e){
+                throw new CustomException(CustomError.INTERNAL_SERVER_ERROR);
+            }
+        }
+    }
+
+    @Override
+    public Boolean verifyEmail(String email, int checkNumber) {
+        int verificationNum = Integer.parseInt(redisUtils.getData("check:"+email));
+        if(verificationNum == checkNumber){
+            redisUtils.deleteData("check:"+email);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
