@@ -3,6 +3,8 @@ package com.ssamal.starbucks_clone_api.v1.product.model;
 import com.ssamal.starbucks_clone_api.global.entity.BaseTimeEntity;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductInfo;
 import com.ssamal.starbucks_clone_api.v1.product.enums.ProductStatus;
+import com.ssamal.starbucks_clone_api.v1.product.enums.Season;
+import com.ssamal.starbucks_clone_api.v1.product.enums.Size;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,11 +37,21 @@ public class Product extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private ProductStatus status;
 
+    @Column(name = "size")
+    @Enumerated(value = EnumType.STRING)
+    private Size size;
+
+    @Column(name = "season")
+    @Enumerated(value = EnumType.STRING)
+    private Season season;
+
     public static Product fromDTO(ProductInfo dto){
         return Product.builder()
                 .name(dto.getName())
                 .thumbnail(dto.getThumbnail())
                 .description(dto.getDescription())
+                .size(dto.getSize())
+                .season(dto.getSeason())
                 .price(dto.getPrice())
                 .status(ProductStatus.ON_SALE)
                 .build();

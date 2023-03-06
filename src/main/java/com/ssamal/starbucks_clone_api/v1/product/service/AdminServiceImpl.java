@@ -166,6 +166,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @Deprecated(since = "삭제 과정에 문제가 있습니다. 추후 수정 후 재배포 하겠습니다.")
     public ProdAdminRes.DeleteProductRes deleteProduct(ProdAdminReq.DeleteProduct req) {
 
         if(productRepository.existsById(req.getProductId())){
