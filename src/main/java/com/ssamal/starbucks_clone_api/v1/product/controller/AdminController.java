@@ -46,6 +46,18 @@ public class AdminController {
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
+    @PostMapping("/recommand/new")
+    public ResponseEntity<BaseRes<List<ProdAdminRes.AddMenuRes>>> addRecommand(@RequestBody List<ProdAdminReq.AddRecommand> req) {
+        List<ProdAdminRes.AddMenuRes> result = adminService.addRecommand(req);
+        return ResponseEntity.ok().body(BaseRes.success(result));
+    }
+
+    @PostMapping("/recommand/addProduct")
+    public ResponseEntity<BaseRes<ProdAdminRes.AddProductToMenuRes>> addProductToRecommand(@RequestBody ProdAdminReq.AddProductTo req) {
+        ProdAdminRes.AddProductToMenuRes result = adminService.addProductToRecommand(req);
+        return ResponseEntity.ok().body(BaseRes.success(result));
+    }
+
     @PostMapping("/hashTag/new")
     public ResponseEntity<BaseRes<List<ProdAdminRes.AddMenuRes>>> newHashTag(@RequestBody List<ProdAdminReq.AddHashTag> req) {
         List<ProdAdminRes.AddMenuRes> result = adminService.addHashTag(req);

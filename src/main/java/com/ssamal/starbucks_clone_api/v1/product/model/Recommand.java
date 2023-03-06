@@ -9,12 +9,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "event")
+@Table(name = "recommand")
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Builder
-public class Event extends BaseTimeEntity {
+public class Recommand extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
