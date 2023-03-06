@@ -5,12 +5,9 @@ import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductInfo;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductRes;
-import com.ssamal.starbucks_clone_api.v1.product.model.Product;
-import com.ssamal.starbucks_clone_api.v1.product.model.ProductCategory;
-import com.ssamal.starbucks_clone_api.v1.product.model.ProductEvent;
-import com.ssamal.starbucks_clone_api.v1.product.model.repository.ProductCategoryRepository;
-import com.ssamal.starbucks_clone_api.v1.product.model.repository.ProductEventRepository;
-import com.ssamal.starbucks_clone_api.v1.product.model.repository.ProductRepository;
+import com.ssamal.starbucks_clone_api.v1.product.enums.EventStatus;
+import com.ssamal.starbucks_clone_api.v1.product.model.*;
+import com.ssamal.starbucks_clone_api.v1.product.model.repository.*;
 import com.ssamal.starbucks_clone_api.v1.product.service.inter.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -28,6 +27,8 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductEventRepository productEventRepository;
     private final ProductCategoryRepository productCategoryRepository;
+    private final ProductRecommendRepository productRecommandRepository;
+    private final RecommendRepository recommendRepository;
 
     @Override
     public ProductRes.GetProductRes getProduct(Long productId) {
@@ -72,5 +73,18 @@ public class ProductServiceImpl implements ProductService {
         Page<ProductInfo> pageResult = new PageImpl<>(result.subList(start, end), pageable, result.size());
 
         return new ProductRes.SearchProductRes(pageResult.getContent(), pageResult.isLast(), pageResult.getTotalPages(), pageResult.getTotalElements());
+    }
+
+    @Override
+    public Map<String,List<ProductRes.RecommendProductRes>> getProductsByActiveRecommand() {
+        List<ProductRecommend> result = productRecommandRepository.findAllByRecommendStatus(EventStatus.ACTIVE);
+        return result.stream().map(ProductRes.RecommendProductRes::fromEntity).toList()
+                .stream().collect(Collectors.groupingBy(ProductRes.RecommendProductRes::getCategoryName));
+    }
+
+    @Override
+    public List<Long> getActiveRecommendId() {
+        return recommendRepository.findAllByStatus(EventStatus.ACTIVE)
+                .stream().map(Recommend::getId).toList();
     }
 }

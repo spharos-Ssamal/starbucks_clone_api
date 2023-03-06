@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,6 +43,18 @@ public class ProductController {
     @GetMapping("/read/event")
     public ResponseEntity<BaseRes<List<ProductInfo>>> getProductsByEvent(@RequestParam(name = "eventId", defaultValue = "") Long eventId) {
         List<ProductInfo> result = productService.getProductsByEvent(eventId);
+        return ResponseEntity.ok().body(BaseRes.success(result));
+    }
+
+    @GetMapping("/recommend/isActive")
+    public ResponseEntity<BaseRes<List<Long>>> getActiveRecommend(){
+        List<Long> result = productService.getActiveRecommendId();
+        return ResponseEntity.ok().body(BaseRes.success(result));
+    }
+
+    @GetMapping("/recommand")
+    public ResponseEntity<BaseRes<Map<String,List<ProductRes.RecommendProductRes>>>> getProductsByRecommand() {
+        Map<String,List<ProductRes.RecommendProductRes>> result = productService.getProductsByActiveRecommand();
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 

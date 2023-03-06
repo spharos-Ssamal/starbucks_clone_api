@@ -29,4 +29,11 @@ public class ProductReq {
         private Integer price;
 
     }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class GetRecommandsReq {
+        private List<Long> recommendIds;
+    }
 }

@@ -28,8 +28,8 @@ public class AdminServiceImpl implements AdminService {
     private final ProductEventRepository productEventRepository;
     private final HashTagRepository hashTagRepository;
     private final ProductHashTagRepository productHashTagRepository;
-    private final RecommandRepository recommandRepository;
-    private final ProductRecommandRepository productRecommandRepository;
+    private final RecommendRepository recommendRepository;
+    private final ProductRecommendRepository productRecommandRepository;
     @Override
     public List<ProdAdminRes.AddProductRes> addProduct(List<ProdAdminReq.AddProductReq> req) {
         List<ProdAdminRes.AddProductRes> result = new ArrayList<>();
@@ -140,15 +140,15 @@ public class AdminServiceImpl implements AdminService {
 
         req.forEach(request -> {
 
-            if (recommandRepository.existsByName(request.getName())) {
+            if (recommendRepository.existsByName(request.getName())) {
                 throw new CustomException(CustomError.DUPLICATE_RECOMMAND_NAME);
             } else {
-                Recommand recommand = Recommand.builder()
+                Recommend recommend = Recommend.builder()
                         .name(request.getName())
                         .status(EventStatus.ACTIVE)
                         .build();
-                recommandRepository.save(recommand);
-                response.add(new ProdAdminRes.AddMenuRes(recommand.getId()));
+                recommendRepository.save(recommend);
+                response.add(new ProdAdminRes.AddMenuRes(recommend.getId()));
             }
         });
 
@@ -159,14 +159,14 @@ public class AdminServiceImpl implements AdminService {
     public ProdAdminRes.AddProductToMenuRes addProductToRecommand(ProdAdminReq.AddProductTo req) {
         Product product = productRepository.findById(req.getProductId())
                 .orElseThrow(() -> new CustomException(CustomError.PRODUCT_NOT_FOUND));
-        Recommand recommand = recommandRepository.findById(req.getMenuId())
+        Recommend recommend = recommendRepository.findById(req.getMenuId())
                 .orElseThrow(() -> new CustomException(CustomError.EVENT_NOT_FOUND));
-        ProductRecommand productRecommand = ProductRecommand.builder()
+        ProductRecommend productRecommend = ProductRecommend.builder()
                 .product(product)
-                .recommand(recommand)
+                .recommend(recommend)
                 .build();
-        productRecommandRepository.save(productRecommand);
-        return new ProdAdminRes.AddProductToMenuRes(product.getId(), recommand.getId());
+        productRecommandRepository.save(productRecommend);
+        return new ProdAdminRes.AddProductToMenuRes(product.getId(), recommend.getId());
     }
 
     @Override
