@@ -4,6 +4,7 @@ import com.ssamal.starbucks_clone_api.global.enums.CustomError;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminRes;
+import com.ssamal.starbucks_clone_api.v1.product.enums.EventStatus;
 import com.ssamal.starbucks_clone_api.v1.product.model.*;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.*;
 import com.ssamal.starbucks_clone_api.v1.product.service.inter.AdminService;
@@ -27,6 +28,8 @@ public class AdminServiceImpl implements AdminService {
     private final ProductEventRepository productEventRepository;
     private final HashTagRepository hashTagRepository;
     private final ProductHashTagRepository productHashTagRepository;
+    private final RecommendRepository recommendRepository;
+    private final ProductRecommendRepository productRecommandRepository;
     @Override
     public List<ProdAdminRes.AddProductRes> addProduct(List<ProdAdminReq.AddProductReq> req) {
         List<ProdAdminRes.AddProductRes> result = new ArrayList<>();
@@ -107,6 +110,7 @@ public class AdminServiceImpl implements AdminService {
             } else {
                 Event newEvent = Event.builder()
                         .name(request.getName())
+                        .status(EventStatus.ACTIVE)
                         .build();
                 eventRepository.save(newEvent);
                 response.add(new ProdAdminRes.AddMenuRes(newEvent.getId()));
@@ -128,6 +132,41 @@ public class AdminServiceImpl implements AdminService {
                 .build();
         productEventRepository.save(productEvent);
         return new ProdAdminRes.AddProductToMenuRes(product.getId(), event.getId());
+    }
+
+    @Override
+    public List<ProdAdminRes.AddMenuRes> addRecommand(List<ProdAdminReq.AddRecommand> req) {
+        List<ProdAdminRes.AddMenuRes> response = new ArrayList<>();
+
+        req.forEach(request -> {
+
+            if (recommendRepository.existsByName(request.getName())) {
+                throw new CustomException(CustomError.DUPLICATE_RECOMMAND_NAME);
+            } else {
+                Recommend recommend = Recommend.builder()
+                        .name(request.getName())
+                        .status(EventStatus.ACTIVE)
+                        .build();
+                recommendRepository.save(recommend);
+                response.add(new ProdAdminRes.AddMenuRes(recommend.getId()));
+            }
+        });
+
+        return response;
+    }
+
+    @Override
+    public ProdAdminRes.AddProductToMenuRes addProductToRecommand(ProdAdminReq.AddProductTo req) {
+        Product product = productRepository.findById(req.getProductId())
+                .orElseThrow(() -> new CustomException(CustomError.PRODUCT_NOT_FOUND));
+        Recommend recommend = recommendRepository.findById(req.getMenuId())
+                .orElseThrow(() -> new CustomException(CustomError.EVENT_NOT_FOUND));
+        ProductRecommend productRecommend = ProductRecommend.builder()
+                .product(product)
+                .recommend(recommend)
+                .build();
+        productRecommandRepository.save(productRecommend);
+        return new ProdAdminRes.AddProductToMenuRes(product.getId(), recommend.getId());
     }
 
     @Override
@@ -166,6 +205,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @Deprecated(since = "삭제 과정에 문제가 있습니다. 추후 수정 후 재배포 하겠습니다.")
     public ProdAdminRes.DeleteProductRes deleteProduct(ProdAdminReq.DeleteProduct req) {
 
         if(productRepository.existsById(req.getProductId())){
