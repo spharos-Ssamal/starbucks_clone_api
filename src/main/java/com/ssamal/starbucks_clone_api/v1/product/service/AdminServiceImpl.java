@@ -36,7 +36,7 @@ public class AdminServiceImpl implements AdminService {
         req.forEach(request -> {
             Product newProduct = Product.fromDTO(request.getProductInfo());
             if (productRepository.existsByName(newProduct.getName())) {
-                throw new CustomException(CustomError.DUPLICATE_PRODUCT_NAME);
+                throw new CustomException(CustomError.DUPLICATED_PRODUCT_NAME);
             } else {
                 productRepository.save(newProduct);
 
@@ -70,7 +70,7 @@ public class AdminServiceImpl implements AdminService {
 
         req.forEach(request -> {
             if (categoryRepository.existsByName(request.getName())) {
-                throw new CustomException(CustomError.DUPLICATE_CATEGORY_NAME);
+                throw new CustomException(CustomError.DUPLICATED_CATEGORY_NAME);
             } else {
                 Category newCategory = Category.builder()
                         .name(request.getName())
@@ -106,7 +106,7 @@ public class AdminServiceImpl implements AdminService {
         req.forEach(request -> {
 
             if (eventRepository.existsByName(request.getName())) {
-                throw new CustomException(CustomError.DUPLICATE_EVENT_NAME);
+                throw new CustomException(CustomError.DUPLICATED_EVENT_NAME);
             } else {
                 Event newEvent = Event.builder()
                         .name(request.getName())
@@ -141,7 +141,7 @@ public class AdminServiceImpl implements AdminService {
         req.forEach(request -> {
 
             if (recommendRepository.existsByName(request.getName())) {
-                throw new CustomException(CustomError.DUPLICATE_RECOMMAND_NAME);
+                throw new CustomException(CustomError.DUPLICATED_RECOMMEND_NAME);
             } else {
                 Recommend recommend = Recommend.builder()
                         .name(request.getName())
@@ -176,7 +176,7 @@ public class AdminServiceImpl implements AdminService {
         req.forEach(request -> {
 
             if (hashTagRepository.existsByName(request.getName())) {
-                throw new CustomException(CustomError.DUPLICATE_HASHTAG_NAME);
+                throw new CustomException(CustomError.DUPLICATED_HASHTAG_NAME);
             } else {
                 HashTag newHashTag = HashTag.builder()
                         .name(request.getName())

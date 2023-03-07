@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String sendVerificationEmail(String toEmail) {
         if(userRepository.existsByUserEmail(toEmail)){
-            throw new CustomException(CustomError.DUPLICATE_USER_EMAIL);
+            throw new CustomException(CustomError.DUPLICATED_USER_EMAIL);
         } else {
             try {
                 int randNum = InternalDataUtils.makeRandNum();
@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
     public UserRes.Logout logoutUser(String accessToken, String refreshToken) {
 
         if (!jwtUtils.validateToken(accessToken)) {
-            throw new CustomException(CustomError.BAD_REQUEST);
+            return new UserRes.Logout("토큰 만료로 인한 자동 로그아웃 처리");
         }
 
         Authentication authentication = jwtUtils.getAuthentication(accessToken);
