@@ -52,7 +52,7 @@ public class ProductController {
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
-    @GetMapping("/recommand")
+    @GetMapping("/recommend")
     public ResponseEntity<BaseRes<Map<String,List<ProductRes.RecommendProductRes>>>> getProductsByRecommand() {
         Map<String,List<ProductRes.RecommendProductRes>> result = productService.getProductsByActiveRecommand();
         return ResponseEntity.ok().body(BaseRes.success(result));
