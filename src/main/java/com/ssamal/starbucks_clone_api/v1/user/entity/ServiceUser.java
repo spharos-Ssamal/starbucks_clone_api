@@ -35,7 +35,7 @@ public class ServiceUser extends BaseTimeEntity {
 
     @Column(name = "username",
             unique = true, columnDefinition = "varchar(20) Not NULL")
-    private String userName;
+    private String username;
 
     @Column(name = "nickname", unique = true, columnDefinition = "varchar(20) Not NULL")
     private String userNickname;
@@ -62,7 +62,7 @@ public class ServiceUser extends BaseTimeEntity {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return ServiceUser.builder()
                 .userEmail(req.getUserEmail())
-                .userName(req.getUserName())
+                .username(req.getUserName())
                 .userNickname(req.getUserNickname())
                 .userPassword(passwordEncoder.encode(req.getPassword()))
                 .birthday(req.getBirthday())
