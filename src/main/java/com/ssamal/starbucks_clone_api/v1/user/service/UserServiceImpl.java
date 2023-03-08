@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     private final ServiceUserRepository userRepository;
     private final EmailService emailService;
     private final RedisUtils redisUtils;
-    private final String keyFormat = "check:%s";
+    private static final String KEY_FORMAT = "check:%s";
 
     @Override
     public UserRes.RegisterRes registerUser(UserReq.RegisterReq req) {
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
             try {
                 int randNum = InternalDataUtils.makeRandNum();
                 emailService.joinEmail(toEmail, randNum);
-                redisUtils.setData(String.format(keyFormat, toEmail), Integer.toString(randNum));
+                redisUtils.setData(String.format(KEY_FORMAT, toEmail), Integer.toString(randNum));
                 return toEmail;
             } catch (Exception e){
                 throw new CustomException(CustomError.INTERNAL_SERVER_ERROR);
@@ -50,9 +50,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean verifyEmail(UserReq.VerifyEmailReq req) {
-        int verificationNum = Integer.parseInt(redisUtils.getData(String.format(keyFormat, req.getEmail())));
+        int verificationNum = Integer.parseInt(redisUtils.getData(String.format(KEY_FORMAT, req.getEmail())));
         if(verificationNum == req.getVerifyCode()){
-            redisUtils.deleteData(String.format(keyFormat, req.getEmail()));
+            redisUtils.deleteData(String.format(KEY_FORMAT, req.getEmail()));
             return true;
         } else {
             return false;

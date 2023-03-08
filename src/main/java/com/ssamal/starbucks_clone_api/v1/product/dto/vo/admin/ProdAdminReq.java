@@ -53,7 +53,7 @@ public class ProdAdminReq {
     @ToString
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class AddRecommand {
+    public static class AddRecommend {
         private String name;
     }
 
