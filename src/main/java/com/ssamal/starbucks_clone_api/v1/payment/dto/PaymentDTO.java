@@ -1,23 +1,30 @@
 package com.ssamal.starbucks_clone_api.v1.payment.dto;
 
+import com.ssamal.starbucks_clone_api.v1.payment.model.PurchaseProducts;
+import com.ssamal.starbucks_clone_api.v1.product.model.Product;
+import java.time.LocalDate;
+import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
 
 public class PaymentDTO {
 
     private PaymentDTO() {
         throw new IllegalStateException("Data Class");
     }
-    @Getter
+    @Data
     @AllArgsConstructor
     @NoArgsConstructor
     public static class ProductBePurchased {
-        private int productId;
+        private Long productId;
         private int count;
+        private int discountValue;
     }
 
-    @Getter
+    @Data
     @AllArgsConstructor
     @NoArgsConstructor
     public static class ProductInfo {
@@ -25,6 +32,27 @@ public class PaymentDTO {
         private String thumbnail;
         private Integer price;
         private Integer count;
+
+        public static ProductInfo of (Product entity) {
+            ModelMapper modelMapper = new ModelMapper();
+            return modelMapper.map(entity, ProductInfo.class);
+        }
+
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class UserHistory {
+        private String historyId;
+        private LocalDate date;
+        private List<ProductInfo> productInfoList;
+
+        public static UserHistory of(String historyId, LocalDate date, List<PurchaseProducts> purchaseProducts) {
+            List<ProductInfo> productInfo = purchaseProducts.stream()
+                .map(t -> ProductInfo.of(t.getProduct())).toList();
+            return new UserHistory(historyId, date, productInfo);
+        }
     }
 
 }

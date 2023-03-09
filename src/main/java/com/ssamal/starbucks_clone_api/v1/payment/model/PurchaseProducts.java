@@ -1,5 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.payment.model;
 
+import com.ssamal.starbucks_clone_api.global.entity.BaseImmutableEntity;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PurchaseProducts {
+public class PurchaseProducts extends BaseImmutableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -22,4 +23,7 @@ public class PurchaseProducts {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Product product;
+
+    @Column(name = "count")
+    private Integer count;
 }

@@ -26,6 +26,7 @@ public enum CustomError {
     RECOMMEND_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 추천 상품 정보를 찾을 수 없습니다.", "ERROR-NF-007"),
     ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 주소를 찾을 수 없습니다.", "ERROR-NF-008"),
     CART_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "장바구니 항목을 찾을 수 없습니다.", "ERROR-NF-009"),
+    PURCHASE_HISTORY_NOT_FOUND(HttpStatus.NOT_FOUND, "구매 기록을 찾을 수 없습니다.", "ERROR-NF-010"),
 
     //FORBIDDEN
     FORBIDDEN(HttpStatus.FORBIDDEN,  "금지된 요청입니다.", "ERROR-FB-000"),

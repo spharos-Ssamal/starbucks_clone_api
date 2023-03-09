@@ -1,11 +1,14 @@
 package com.ssamal.starbucks_clone_api.v1.payment.model;
 
-import com.ssamal.starbucks_clone_api.global.entity.BaseImmutableEntity;
+import com.ssamal.starbucks_clone_api.global.entity.BaseTimeEntity;
+import com.ssamal.starbucks_clone_api.global.utils.StringUtils;
+import com.ssamal.starbucks_clone_api.v1.payment.dto.vo.PaymentReq.PurchasedInfo;
 import com.ssamal.starbucks_clone_api.v1.payment.enums.PaymentMethod;
 import com.ssamal.starbucks_clone_api.v1.payment.enums.ShippingStatus;
 import com.ssamal.starbucks_clone_api.v1.user.entity.ServiceUser;
 import com.ssamal.starbucks_clone_api.v1.user.entity.ShippingAddress;
 import jakarta.persistence.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import lombok.*;
 
 @Entity
@@ -15,11 +18,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PurchaseHistory extends BaseImmutableEntity {
+public class PurchaseHistory extends BaseTimeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private String id = StringUtils.generatePurchaseCode();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -53,5 +55,22 @@ public class PurchaseHistory extends BaseImmutableEntity {
 
     @Column(name = "total_price")
     private Integer totalPrice;
+
+    public void calculatePriceConfirm(AtomicInteger purchasePrice, Integer discountPrice, AtomicInteger totalPrice){
+        this.purchasePrice = purchasePrice.get();
+        this.discountPrice = discountPrice;
+        this.totalPrice = totalPrice.get();
+    }
+
+    public static PurchaseHistory of(ServiceUser user, ShippingAddress address, PurchasedInfo req){
+        return PurchaseHistory.builder()
+            .user(user)
+            .shippingAddress(address)
+            .paymentMethod(req.getMethod())
+            .shippingStatus(ShippingStatus.PRODUCT_READY)
+            .recipient(req.getRecipient())
+            .message(req.getMessage())
+            .build();
+    }
 
 }

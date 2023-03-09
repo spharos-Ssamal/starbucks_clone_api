@@ -1,6 +1,9 @@
-package com.ssamal.starbucks_clone_api.v1.payment.dto;
+package com.ssamal.starbucks_clone_api.v1.payment.dto.vo;
 
+import com.ssamal.starbucks_clone_api.v1.payment.dto.PaymentDTO.ProductInfo;
+import com.ssamal.starbucks_clone_api.v1.payment.dto.PaymentDTO.UserHistory;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,15 +20,14 @@ public class PaymentRes {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class PurchaseRes {
-        private Long purchaseId;
+        private String historyId;
     }
 
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class UserHistoryRes {
-        private LocalDate date;
-        private List<PaymentDTO.ProductInfo> productInfoList;
+        private List<UserHistory> histories;
 
     }
 
@@ -42,9 +44,10 @@ public class PaymentRes {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
+    @Builder
     public static class HistoryDetailInfo{
-        private String purchaseId;
-        private List<PaymentDTO.ProductInfo> productInfoList;
+        private String purchaseHistoryId;
+        private List<ProductInfo> productInfoList;
         private String address;
         private String message;
         private LocalDate date;

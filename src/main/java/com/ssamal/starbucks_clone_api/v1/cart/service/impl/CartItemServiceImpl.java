@@ -5,8 +5,8 @@ import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.cart.entity.CartItem;
 import com.ssamal.starbucks_clone_api.v1.cart.repository.CartItemRepository;
 import com.ssamal.starbucks_clone_api.v1.cart.service.CartItemService;
-import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartItemRes;
-import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartItemReq;
+import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartRes;
+import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.CategoryRepository;
@@ -31,7 +31,7 @@ public class CartItemServiceImpl implements CartItemService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public Long createCartItem(CartItemReq req) {
+    public Long createCartItem(CartReq req) {
 
         ServiceUser user = userRepository.findById(req.getUserId())
             .orElseThrow(() -> new CustomException(CustomError.USER_NOT_FOUND));
@@ -52,11 +52,11 @@ public class CartItemServiceImpl implements CartItemService {
 
     @Override
     @Transactional
-    public List<CartItemRes> getCartItemList(UUID userId) {
+    public List<CartRes> getCartItemList(UUID userId) {
 
         List<CartItem> cartItemList = cartItemRepository.findByUserIdAndIsDeleted(userId, false);
 
-        return cartItemList.stream().map(t -> CartItemRes.builder()
+        return cartItemList.stream().map(t -> CartRes.builder()
             .id(t.getId())
             .product(ProductDTO.of(t.getProduct()))
             .count(t.getCount())
