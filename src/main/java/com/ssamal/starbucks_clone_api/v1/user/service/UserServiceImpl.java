@@ -2,29 +2,32 @@ package com.ssamal.starbucks_clone_api.v1.user.service;
 
 import com.ssamal.starbucks_clone_api.global.enums.CustomError;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
-import com.ssamal.starbucks_clone_api.global.utils.JwtUtils;
 import com.ssamal.starbucks_clone_api.global.utils.RedisUtils;
 import com.ssamal.starbucks_clone_api.global.utils.InternalDataUtils;
-import com.ssamal.starbucks_clone_api.v1.user.dto.UserReq;
-import com.ssamal.starbucks_clone_api.v1.user.dto.UserRes;
+import com.ssamal.starbucks_clone_api.v1.user.dto.ShippingAddressDTO.DTO;
+import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserReq;
+import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserRes;
+import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserRes.GetUserAddressRes;
 import com.ssamal.starbucks_clone_api.v1.user.entity.ServiceUser;
+import com.ssamal.starbucks_clone_api.v1.user.entity.ShippingAddress;
 import com.ssamal.starbucks_clone_api.v1.user.entity.repository.ServiceUserRepository;
+import com.ssamal.starbucks_clone_api.v1.user.entity.repository.ShippingAddressRepository;
 import com.ssamal.starbucks_clone_api.v1.user.service.inter.UserService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final ServiceUserRepository userRepository;
-    private final AuthenticationManager authenticationManager;
+    private final ShippingAddressRepository shippingAddressRepository;
     private final EmailService emailService;
-    private final JwtUtils jwtUtils;
     private final RedisUtils redisUtils;
+    private static final String KEY_FORMAT = "check:%s";
 
     @Override
     public UserRes.RegisterRes registerUser(UserReq.RegisterReq req) {
@@ -34,16 +37,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Boolean confirmUsername(String username) {
+        if (userRepository.existsByUsername(username)) {
+            throw new CustomException(CustomError.DUPLICATED_USER_NAME);
+        }
+        return true;
+    }
+
+    @Override
+    public Boolean confirmUserNickname(String userNickname) {
+        if (userRepository.existsByUserNickname(userNickname)) {
+            throw new CustomException(CustomError.DUPLICATED_USER_NICKNAME);
+        }
+        return true;
+    }
+
+    @Override
     public String sendVerificationEmail(String toEmail) {
-        if(userRepository.existsByUserEmail(toEmail)){
-            throw new CustomException(CustomError.DUPLICATE_USER_EMAIL);
+        if (userRepository.existsByUserEmail(toEmail)) {
+            throw new CustomException(CustomError.DUPLICATED_USER_EMAIL);
         } else {
             try {
                 int randNum = InternalDataUtils.makeRandNum();
                 emailService.joinEmail(toEmail, randNum);
-                redisUtils.setData("check:"+toEmail, Integer.toString(randNum));
+                redisUtils.setData(String.format(KEY_FORMAT, toEmail), Integer.toString(randNum));
                 return toEmail;
-            } catch (Exception e){
+            } catch (Exception e) {
                 throw new CustomException(CustomError.INTERNAL_SERVER_ERROR);
             }
         }
@@ -51,69 +70,89 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean verifyEmail(UserReq.VerifyEmailReq req) {
-        int verificationNum = Integer.parseInt(redisUtils.getData("check:"+req.getEmail()));
-        if(verificationNum == req.getVerifyCode()){
-            redisUtils.deleteData("check:"+req.getEmail());
+
+        int verificationNum = Integer.parseInt(
+            redisUtils.getData(String.format(KEY_FORMAT, req.getEmail())));
+
+        if (verificationNum == req.getVerifyCode()) {
+            redisUtils.deleteData(String.format(KEY_FORMAT, req.getEmail()));
             return true;
         } else {
-            return false;
+            throw new CustomException(CustomError.INVALID_EMAIL_VERIFICATION_CODE);
         }
     }
 
     @Override
-    public UserRes.LoginRes loginUser(UserReq.LoginReq req) {
+    public UserRes.DefaultAddressRes getDefaultAddress(UUID userId) {
 
-        ServiceUser user = userRepository.findByUserEmail(req.getUserEmail())
-                .orElseThrow(() -> new CustomException(CustomError.USER_NOT_FOUND));
+        ShippingAddress address = shippingAddressRepository.findByServiceUserIdAndIsDefaultAddress(
+                userId, true)
+            .orElseThrow(() -> new CustomException(CustomError.ADDRESS_NOT_FOUND));
 
-        UsernamePasswordAuthenticationToken authenticationToken = req.toAuthentication();
-        authenticationManager.authenticate(authenticationToken);
-
-        String accessToken = jwtUtils.createToken(req.getUserEmail(), JwtUtils.ACCESS_TOKEN_VALID_TIME);
-
-        String refreshToken = jwtUtils.createToken(req.getUserEmail(), JwtUtils.REFRESH_TOKEN_VALID_TIME);
-        redisUtils.setDataExpire(refreshToken, req.getUserEmail(), JwtUtils.REFRESH_TOKEN_VALID_TIME);
-
-        return UserRes.LoginRes.builder()
-                .userId(user.getId())
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
+        return new UserRes.DefaultAddressRes(DTO.of(address));
     }
 
     @Override
-    public UserRes.TokenInfo reissueToken(String refreshToken) {
-        if (!jwtUtils.validateToken(refreshToken)) {
-            throw new CustomException(CustomError.REFRESH_TOKEN_EXPIRED);
-        }
-
-        String userEmail = jwtUtils.getUserEmail(refreshToken);
-        String savedEmail = redisUtils.getData(refreshToken);
-        if (refreshToken.isBlank() || !userEmail.equals(savedEmail)) {
-            throw new CustomException(CustomError.INVALID_TOKEN);
-        } else {
-            String newAccessToken = jwtUtils.createToken(userEmail, JwtUtils.ACCESS_TOKEN_VALID_TIME);
-            return new UserRes.TokenInfo(newAccessToken);
-        }
-
+    public GetUserAddressRes getUserAddress(UUID userId) {
+        List<ShippingAddress> addresses = shippingAddressRepository.findAllByServiceUserId(userId);
+        return new GetUserAddressRes(addresses.stream().map(DTO::of).toList());
     }
 
     @Override
-    public UserRes.Logout logoutUser(String accessToken, String refreshToken) {
+    public Long addUserAddress(UserReq.AddUserAddressReq req) {
+        ServiceUser user = userRepository.findById(req.getUserId())
+            .orElseThrow(() -> new CustomException(CustomError.USER_NOT_FOUND));
 
-        if (!jwtUtils.validateToken(accessToken)) {
-            throw new CustomException(CustomError.BAD_REQUEST);
+        if (req.getAddressInfo().isDefaultAddress() && shippingAddressRepository
+            .existsByServiceUserIdAndIsDefaultAddress(req.getUserId(), true)) {
+
+            ShippingAddress defaultAddress = shippingAddressRepository
+                .findByServiceUserIdAndIsDefaultAddress(req.getUserId(), true)
+                .orElseThrow(() -> new CustomException(CustomError.ADDRESS_NOT_FOUND));
+
+            defaultAddress.setDefaultAddress(false);
+            shippingAddressRepository.save(defaultAddress);
         }
 
-        Authentication authentication = jwtUtils.getAuthentication(accessToken);
+        ShippingAddress address = ShippingAddress.of(req.getAddressInfo());
+        address.setServiceUser(user);
+        shippingAddressRepository.save(address);
 
-        if (redisUtils.getData(refreshToken) != null) {
-            redisUtils.deleteData(refreshToken);
-        }
-
-        Long expiration = jwtUtils.getExpiration(accessToken);
-        redisUtils.setDataExpire(accessToken, "logout", expiration);
-
-        return new UserRes.Logout(authentication.getName());
+        return address.getId();
     }
+
+    @Override
+    public Long editUserAddress(UserReq.EditUserAddressReq req) {
+
+        if (req.getAddressInfo().isDefaultAddress() && shippingAddressRepository
+            .existsByServiceUserIdAndIsDefaultAddress(req.getUserId(), true)) {
+
+            ShippingAddress defaultAddress = shippingAddressRepository
+                .findByServiceUserIdAndIsDefaultAddress(req.getUserId(), true)
+                .orElseThrow(() -> new CustomException(CustomError.ADDRESS_NOT_FOUND));
+
+            defaultAddress.setDefaultAddress(false);
+            shippingAddressRepository.save(defaultAddress);
+        }
+
+        ShippingAddress address = shippingAddressRepository.findById(req.getAddressInfo().getId())
+            .orElseThrow(() -> new CustomException(CustomError.ADDRESS_NOT_FOUND));
+        address.editAddressInfo(req);
+        shippingAddressRepository.save(address);
+
+        return address.getId();
+    }
+
+    @Override
+    public Long deleteUserAddress(Long req) {
+
+        ShippingAddress address = shippingAddressRepository.findById(req)
+            .orElseThrow(() -> new CustomException(CustomError.ADDRESS_NOT_FOUND));
+        address.setDeleted(true);
+
+        shippingAddressRepository.save(address);
+
+        return address.getId();
+    }
+
 }

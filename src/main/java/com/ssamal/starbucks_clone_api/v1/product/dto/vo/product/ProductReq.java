@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 public class ProductReq {
 
     private ProductReq() {
@@ -17,12 +19,21 @@ public class ProductReq {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class SearchProductsReq {
+        private Long mainCategory;
+        private List<Long> subCategories;
         @Nullable
-        private Long categoryId;
+        private List<String> seasons;
         @Nullable
-        private Long seasonId;
+        private List<String> size;
         @Nullable
         private Integer price;
 
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class GetRecommandsReq {
+        private List<Long> recommendIds;
     }
 }

@@ -2,12 +2,16 @@ package com.ssamal.starbucks_clone_api.v1.user.entity;
 
 
 import com.ssamal.starbucks_clone_api.global.entity.BaseTimeEntity;
-import com.ssamal.starbucks_clone_api.v1.user.dto.UserReq;
+import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserReq;
 import com.ssamal.starbucks_clone_api.v1.user.enums.UserRole;
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -16,12 +20,13 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "user")
-@Getter
+@Data
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ServiceUser extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -30,12 +35,12 @@ public class ServiceUser extends BaseTimeEntity {
     private UUID id;
 
     @Column(name = "email",
-            columnDefinition = "varchar(45) Not NULL", unique = true)
+        columnDefinition = "varchar(45) Not NULL", unique = true)
     private String userEmail;
 
     @Column(name = "username",
-            unique = true, columnDefinition = "varchar(20) Not NULL")
-    private String userName;
+        unique = true, columnDefinition = "varchar(20) Not NULL")
+    private String username;
 
     @Column(name = "nickname", unique = true, columnDefinition = "varchar(20) Not NULL")
     private String userNickname;
@@ -57,19 +62,22 @@ public class ServiceUser extends BaseTimeEntity {
     @Column(name = "is_agree", nullable = false)
     private boolean isAgree;
 
+    @OneToMany(mappedBy = "serviceUser")
+    private List<ShippingAddress> addressList = new ArrayList<>();
+
 
     public static ServiceUser newUser(UserReq.RegisterReq req) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return ServiceUser.builder()
-                .userEmail(req.getUserEmail())
-                .userName(req.getUserName())
-                .userNickname(req.getUserNickname())
-                .userPassword(passwordEncoder.encode(req.getPassword()))
-                .birthday(req.getBirthday())
-                .phoneNo(req.getPhoneNo())
-                .isAgree(req.isAgree())
-                .role(UserRole.USER)
-                .build();
+            .userEmail(req.getUserEmail())
+            .username(req.getUserName())
+            .userNickname(req.getUserNickname())
+            .userPassword(passwordEncoder.encode(req.getPassword()))
+            .birthday(req.getBirthday())
+            .phoneNo(req.getPhoneNo())
+            .isAgree(req.isAgree())
+            .role(UserRole.USER)
+            .build();
     }
 
 }

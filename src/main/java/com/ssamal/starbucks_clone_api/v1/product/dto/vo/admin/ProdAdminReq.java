@@ -53,6 +53,14 @@ public class ProdAdminReq {
     @ToString
     @AllArgsConstructor
     @NoArgsConstructor
+    public static class AddRecommend {
+        private String name;
+    }
+
+    @Getter
+    @ToString
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class AddSeason {
         private String name;
     }

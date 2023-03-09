@@ -1,74 +1,89 @@
 package com.ssamal.starbucks_clone_api.v1.user.controller;
 
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
-import com.ssamal.starbucks_clone_api.global.enums.CustomError;
-import com.ssamal.starbucks_clone_api.global.error.CustomException;
-import com.ssamal.starbucks_clone_api.global.utils.CookieUtils;
-import com.ssamal.starbucks_clone_api.global.utils.JwtUtils;
-import com.ssamal.starbucks_clone_api.v1.user.dto.UserReq;
-import com.ssamal.starbucks_clone_api.v1.user.dto.UserRes;
+import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserReq;
+import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserRes;
+import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserRes.GetUserAddressRes;
 import com.ssamal.starbucks_clone_api.v1.user.service.inter.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.http.HttpHeaders.SET_COOKIE;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/auth/v1/user")
+@RequestMapping("/api/v1/user")
 public class UserController {
 
     private final UserService userService;
-    private final JwtUtils jwtUtils;
 
     @PostMapping("/register")
-    public ResponseEntity<BaseRes<UserRes.RegisterRes>> registerUser (@RequestBody UserReq.RegisterReq req) {
+    public ResponseEntity<BaseRes<UserRes.RegisterRes>> registerUser(
+        @RequestBody UserReq.RegisterReq req) {
         UserRes.RegisterRes res = userService.registerUser(req);
         return ResponseEntity.ok().body(BaseRes.success(res));
     }
 
     @GetMapping("/email/confirm")
-    public ResponseEntity<BaseRes<String>> confirmEmail (@RequestParam(value = "email", defaultValue = "")String email) {
+    public ResponseEntity<BaseRes<String>> confirmEmail(
+        @RequestParam(value = "email", defaultValue = "") String email) {
         String toEmail = userService.sendVerificationEmail(email);
         return ResponseEntity.ok().body(BaseRes.success(toEmail));
     }
 
     @PostMapping("/email/verify")
-    public ResponseEntity<BaseRes<Boolean>> verifyEmail (@RequestBody UserReq.VerifyEmailReq req) {
+    public ResponseEntity<BaseRes<Boolean>> verifyEmail(@RequestBody UserReq.VerifyEmailReq req) {
         return ResponseEntity.ok().body(BaseRes.success(userService.verifyEmail(req)));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<BaseRes<UserRes.LoginRes>> loginUser(@RequestBody UserReq.LoginReq req) {
-        UserRes.LoginRes res = userService.loginUser(req);
-        ResponseCookie refreshTokenCookie = CookieUtils.createCookie(JwtUtils.REFRESH_TOKEN_NAME, res.getRefreshToken());
-        return ResponseEntity.ok().header(SET_COOKIE, refreshTokenCookie.toString()).body(BaseRes.success(res));
+    @GetMapping("/username/confirm")
+    public ResponseEntity<BaseRes<Boolean>> confirmUserName(
+        @RequestParam(value = "username", defaultValue = "") String username) {
+        return ResponseEntity.ok().body(BaseRes.success(userService.confirmUsername(username)));
     }
 
-    @PostMapping("/reissue")
-    public ResponseEntity<BaseRes<UserRes.TokenInfo>> reissueToken(@CookieValue(value = JwtUtils.REFRESH_TOKEN_NAME, defaultValue = "") String refreshToken) {
-        if(!refreshToken.isEmpty()){
-            UserRes.TokenInfo res = userService.reissueToken(refreshToken);
-            return ResponseEntity.ok(BaseRes.success(res));
-        } else {
-            throw new CustomException(CustomError.REFRESH_TOKEN_EXPIRED);
-        }
+    @GetMapping("/userNickname/confirm")
+    public ResponseEntity<BaseRes<Boolean>> confirmUserNickname(
+        @RequestParam(value = "userNickname", defaultValue = "") String userNickname) {
+        return ResponseEntity.ok()
+            .body(BaseRes.success(userService.confirmUserNickname(userNickname)));
     }
 
-    @GetMapping("/logout")
-    public ResponseEntity<BaseRes<UserRes.Logout>> logoutUser(@CookieValue(value = JwtUtils.REFRESH_TOKEN_NAME, defaultValue = "") String refreshToken,
-                                        HttpServletRequest request, HttpServletResponse response) {
-
-        String accessToken = jwtUtils.resolveToken(request);
-        UserRes.Logout res = userService.logoutUser(accessToken, refreshToken);
-        if(!refreshToken.isEmpty()){
-            CookieUtils.deleteCookie(request, response, JwtUtils.REFRESH_TOKEN_NAME);
-        }
+    @GetMapping("/address/default")
+    public ResponseEntity<BaseRes<UserRes.DefaultAddressRes>> getDefaultAddress(
+        @RequestParam(name = "userId", defaultValue = "") UUID userId) {
+        UserRes.DefaultAddressRes res = userService.getDefaultAddress(userId);
         return ResponseEntity.ok().body(BaseRes.success(res));
     }
+
+    @GetMapping("/address/all")
+    public ResponseEntity<BaseRes<GetUserAddressRes>> getUserAddress(
+        @RequestParam(name = "userId", defaultValue = "") UUID userId) {
+        GetUserAddressRes res = userService.getUserAddress(userId);
+        return ResponseEntity.ok().body(BaseRes.success(res));
+    }
+
+    @PostMapping("/address/add")
+    public ResponseEntity<BaseRes<Long>> addUserAddress(
+        @RequestBody UserReq.AddUserAddressReq req) {
+        Long res = userService.addUserAddress(req);
+        return ResponseEntity.ok().body(BaseRes.success(res));
+    }
+
+    @PutMapping("/address/edit")
+    public ResponseEntity<BaseRes<Long>> editUserAddress(
+        @RequestBody UserReq.EditUserAddressReq req) {
+        Long res = userService.editUserAddress(req);
+        return ResponseEntity.ok().body(BaseRes.success(res));
+    }
+
+    @DeleteMapping("/address/delete")
+    public ResponseEntity<BaseRes<Long>> deleteUserAddress(
+        @RequestParam(name = "addressId", defaultValue = "") Long addressId) {
+        Long res = userService.deleteUserAddress(addressId);
+        return ResponseEntity.ok().body(BaseRes.success(res));
+    }
+
 
 }
