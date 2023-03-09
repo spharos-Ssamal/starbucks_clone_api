@@ -41,6 +41,7 @@ public enum CustomError {
     DUPLICATED_SEASON_NAME(HttpStatus.CONFLICT, "이미 등록 된 시즌 입니다.", "ERROR-CF-008"),
     DUPLICATED_HASHTAG_NAME(HttpStatus.CONFLICT, "이미 등록 된 해시태그 입니다.", "ERROR-CF-009"),
     DUPLICATED_RECOMMEND_NAME(HttpStatus.CONFLICT, "이미 등록 된 추천 입니다.", "ERROR-CF-010"),
+    INVALID_EMAIL_VERIFICATION_CODE(HttpStatus.CONFLICT, "이메일 인증 코드를 잘못 입력 하셨습니다.", "ERROF-CF-011"),
 
     //INTERNAL SERVER ERROR
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,  "내부 서버 오류입니다. 관리자에게 문의하세요", "ERROR-ISE-000");

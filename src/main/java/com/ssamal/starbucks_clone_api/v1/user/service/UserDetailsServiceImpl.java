@@ -22,7 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .orElseThrow(() -> new CustomException(CustomError.USER_NOT_FOUND));
 
         return User.builder()
-                .username(user.getUserName())
+                .username(user.getUsername())
                 .password(user.getUserPassword())
                 .roles(user.getRole().toString())
                 .build();

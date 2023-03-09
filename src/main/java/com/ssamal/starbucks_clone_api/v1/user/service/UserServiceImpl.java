@@ -33,6 +33,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Boolean confirmUsername(String username) {
+        if(userRepository.existsByUsername(username)) {
+            throw new CustomException(CustomError.DUPLICATED_USER_NAME);
+        }
+        return true;
+    }
+
+    @Override
+    public Boolean confirmUserNickname(String userNickname) {
+        if(userRepository.existsByUserNickname(userNickname)) {
+            throw new CustomException(CustomError.DUPLICATED_USER_NICKNAME);
+        }
+        return true;
+    }
+
+    @Override
     public String sendVerificationEmail(String toEmail) {
         if(userRepository.existsByUserEmail(toEmail)){
             throw new CustomException(CustomError.DUPLICATED_USER_EMAIL);
@@ -55,7 +71,7 @@ public class UserServiceImpl implements UserService {
             redisUtils.deleteData(String.format(KEY_FORMAT, req.getEmail()));
             return true;
         } else {
-            return false;
+            throw new CustomException(CustomError.INVALID_EMAIL_VERIFICATION_CODE);
         }
     }
 
