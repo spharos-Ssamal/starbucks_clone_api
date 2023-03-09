@@ -4,8 +4,8 @@ import com.ssamal.starbucks_clone_api.global.enums.CustomError;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.global.utils.JwtUtils;
 import com.ssamal.starbucks_clone_api.global.utils.RedisUtils;
-import com.ssamal.starbucks_clone_api.v1.user.dto.UserReq;
-import com.ssamal.starbucks_clone_api.v1.user.dto.UserRes;
+import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserReq;
+import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserRes;
 import com.ssamal.starbucks_clone_api.v1.user.entity.ServiceUser;
 import com.ssamal.starbucks_clone_api.v1.user.entity.repository.ServiceUserRepository;
 import com.ssamal.starbucks_clone_api.v1.user.service.inter.AuthService;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
+
     private final ServiceUserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
@@ -27,21 +28,24 @@ public class AuthServiceImpl implements AuthService {
     public UserRes.LoginRes loginUser(UserReq.LoginReq req) {
 
         ServiceUser user = userRepository.findByUserEmail(req.getUserEmail())
-                .orElseThrow(() -> new CustomException(CustomError.USER_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(CustomError.USER_NOT_FOUND));
 
         UsernamePasswordAuthenticationToken authenticationToken = req.toAuthentication();
         authenticationManager.authenticate(authenticationToken);
 
-        String accessToken = jwtUtils.createToken(req.getUserEmail(), JwtUtils.ACCESS_TOKEN_VALID_TIME);
+        String accessToken = jwtUtils.createToken(req.getUserEmail(),
+            JwtUtils.ACCESS_TOKEN_VALID_TIME);
 
-        String refreshToken = jwtUtils.createToken(req.getUserEmail(), JwtUtils.REFRESH_TOKEN_VALID_TIME);
-        redisUtils.setDataExpire(refreshToken, req.getUserEmail(), JwtUtils.REFRESH_TOKEN_VALID_TIME);
+        String refreshToken = jwtUtils.createToken(req.getUserEmail(),
+            JwtUtils.REFRESH_TOKEN_VALID_TIME);
+        redisUtils.setDataExpire(refreshToken, req.getUserEmail(),
+            JwtUtils.REFRESH_TOKEN_VALID_TIME);
 
         return UserRes.LoginRes.builder()
-                .userId(user.getId())
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
+            .userId(user.getId())
+            .accessToken(accessToken)
+            .refreshToken(refreshToken)
+            .build();
     }
 
     @Override
@@ -55,7 +59,8 @@ public class AuthServiceImpl implements AuthService {
         if (refreshToken.isBlank() || !userEmail.equals(savedEmail)) {
             throw new CustomException(CustomError.INVALID_TOKEN);
         } else {
-            String newAccessToken = jwtUtils.createToken(userEmail, JwtUtils.ACCESS_TOKEN_VALID_TIME);
+            String newAccessToken = jwtUtils.createToken(userEmail,
+                JwtUtils.ACCESS_TOKEN_VALID_TIME);
             return new UserRes.TokenInfo(newAccessToken);
         }
 

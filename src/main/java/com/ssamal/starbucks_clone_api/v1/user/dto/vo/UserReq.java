@@ -1,5 +1,6 @@
-package com.ssamal.starbucks_clone_api.v1.user.dto;
+package com.ssamal.starbucks_clone_api.v1.user.dto.vo;
 
+import com.ssamal.starbucks_clone_api.v1.user.dto.ShippingAddressDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -7,16 +8,20 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class UserReq {
+
     private UserReq() {
         throw new IllegalStateException("Utility class");
     }
+
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
     public static class RegisterReq {
+
         private String userEmail;
         private String userName;
         private String userNickname;
@@ -25,10 +30,12 @@ public class UserReq {
         private String phoneNo;
         private boolean isAgree;
     }
+
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class LoginReq {
+
         private String userEmail;
         private String password;
 
@@ -41,7 +48,27 @@ public class UserReq {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class VerifyEmailReq {
+
         private String email;
         private int verifyCode;
     }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class AddUserAddressReq {
+
+        private UUID userId;
+        private ShippingAddressDTO.Info addressInfo;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class EditUserAddressReq {
+
+        private UUID userId;
+        private ShippingAddressDTO.DTO addressInfo;
+    }
+
 }

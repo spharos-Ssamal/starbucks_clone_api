@@ -24,6 +24,7 @@ public enum CustomError {
     EVENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 이벤트 정보를 찾을 수 없습니다.", "ERROR-NF-005"),
     SEASON_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 시즌 정보를 찾을 수 없습니다.", "ERROR-NF-006"),
     RECOMMAND_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 추천 상품 정보를 찾을 수 없습니다.", "ERROR-NF-007"),
+    ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 주소를 찾을 수 없습니다.", "ERROR-NF-008"),
 
     //FORBIDDEN
     FORBIDDEN(HttpStatus.FORBIDDEN,  "금지된 요청입니다.", "ERROR-FB-000"),
