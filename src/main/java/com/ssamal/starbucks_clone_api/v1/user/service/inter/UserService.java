@@ -1,7 +1,9 @@
 package com.ssamal.starbucks_clone_api.v1.user.service.inter;
 
-import com.ssamal.starbucks_clone_api.v1.user.dto.UserReq;
-import com.ssamal.starbucks_clone_api.v1.user.dto.UserRes;
+import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserReq;
+import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserRes;
+
+import java.util.UUID;
 
 
 public interface UserService {
@@ -10,4 +12,10 @@ public interface UserService {
     Boolean confirmUserNickname(String userNickname);
     String sendVerificationEmail(String toEmail);
     Boolean verifyEmail(UserReq.VerifyEmailReq req);
+    UserRes.DefaultAddressRes getDefaultAddress(UUID userId);
+    UserRes.GetUserAddressRes getUserAddress(UUID userId);
+    Long addUserAddress(UserReq.AddUserAddressReq req);
+    Long editUserAddress(UserReq.EditUserAddressReq req);
+    Long deleteUserAddress(Long req);
+
 }
