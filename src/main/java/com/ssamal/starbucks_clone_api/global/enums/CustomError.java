@@ -24,6 +24,7 @@ public enum CustomError {
     EVENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 이벤트 정보를 찾을 수 없습니다.", "ERROR-NF-005"),
     SEASON_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 시즌 정보를 찾을 수 없습니다.", "ERROR-NF-006"),
     RECOMMAND_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 추천 상품 정보를 찾을 수 없습니다.", "ERROR-NF-007"),
+    ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 주소를 찾을 수 없습니다.", "ERROR-NF-008"),
 
     //FORBIDDEN
     FORBIDDEN(HttpStatus.FORBIDDEN,  "금지된 요청입니다.", "ERROR-FB-000"),
@@ -41,6 +42,7 @@ public enum CustomError {
     DUPLICATED_SEASON_NAME(HttpStatus.CONFLICT, "이미 등록 된 시즌 입니다.", "ERROR-CF-008"),
     DUPLICATED_HASHTAG_NAME(HttpStatus.CONFLICT, "이미 등록 된 해시태그 입니다.", "ERROR-CF-009"),
     DUPLICATED_RECOMMEND_NAME(HttpStatus.CONFLICT, "이미 등록 된 추천 입니다.", "ERROR-CF-010"),
+    INVALID_EMAIL_VERIFICATION_CODE(HttpStatus.CONFLICT, "이메일 인증 코드를 잘못 입력 하셨습니다.", "ERROF-CF-011"),
 
     //INTERNAL SERVER ERROR
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,  "내부 서버 오류입니다. 관리자에게 문의하세요", "ERROR-ISE-000");
