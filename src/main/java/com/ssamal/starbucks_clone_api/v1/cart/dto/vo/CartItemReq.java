@@ -1,4 +1,4 @@
-package com.ssamal.starbucks_clone_api.v1.cart.vo;
+package com.ssamal.starbucks_clone_api.v1.cart.dto.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @ToString
 public class CartItemReq {
-    private UUID user_id;
-    private Long product_id;
+    private UUID userId;
+    private Long productId;
     private int count;
 }

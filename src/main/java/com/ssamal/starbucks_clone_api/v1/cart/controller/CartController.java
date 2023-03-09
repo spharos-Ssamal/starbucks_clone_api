@@ -1,10 +1,11 @@
 package com.ssamal.starbucks_clone_api.v1.cart.controller;
 
-import com.ssamal.starbucks_clone_api.v1.cart.dto.CartItemDto;
+import com.ssamal.starbucks_clone_api.global.common.BaseRes;
 import com.ssamal.starbucks_clone_api.v1.cart.service.CartItemService;
-import com.ssamal.starbucks_clone_api.v1.cart.vo.CartItemRes;
-import com.ssamal.starbucks_clone_api.v1.cart.vo.CartItemReq;
+import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartItemRes;
+import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartItemReq;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -15,26 +16,36 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/api/admin/v1")
 public class CartController {
+
     private final CartItemService cartItemService;
 
     @PostMapping("/cart/insert")
-    public void cartInsert(@RequestBody CartItemReq cartItemReq /*,@AuthenticationPrincipal SecurityUser principal*/){
-        cartItemService.createCartItem(cartItemReq);
+    public ResponseEntity<BaseRes<Long>> cartInsert(
+        @RequestBody CartItemReq cartItemReq) {
+        Long res = cartItemService.createCartItem(cartItemReq);
+        return ResponseEntity.ok().body(BaseRes.success(res));
     }
 
-    @GetMapping("/cart/getList/{user_id}")
-    public List<CartItemRes> getCartItemList(@PathVariable("user_id") UUID user_Id){
-        return cartItemService.getCartItemList(user_Id);
+    @GetMapping("/cart/getList")
+    public ResponseEntity<BaseRes<List<CartItemRes>>> getCartItemList(
+        @RequestParam(name = "userId", defaultValue = "") UUID userId) {
+        List<CartItemRes> res = cartItemService.getCartItemList(userId);
+        return ResponseEntity.ok().body(BaseRes.success(res));
     }
 
     @GetMapping("/cart/update")
-    public CartItemDto cartUpdate(@RequestParam Long id, @RequestParam int count){
-        return cartItemService.updateCartItem(id, count);
+    public ResponseEntity<BaseRes<Long>> cartUpdate(
+        @RequestParam(name = "cartId", defaultValue = "") Long cartId,
+        @RequestParam(name = "count", defaultValue = "") int count) {
+        Long res = cartItemService.updateCartItem(cartId, count);
+        return ResponseEntity.ok().body(BaseRes.success(res));
     }
 
-    @GetMapping("/cart/delete/{cart_id}")
-    public String cartDelete(@PathVariable Long cart_id){
-        return cartItemService.deleteCartItem(cart_id);
+    @GetMapping("/cart/delete")
+    public ResponseEntity<BaseRes<Long>> cartDelete(
+        @RequestParam(name = "cartId", defaultValue = "") Long cartId) {
+        Long res = cartItemService.deleteCartItem(cartId);
+        return ResponseEntity.ok().body(BaseRes.success(res));
     }
 
 }

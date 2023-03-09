@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
-    List<CartItem>findByUserId(UUID user_id);
+    List<CartItem>findByUserIdAndIsDeleted(UUID userId, boolean isDeleted);
 }
