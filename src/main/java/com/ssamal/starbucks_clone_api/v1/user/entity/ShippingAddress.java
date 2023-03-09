@@ -15,8 +15,29 @@ public class ShippingAddress extends BaseTimeEntity {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "address", length = 200, nullable = false)
-    private String address;
+    @Column(name = "alias", columnDefinition = "VARCHAR(10) NOT NULL")
+    private String alias;
+
+    @Column(name = "recipient", columnDefinition = "VARCHAR(10) NOT NULL")
+    private String recipient;
+
+    @Column(name = "zip_code")
+    private Long zipCode;
+
+    @Column(name = "base_address", columnDefinition = "VARCHAR(50) NOT NULL")
+    private String baseAddress;
+
+    @Column(name = "detail_address", columnDefinition = "VARCHAR(50) NOT NULL")
+    private String detailAddress;
+
+    @Column(name = "contact_info_1", columnDefinition = "VARCHAR(12) NOT NULL")
+    private String contactInfo1;
+
+    @Column(name = "contact_info_2", columnDefinition = "VARCHAR(12)")
+    private String contactInfo2;
+
+    @Column(name = "shipping_memo", columnDefinition = "VARCHAR(50)")
+    private String shippingMemo;
 
     @Column(name = "is_default")
     private boolean isDefaultAddress = false;
