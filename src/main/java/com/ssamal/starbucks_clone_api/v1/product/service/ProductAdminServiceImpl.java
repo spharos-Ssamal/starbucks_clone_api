@@ -27,7 +27,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
     public List<ProdAdminRes.AddProductRes> addProduct(List<ProdAdminReq.AddProductReq> req) {
         List<ProdAdminRes.AddProductRes> result = new ArrayList<>();
         req.forEach(request -> {
-            Product newProduct = Product.fromDTO(request.getProductInfo());
+            Product newProduct = Product.of(request.getProductInfo());
             if (productRepository.existsByName(newProduct.getName())) {
                 throw new CustomException(CustomError.DUPLICATED_PRODUCT_NAME);
             } else {
@@ -37,7 +37,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
                     Category category = categoryRepository.findById(categoryId)
                             .orElseThrow(() -> new CustomException(CustomError.CATEGORY_NOT_FOUND));
 
-                    ProductCategory productCategory = ProductCategory.fromEntity(newProduct, category);
+                    ProductCategory productCategory = ProductCategory.of(newProduct, category);
                     productCategoryRepository.save(productCategory);
 
                 });
@@ -46,7 +46,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
                     HashTag hashTag = hashTagRepository.findByName(hashTagName)
                             .orElseThrow(() -> new CustomException(CustomError.HASH_TAG_NOT_FOUND));
 
-                    ProductHashTag productHashTag = ProductHashTag.fromEntity(newProduct, hashTag);
+                    ProductHashTag productHashTag = ProductHashTag.of(newProduct, hashTag);
                     productHashTagRepository.save(productHashTag);
                 });
 

@@ -20,9 +20,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ProductCategoryServiceImpl implements ProductCategoryService {
+
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductCategoryRepository productCategoryRepository;
+
     @Override
     public List<ProdAdminRes.AddMenuRes> addCategory(List<ProdAdminReq.AddCategory> req) {
         List<ProdAdminRes.AddMenuRes> response = new ArrayList<>();
@@ -32,9 +34,9 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
                 throw new CustomException(CustomError.DUPLICATED_CATEGORY_NAME);
             } else {
                 Category newCategory = Category.builder()
-                        .name(request.getName())
-                        .type(request.getType())
-                        .build();
+                    .name(request.getName())
+                    .type(request.getType())
+                    .build();
                 categoryRepository.save(newCategory);
                 response.add(new ProdAdminRes.AddMenuRes(newCategory.getId()));
             }
@@ -46,13 +48,13 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     @Override
     public ProdAdminRes.AddProductToMenuRes addProductToCategory(ProdAdminReq.AddProductTo req) {
         Product product = productRepository.findById(req.getProductId())
-                .orElseThrow(() -> new CustomException(CustomError.PRODUCT_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(CustomError.PRODUCT_NOT_FOUND));
         Category category = categoryRepository.findById(req.getMenuId())
-                .orElseThrow(() -> new CustomException(CustomError.CATEGORY_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(CustomError.CATEGORY_NOT_FOUND));
         ProductCategory productCategory = ProductCategory.builder()
-                .product(product)
-                .category(category)
-                .build();
+            .product(product)
+            .category(category)
+            .build();
         productCategoryRepository.save(productCategory);
         return new ProdAdminRes.AddProductToMenuRes(product.getId(), category.getId());
     }

@@ -21,6 +21,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ProductRecommendServiceImpl implements ProductRecommendService {
+
     private final ProductRepository productRepository;
     private final RecommendRepository recommendRepository;
     private final ProductRecommendRepository productRecommendRepository;
@@ -35,9 +36,9 @@ public class ProductRecommendServiceImpl implements ProductRecommendService {
                 throw new CustomException(CustomError.DUPLICATED_RECOMMEND_NAME);
             } else {
                 Recommend recommend = Recommend.builder()
-                        .name(request.getName())
-                        .status(EventStatus.ACTIVE)
-                        .build();
+                    .name(request.getName())
+                    .status(EventStatus.ACTIVE)
+                    .build();
                 recommendRepository.save(recommend);
                 response.add(new ProdAdminRes.AddMenuRes(recommend.getId()));
             }
@@ -49,13 +50,13 @@ public class ProductRecommendServiceImpl implements ProductRecommendService {
     @Override
     public ProdAdminRes.AddProductToMenuRes addProductToRecommend(ProdAdminReq.AddProductTo req) {
         Product product = productRepository.findById(req.getProductId())
-                .orElseThrow(() -> new CustomException(CustomError.PRODUCT_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(CustomError.PRODUCT_NOT_FOUND));
         Recommend recommend = recommendRepository.findById(req.getMenuId())
-                .orElseThrow(() -> new CustomException(CustomError.EVENT_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(CustomError.EVENT_NOT_FOUND));
         ProductRecommend productRecommend = ProductRecommend.builder()
-                .product(product)
-                .recommend(recommend)
-                .build();
+            .product(product)
+            .recommend(recommend)
+            .build();
         productRecommendRepository.save(productRecommend);
         return new ProdAdminRes.AddProductToMenuRes(product.getId(), recommend.getId());
     }
