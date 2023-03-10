@@ -1,11 +1,11 @@
 package com.ssamal.starbucks_clone_api.v1.user.entity;
 
 import com.ssamal.starbucks_clone_api.global.entity.BaseTimeEntity;
+import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
 import com.ssamal.starbucks_clone_api.v1.user.dto.ShippingAddressDTO;
 import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserReq;
 import jakarta.persistence.*;
 import lombok.*;
-import org.modelmapper.ModelMapper;
 
 @Entity
 @Table(name = "ship_address")
@@ -44,24 +44,22 @@ public class ShippingAddress extends BaseTimeEntity {
     @Column(name = "shipping_memo", columnDefinition = "VARCHAR(50)")
     private String shippingMemo;
 
-    @Column(name = "is_default")
-    private boolean isDefaultAddress = false;
+    @Column(name = "is_default", columnDefinition = "bit(1) default 0")
+    private boolean isDefaultAddress;
 
-    @Column(name = "is_deleted")
-    private boolean isDeleted = false;
+    @Column(name = "is_deleted", columnDefinition = "bit(1) default 0")
+    private boolean isDeleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private ServiceUser serviceUser;
 
     public static ShippingAddress of(ShippingAddressDTO.Info info) {
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(info, ShippingAddress.class);
+        return ModelMapperUtils.getModelMapper().map(info, ShippingAddress.class);
     }
 
     public static ShippingAddress of(ShippingAddressDTO.DTO dto) {
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(dto, ShippingAddress.class);
+        return ModelMapperUtils.getModelMapper().map(dto, ShippingAddress.class);
     }
 
     public void editAddressInfo(UserReq.EditUserAddressReq req) {

@@ -14,14 +14,19 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/admin/product")
 public class ProductAdminController {
+
     private final ProductAdminService adminService;
+
     @PostMapping("/product/insert")
-    public ResponseEntity<BaseRes<List<ProdAdminRes.AddProductRes>>> insertProduct(@RequestBody List<ProdAdminReq.AddProductReq> req) {
+    public ResponseEntity<BaseRes<List<ProdAdminRes.AddProductRes>>> insertProduct(
+        @RequestBody List<ProdAdminReq.AddProductReq> req) {
         List<ProdAdminRes.AddProductRes> result = adminService.addProduct(req);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
+
     @DeleteMapping("/deleteProduct")
-    public ResponseEntity<BaseRes<ProdAdminRes.DeleteProductRes>> deleteProduct(@RequestBody ProdAdminReq.DeleteProduct req) {
+    public ResponseEntity<BaseRes<ProdAdminRes.DeleteProductRes>> deleteProduct(
+        @RequestBody ProdAdminReq.DeleteProduct req) {
         ProdAdminRes.DeleteProductRes result = adminService.deleteProduct(req);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }

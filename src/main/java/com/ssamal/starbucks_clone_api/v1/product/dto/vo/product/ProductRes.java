@@ -1,6 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.product.dto.vo.product;
 
-import com.ssamal.starbucks_clone_api.v1.product.model.Product;
+import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import com.ssamal.starbucks_clone_api.v1.product.model.ProductRecommend;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,14 +17,14 @@ public class ProductRes {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class GetProductRes{
-        private ProductInfo productInfo;
+        private ProductDTO.Info productInfo;
     }
 
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class SearchProductRes {
-        private List<ProductInfo> content;
+        private List<ProductDTO.Info> content;
         private boolean isLast;
         private int totalPages;
         private Long totalElements;
@@ -35,11 +35,11 @@ public class ProductRes {
     @NoArgsConstructor
     public static class RecommendProductRes {
         private String categoryName;
-        private ProductInfo products;
+        private ProductDTO.Info products;
 
-        public static RecommendProductRes fromEntity(ProductRecommend productRecommend){
+        public static RecommendProductRes of(ProductRecommend productRecommend){
             return new RecommendProductRes(productRecommend.getRecommend().getName(),
-                    ProductInfo.fromEntity(productRecommend.getProduct()));
+                ProductDTO.Info.of(productRecommend.getProduct()));
         }
     }
 

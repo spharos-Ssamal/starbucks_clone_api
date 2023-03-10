@@ -1,7 +1,7 @@
 package com.ssamal.starbucks_clone_api.v1.product.controller;
 
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
-import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductInfo;
+import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.service.inter.ProductService;
@@ -24,37 +24,40 @@ public class ProductController {
 
     @GetMapping("/search")
     public ResponseEntity<BaseRes<ProductRes.SearchProductRes>> searchProducts(
-            @RequestParam(value = "category") Long categoryId,
-            @RequestParam(value = "subCategories", required = false, defaultValue = "") List<Long> subCategories,
-            @RequestParam(value = "seasons", required = false, defaultValue = "") List<String> seasons,
-            @RequestParam(value = "productSize", required = false, defaultValue = "") List<String> size,
-            @PageableDefault(size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        @RequestParam(value = "category") Long categoryId,
+        @RequestParam(value = "subCategories", required = false, defaultValue = "") List<Long> subCategories,
+        @RequestParam(value = "seasons", required = false, defaultValue = "") List<String> seasons,
+        @RequestParam(value = "productSize", required = false, defaultValue = "") List<String> size,
+        @PageableDefault(size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         ProductRes.SearchProductRes result = productService.getProducts(
-                new ProductReq.SearchProductsReq(categoryId, subCategories, seasons, size, 0), pageable);
+            new ProductReq.SearchProductsReq(categoryId, subCategories, seasons, size, 0),
+            pageable);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
     @GetMapping("/read")
-    public ResponseEntity<BaseRes<ProductRes.GetProductRes>> getProductById(@RequestParam(name = "productId", defaultValue = "") Long productId) {
+    public ResponseEntity<BaseRes<ProductRes.GetProductRes>> getProductById(
+        @RequestParam(name = "productId", defaultValue = "") Long productId) {
         ProductRes.GetProductRes result = productService.getProduct(productId);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
     @GetMapping("/read/event")
-    public ResponseEntity<BaseRes<List<ProductInfo>>> getProductsByEvent(@RequestParam(name = "eventId", defaultValue = "") Long eventId) {
-        List<ProductInfo> result = productService.getProductsByEvent(eventId);
+    public ResponseEntity<BaseRes<List<ProductDTO.Info>>> getProductsByEvent(
+        @RequestParam(name = "eventId", defaultValue = "") Long eventId) {
+        List<ProductDTO.Info> result = productService.getProductsByEvent(eventId);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
     @GetMapping("/recommend/isActive")
-    public ResponseEntity<BaseRes<List<Long>>> getActiveRecommend(){
+    public ResponseEntity<BaseRes<List<Long>>> getActiveRecommend() {
         List<Long> result = productService.getActiveRecommendId();
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
     @GetMapping("/recommend")
-    public ResponseEntity<BaseRes<Map<String,List<ProductRes.RecommendProductRes>>>> getProductsByRecommand() {
-        Map<String,List<ProductRes.RecommendProductRes>> result = productService.getProductsByActiveRecommand();
+    public ResponseEntity<BaseRes<Map<String, List<ProductRes.RecommendProductRes>>>> getProductsByRecommand() {
+        Map<String, List<ProductRes.RecommendProductRes>> result = productService.getProductsByActiveRecommand();
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 

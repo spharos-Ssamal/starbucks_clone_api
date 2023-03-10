@@ -1,30 +1,57 @@
 package com.ssamal.starbucks_clone_api.v1.product.dto;
 
+import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
 import com.ssamal.starbucks_clone_api.v1.product.enums.ProductStatus;
 import com.ssamal.starbucks_clone_api.v1.product.enums.Season;
 import com.ssamal.starbucks_clone_api.v1.product.enums.Size;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
+import java.util.List;
 import lombok.*;
-import org.modelmapper.ModelMapper;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@ToString
 public class ProductDTO {
-    private Long id;
-    private String name;
-    private Integer price;
-    private String description;
-    private String thumbnail;
-    private ProductStatus status;
-    private Size size;
-    private Season season;
 
-    public static ProductDTO of(Product entity){
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(entity, ProductDTO.class);
+    private ProductDTO () {
+        throw new IllegalStateException("DTO Class");
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class DTO {
+
+        private Long id;
+        private String name;
+        private Integer price;
+        private String description;
+        private String thumbnail;
+        private ProductStatus status;
+        private Size size;
+        private Season season;
+
+        public static DTO of(Product entity) {
+            return ModelMapperUtils.getModelMapper().map(entity, DTO.class);
+        }
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Info {
+        private String name;
+        private Integer price;
+        private String description;
+        private String thumbnail;
+        private Size size;
+        private Season season;
+        public static Info of(Product entity) {
+            return ModelMapperUtils.getModelMapper().map(entity, Info.class);
+        }
+
+        public static List<Info> of(List<Product> entities) {
+            return entities.stream().map(Info::of).toList();
+        }
     }
 
 }

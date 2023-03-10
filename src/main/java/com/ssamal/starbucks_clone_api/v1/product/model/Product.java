@@ -1,12 +1,14 @@
 package com.ssamal.starbucks_clone_api.v1.product.model;
 
 import com.ssamal.starbucks_clone_api.global.entity.BaseTimeEntity;
-import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductInfo;
+import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
+import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import com.ssamal.starbucks_clone_api.v1.product.enums.ProductStatus;
 import com.ssamal.starbucks_clone_api.v1.product.enums.Season;
 import com.ssamal.starbucks_clone_api.v1.product.enums.Size;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "product")
@@ -35,6 +37,7 @@ public class Product extends BaseTimeEntity {
 
     @Column(name = "status")
     @Enumerated(value = EnumType.STRING)
+    @ColumnDefault("ON_SALE")
     private ProductStatus status;
 
     @Column(name = "size")
@@ -45,16 +48,8 @@ public class Product extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private Season season;
 
-    public static Product fromDTO(ProductInfo dto){
-        return Product.builder()
-                .name(dto.getName())
-                .thumbnail(dto.getThumbnail())
-                .description(dto.getDescription())
-                .size(dto.getSize())
-                .season(dto.getSeason())
-                .price(dto.getPrice())
-                .status(ProductStatus.ON_SALE)
-                .build();
+    public static Product of(ProductDTO.Info dto){
+        return ModelMapperUtils.getModelMapper().map(dto, Product.class);
     }
 
 }

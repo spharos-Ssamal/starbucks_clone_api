@@ -17,15 +17,19 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/admin/hashtag")
 public class ProductHashTagController {
+
     private final ProductHashTagService adminService;
+
     @PostMapping("/hashTag/new")
-    public ResponseEntity<BaseRes<List<ProdAdminRes.AddMenuRes>>> newHashTag(@RequestBody List<ProdAdminReq.AddHashTag> req) {
+    public ResponseEntity<BaseRes<List<ProdAdminRes.AddMenuRes>>> newHashTag(
+        @RequestBody List<ProdAdminReq.AddHashTag> req) {
         List<ProdAdminRes.AddMenuRes> result = adminService.addHashTag(req);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
     @PostMapping("/hashTag/addProduct")
-    public ResponseEntity<BaseRes<ProdAdminRes.AddProductToMenuRes>> addProductToHashTag(@RequestBody ProdAdminReq.AddProductTo req) {
+    public ResponseEntity<BaseRes<ProdAdminRes.AddProductToMenuRes>> addProductToHashTag(
+        @RequestBody ProdAdminReq.AddProductTo req) {
         ProdAdminRes.AddProductToMenuRes result = adminService.addProductToHashTag(req);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }

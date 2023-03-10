@@ -8,8 +8,12 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CartItemService {
+
     Long createCartItem(CartItemReq req);
+
     List<CartItemRes> getCartItemList(UUID userId);
+
     Long updateCartItem(Long cartId, int count);
+
     Long deleteCartItem(Long cartId);
 }

@@ -19,6 +19,7 @@ public class ProductReq {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class SearchProductsReq {
+
         private Long mainCategory;
         private List<Long> subCategories;
         @Nullable
@@ -34,6 +35,7 @@ public class ProductReq {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class GetRecommandsReq {
+
         private List<Long> recommendIds;
     }
 }
