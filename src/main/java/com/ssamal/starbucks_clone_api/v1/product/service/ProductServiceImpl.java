@@ -90,10 +90,4 @@ public class ProductServiceImpl implements ProductService {
             .stream()
             .collect(Collectors.groupingBy(ProductRes.RecommendProductRes::getCategoryName));
     }
-
-    @Override
-    public List<Long> getActiveRecommendId() {
-        return recommendRepository.findAllByStatus(EventStatus.ACTIVE)
-            .stream().map(Recommend::getId).toList();
-    }
 }

@@ -5,6 +5,8 @@ import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.service.inter.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+@Tag(name = "상품", description = "상품 조회 및 검색 API 입니다.")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/product")
@@ -22,6 +25,8 @@ public class ProductController {
 
     private final ProductService productService;
 
+
+    @Operation(summary = "전체 상품 조회", description = "전체 상품 조회 API 입니다.")
     @GetMapping("/search")
     public ResponseEntity<BaseRes<ProductRes.SearchProductRes>> searchProducts(
         @RequestParam(value = "category") Long categoryId,
@@ -35,6 +40,7 @@ public class ProductController {
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
+    @Operation(summary = "상품 단건 조회", description = "상품 단건 조회 API 입니다.")
     @GetMapping("/read")
     public ResponseEntity<BaseRes<ProductRes.GetProductRes>> getProductById(
         @RequestParam(name = "productId", defaultValue = "") Long productId) {
@@ -42,6 +48,7 @@ public class ProductController {
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
+    @Operation(summary = "이벤트 상품 조회", description = "단건 이벤트 상품 조회 API 입니다.")
     @GetMapping("/read/event")
     public ResponseEntity<BaseRes<List<ProductDTO.Info>>> getProductsByEvent(
         @RequestParam(name = "eventId", defaultValue = "") Long eventId) {
@@ -49,14 +56,9 @@ public class ProductController {
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
-    @GetMapping("/recommend/isActive")
-    public ResponseEntity<BaseRes<List<Long>>> getActiveRecommend() {
-        List<Long> result = productService.getActiveRecommendId();
-        return ResponseEntity.ok().body(BaseRes.success(result));
-    }
-
+    @Operation(summary = "추천 상품 조회", description = "추천 상품 조회 API 입니다.")
     @GetMapping("/recommend")
-    public ResponseEntity<BaseRes<Map<String, List<ProductRes.RecommendProductRes>>>> getProductsByRecommand() {
+    public ResponseEntity<BaseRes<Map<String, List<ProductRes.RecommendProductRes>>>> getProductsByRecommend() {
         Map<String, List<ProductRes.RecommendProductRes>> result = productService.getProductsByActiveRecommand();
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
