@@ -10,12 +10,15 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 public class UserRes {
+
     private UserRes() {
         throw new IllegalStateException("Utility class");
     }
+
     @Getter
     @AllArgsConstructor
     public static class RegisterRes {
+
         private String userEmail;
         private String userName;
     }
@@ -25,6 +28,7 @@ public class UserRes {
     @NoArgsConstructor
     @Builder
     public static class LoginRes {
+
         private UUID userId;
         private String accessToken;
         private String refreshToken;
@@ -33,30 +37,35 @@ public class UserRes {
     @Getter
     @AllArgsConstructor
     public static class TokenInfo {
+
         private String accessToken;
     }
 
     @Getter
     @AllArgsConstructor
     public static class Logout {
+
         private String userName;
     }
 
     @Getter
     @AllArgsConstructor
     public static class DefaultAddressRes {
+
         private DTO result;
     }
 
     @Getter
     @AllArgsConstructor
     public static class AddressCRUDRes {
+
         private Long addressId;
     }
 
     @Getter
     @AllArgsConstructor
-    public static class GetUserAddressRes{
+    public static class GetUserAddressRes {
+
         private List<DTO> addressList;
     }
 

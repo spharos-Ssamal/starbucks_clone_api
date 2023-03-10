@@ -17,16 +17,19 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/admin/event")
 public class ProductEventController {
+
     private final ProductEventService adminService;
 
     @PostMapping("/event/new")
-    public ResponseEntity<BaseRes<List<ProdAdminRes.AddMenuRes>>> addEvent(@RequestBody List<ProdAdminReq.AddEvent> req) {
+    public ResponseEntity<BaseRes<List<ProdAdminRes.AddMenuRes>>> addEvent(
+        @RequestBody List<ProdAdminReq.AddEvent> req) {
         List<ProdAdminRes.AddMenuRes> result = adminService.addEvent(req);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
     @PostMapping("/event/addProduct")
-    public ResponseEntity<BaseRes<ProdAdminRes.AddProductToMenuRes>> addProductToEvent(@RequestBody ProdAdminReq.AddProductTo req) {
+    public ResponseEntity<BaseRes<ProdAdminRes.AddProductToMenuRes>> addProductToEvent(
+        @RequestBody ProdAdminReq.AddProductTo req) {
         ProdAdminRes.AddProductToMenuRes result = adminService.addProductToEvent(req);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }

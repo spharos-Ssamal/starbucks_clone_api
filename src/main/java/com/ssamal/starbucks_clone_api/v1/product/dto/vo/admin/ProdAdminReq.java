@@ -1,6 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin;
 
-import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductInfo;
+import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ProdAdminReq {
 
-    private ProdAdminReq () {
+    private ProdAdminReq() {
         throw new IllegalStateException("Utility class");
     }
 
@@ -19,7 +19,8 @@ public class ProdAdminReq {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class AddProductReq {
-        private ProductInfo productInfo;
+
+        private ProductDTO.Info productInfo;
         private List<Long> categoryIds;
         private List<String> hashTagNames;
     }
@@ -29,6 +30,7 @@ public class ProdAdminReq {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class AddCategory {
+
         private String name;
         private String type;
     }
@@ -38,6 +40,7 @@ public class ProdAdminReq {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class AddHashTag {
+
         private String name;
     }
 
@@ -46,6 +49,7 @@ public class ProdAdminReq {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class AddEvent {
+
         private String name;
     }
 
@@ -54,6 +58,7 @@ public class ProdAdminReq {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class AddRecommend {
+
         private String name;
     }
 
@@ -62,6 +67,7 @@ public class ProdAdminReq {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class AddSeason {
+
         private String name;
     }
 
@@ -70,6 +76,7 @@ public class ProdAdminReq {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class AddProductTo {
+
         private Long menuId;
         private Long productId;
     }
@@ -79,6 +86,7 @@ public class ProdAdminReq {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class DeleteProduct {
+
         private Long productId;
     }
 

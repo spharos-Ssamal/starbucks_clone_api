@@ -21,7 +21,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "user")
 @Data
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

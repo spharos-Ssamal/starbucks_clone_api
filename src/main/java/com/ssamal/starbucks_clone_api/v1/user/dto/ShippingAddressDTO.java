@@ -1,8 +1,8 @@
 package com.ssamal.starbucks_clone_api.v1.user.dto;
 
+import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
 import com.ssamal.starbucks_clone_api.v1.user.entity.ShippingAddress;
 import lombok.*;
-import org.modelmapper.ModelMapper;
 
 
 public class ShippingAddressDTO {
@@ -16,6 +16,7 @@ public class ShippingAddressDTO {
     @NoArgsConstructor
     @Builder
     public static class DTO {
+
         private Long id;
         private String alias;
         private String recipient;
@@ -28,8 +29,7 @@ public class ShippingAddressDTO {
         private boolean isDefaultAddress;
 
         public static DTO of(ShippingAddress entity) {
-            ModelMapper modelMapper = new ModelMapper();
-            return modelMapper.map(entity, DTO.class);
+            return ModelMapperUtils.getModelMapper().map(entity, DTO.class);
         }
     }
 
@@ -38,6 +38,7 @@ public class ShippingAddressDTO {
     @NoArgsConstructor
     @Builder
     public static class Info {
+
         private String alias;
         private String recipient;
         private Long zipCode;
@@ -49,8 +50,7 @@ public class ShippingAddressDTO {
         private boolean isDefaultAddress;
 
         public static Info of(ShippingAddress entity) {
-            ModelMapper modelMapper = new ModelMapper();
-            return modelMapper.map(entity, Info.class);
+            return ModelMapperUtils.getModelMapper().map(entity, Info.class);
         }
     }
 

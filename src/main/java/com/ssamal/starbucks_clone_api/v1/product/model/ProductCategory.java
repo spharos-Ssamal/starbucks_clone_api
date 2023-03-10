@@ -21,7 +21,7 @@ public class ProductCategory extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
-    public static ProductCategory fromEntity(Product product, Category category){
+    public static ProductCategory of(Product product, Category category){
         return ProductCategory.builder()
                 .product(product)
                 .category(category)
