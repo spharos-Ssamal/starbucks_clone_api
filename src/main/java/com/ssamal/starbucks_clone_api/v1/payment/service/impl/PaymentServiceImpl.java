@@ -46,7 +46,7 @@ public class PaymentServiceImpl implements PaymentService {
             endDate);
 
         List<UserHistory> response = result.stream().map(i -> {
-            List<PurchaseProducts> purchaseProducts = purchaseProductsRepository.findAllByPurchaseHistoryId(
+            List<PurchaseProducts> purchaseProducts = purchaseProductsRepository.findAllByPurchaseHistoryHistoryId(
                 i.getHistoryId());
             return UserHistory.of(i.getHistoryId(), i.getRegTime().toLocalDate(), purchaseProducts);
         }).collect(Collectors.toList());
@@ -69,7 +69,7 @@ public class PaymentServiceImpl implements PaymentService {
         PurchaseHistory history = purchaseHistoryRepository.findById(historyId)
             .orElseThrow(() -> new CustomException(CustomError.PURCHASE_HISTORY_NOT_FOUND));
 
-        List<PurchaseProducts> purchaseProducts = purchaseProductsRepository.findAllByPurchaseHistoryId(
+        List<PurchaseProducts> purchaseProducts = purchaseProductsRepository.findAllByPurchaseHistoryHistoryId(
             historyId);
         return HistoryDetailInfo.of(history,
             purchaseProducts.stream().map(t -> ProductInfo.of(t.getProduct())).toList());
