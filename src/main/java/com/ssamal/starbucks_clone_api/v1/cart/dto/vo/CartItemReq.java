@@ -12,6 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @ToString
 public class CartItemReq {
+
     private UUID userId;
     private Long productId;
     private int count;

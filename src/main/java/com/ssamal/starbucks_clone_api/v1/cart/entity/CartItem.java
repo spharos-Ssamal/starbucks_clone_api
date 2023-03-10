@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class CartItem extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -36,7 +37,7 @@ public class CartItem extends BaseTimeEntity {
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
 
-    public void updateCountValue(int count){
+    public void updateCountValue(int count) {
         this.count = count;
     }
 

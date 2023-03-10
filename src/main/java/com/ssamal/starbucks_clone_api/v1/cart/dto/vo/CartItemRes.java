@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class CartItemRes {
+
     private Long id;
     private ProductDTO product;
     private int count;

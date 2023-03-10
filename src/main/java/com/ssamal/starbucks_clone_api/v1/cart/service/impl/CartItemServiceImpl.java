@@ -41,7 +41,8 @@ public class CartItemServiceImpl implements CartItemService {
         Product product = productRepository.findById(req.getProductId())
             .orElseThrow(() -> new CustomException(CustomError.PRODUCT_NOT_FOUND));
 
-        Optional<CartItem> cartItem = cartItemRepository.findByProductIdAndIsDeleted(req.getProductId(), false);
+        Optional<CartItem> cartItem = cartItemRepository.findByProductIdAndIsDeleted(
+            req.getProductId(), false);
 
         CartItem item;
         if (cartItem.isPresent()) {
