@@ -9,10 +9,10 @@ import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartItemRes;
 import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartItemReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
-import com.ssamal.starbucks_clone_api.v1.product.model.repository.CategoryRepository;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.ProductRepository;
 import com.ssamal.starbucks_clone_api.v1.user.entity.ServiceUser;
 import com.ssamal.starbucks_clone_api.v1.user.entity.repository.ServiceUserRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,26 +28,36 @@ public class CartItemServiceImpl implements CartItemService {
     private final CartItemRepository cartItemRepository;
     private final ServiceUserRepository userRepository;
     private final ProductRepository productRepository;
-    private final CategoryRepository categoryRepository;
 
     @Override
     public Long createCartItem(CartItemReq req) {
+
+        if (req.getCount() < 1) {
+            throw new CustomException(CustomError.INVALID_CART_REQUEST);
+        }
 
         ServiceUser user = userRepository.findById(req.getUserId())
             .orElseThrow(() -> new CustomException(CustomError.USER_NOT_FOUND));
         Product product = productRepository.findById(req.getProductId())
             .orElseThrow(() -> new CustomException(CustomError.PRODUCT_NOT_FOUND));
 
-        CartItem cartItem = CartItem.builder()
-            .user(user)
-            .product(product)
-            .count(req.getCount())
-            .isDeleted(false)
-            .build();
+        Optional<CartItem> cartItem = cartItemRepository.findByProductIdAndIsDeleted(req.getProductId(), false);
 
-        cartItemRepository.save(cartItem);
+        CartItem item;
+        if (cartItem.isPresent()) {
+            item = cartItem.get();
+            item.updateCountValue(item.getCount() + req.getCount());
+        } else {
+            item = CartItem.builder()
+                .user(user)
+                .product(product)
+                .count(req.getCount())
+                .isDeleted(false)
+                .build();
 
-        return cartItem.getId();
+        }
+        cartItemRepository.save(item);
+        return item.getId();
     }
 
     @Override
@@ -69,6 +79,10 @@ public class CartItemServiceImpl implements CartItemService {
         CartItem cartItem = cartItemRepository.findById(cartId)
             .orElseThrow(() -> new CustomException(CustomError.CART_ITEM_NOT_FOUND));
 
+        if (cartItem.getCount() + count < 0) {
+            throw new CustomException(CustomError.INVALID_CART_REQUEST);
+        }
+
         cartItem.updateCountValue(count);
         cartItemRepository.save(cartItem);
 
@@ -77,11 +91,13 @@ public class CartItemServiceImpl implements CartItemService {
 
     @Override
     public Long deleteCartItem(Long cartId) {
-        CartItem cartItem = cartItemRepository.findById(cartId)
+
+        CartItem cartItem = cartItemRepository.findByIdAndIsDeleted(cartId, false)
             .orElseThrow(() -> new CustomException(CustomError.CART_ITEM_NOT_FOUND));
 
         cartItem.setDeleted(true);
         cartItemRepository.save(cartItem);
+
         return cartId;
     }
 }

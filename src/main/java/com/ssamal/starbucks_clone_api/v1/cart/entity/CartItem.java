@@ -1,5 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.cart.entity;
 
+import com.ssamal.starbucks_clone_api.global.entity.BaseTimeEntity;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
 import com.ssamal.starbucks_clone_api.v1.user.entity.ServiceUser;
 import jakarta.persistence.*;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Builder
-public class CartItem {
+public class CartItem extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -26,7 +27,7 @@ public class CartItem {
     private ServiceUser user;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false, unique = true)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     @Column(name = "count", nullable = false)
