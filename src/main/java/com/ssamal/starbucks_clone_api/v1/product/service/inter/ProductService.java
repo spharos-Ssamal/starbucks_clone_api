@@ -9,10 +9,13 @@ import java.util.List;
 import java.util.Map;
 
 public interface ProductService {
+
     ProductRes.GetProductRes getProduct(Long productId);
+
     List<Info> getProductsByEvent(Long eventId);
+
     ProductRes.SearchProductRes getProducts(ProductReq.SearchProductsReq req, Pageable pageable);
-    Map<String,List<ProductRes.RecommendProductRes>> getProductsByActiveRecommand();
-    List<Long> getActiveRecommendId();
+
+    Map<String, List<ProductRes.RecommendProductRes>> getProductsByActiveRecommand();
 
 }

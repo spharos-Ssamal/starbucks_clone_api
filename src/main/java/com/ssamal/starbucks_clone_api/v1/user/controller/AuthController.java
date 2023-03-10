@@ -8,6 +8,8 @@ import com.ssamal.starbucks_clone_api.global.utils.JwtUtils;
 import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserReq;
 import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserRes;
 import com.ssamal.starbucks_clone_api.v1.user.service.inter.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpHeaders.SET_COOKIE;
 
+@Tag(name = "인증", description = "인증 API 입니다. (JWT)")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth/v1")
@@ -25,6 +28,7 @@ public class AuthController {
     private final AuthService authService;
     private final JwtUtils jwtUtils;
 
+    @Operation(summary = "로그인", description = "로그인 API 입니다.")
     @PostMapping("/login")
     public ResponseEntity<BaseRes<UserRes.LoginRes>> loginUser(@RequestBody UserReq.LoginReq req) {
         UserRes.LoginRes res = authService.loginUser(req);
@@ -34,6 +38,7 @@ public class AuthController {
             .body(BaseRes.success(res));
     }
 
+    @Operation(summary = "JWT 토큰 재발급", description = "JWT 토큰 재발급 API 입니다. 현재는 SET-COOKIE 를 통해 리프레쉬 토큰을 관리합니다.")
     @PostMapping("/reissue")
     public ResponseEntity<BaseRes<UserRes.TokenInfo>> reissueToken(
         @CookieValue(value = JwtUtils.REFRESH_TOKEN_NAME, defaultValue = "") String refreshToken) {
@@ -45,6 +50,7 @@ public class AuthController {
         }
     }
 
+    @Operation(summary = "로그아웃", description = "로그아웃 API 입니다.")
     @GetMapping("/logout")
     public ResponseEntity<BaseRes<UserRes.Logout>> logoutUser(
         @CookieValue(value = JwtUtils.REFRESH_TOKEN_NAME, defaultValue = "") String refreshToken,

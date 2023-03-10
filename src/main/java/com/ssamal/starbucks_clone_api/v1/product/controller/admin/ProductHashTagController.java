@@ -4,6 +4,8 @@ import com.ssamal.starbucks_clone_api.global.common.BaseRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminRes;
 import com.ssamal.starbucks_clone_api.v1.product.service.inter.ProductHashTagService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Tag(name = "[어드민] 해시태그 관리", description = "해시태그 데이터 관리 API 입니다.")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/admin/hashtag")
@@ -20,6 +23,7 @@ public class ProductHashTagController {
 
     private final ProductHashTagService adminService;
 
+    @Operation(summary = "해시 태그 추가", description = "해시 태그 추가 API 입니다.")
     @PostMapping("/hashTag/new")
     public ResponseEntity<BaseRes<List<ProdAdminRes.AddMenuRes>>> newHashTag(
         @RequestBody List<ProdAdminReq.AddHashTag> req) {
@@ -27,6 +31,7 @@ public class ProductHashTagController {
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
+    @Operation(summary = "상품 해시태그 등록", description = "상품 해시태그 등록 API 입니다.")
     @PostMapping("/hashTag/addProduct")
     public ResponseEntity<BaseRes<ProdAdminRes.AddProductToMenuRes>> addProductToHashTag(
         @RequestBody ProdAdminReq.AddProductTo req) {
