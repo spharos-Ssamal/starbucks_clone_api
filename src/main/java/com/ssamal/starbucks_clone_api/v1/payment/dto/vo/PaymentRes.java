@@ -1,9 +1,12 @@
 package com.ssamal.starbucks_clone_api.v1.payment.dto.vo;
 
+import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
 import com.ssamal.starbucks_clone_api.v1.payment.dto.PaymentDTO.ProductInfo;
 import com.ssamal.starbucks_clone_api.v1.payment.dto.PaymentDTO.UserHistory;
+import com.ssamal.starbucks_clone_api.v1.payment.model.PurchaseHistory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -41,7 +44,7 @@ public class PaymentRes {
         private Integer complete;
     }
 
-    @Getter
+    @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
@@ -56,6 +59,12 @@ public class PaymentRes {
         private Integer discountPrice;
         private Integer shippingPrice;
         private boolean isCanceled;
+
+        public static HistoryDetailInfo of(PurchaseHistory history, List<ProductInfo> productInfoList) {
+            HistoryDetailInfo result = ModelMapperUtils.getModelMapper().map(history, HistoryDetailInfo.class);
+            result.setProductInfoList(productInfoList);
+            return result;
+        }
 
     }
 }
