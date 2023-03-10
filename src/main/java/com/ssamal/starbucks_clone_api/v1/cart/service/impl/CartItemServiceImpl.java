@@ -80,7 +80,7 @@ public class CartItemServiceImpl implements CartItemService {
         CartItem cartItem = cartItemRepository.findById(cartId)
             .orElseThrow(() -> new CustomException(CustomError.CART_ITEM_NOT_FOUND));
 
-        if (cartItem.getCount() + count < 0) {
+        if (count <= 0) {
             throw new CustomException(CustomError.INVALID_CART_REQUEST);
         }
 
