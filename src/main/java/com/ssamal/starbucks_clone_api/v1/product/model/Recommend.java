@@ -5,16 +5,17 @@ import com.ssamal.starbucks_clone_api.v1.product.enums.EventStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "recommend")
-@Getter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class Recommend extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class CartItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -32,10 +33,10 @@ public class CartItem {
     @Column(name = "count", nullable = false)
     private int count;
 
-    @Column(name = "is_deleted")
-    private boolean isDeleted = false;
+    @Column(name = "is_deleted", columnDefinition = "bit(1) default 0")
+    private boolean isDeleted;
 
-    public void updateCountValue(int count){
+    public void updateCountValue(int count) {
         this.count = count;
     }
 

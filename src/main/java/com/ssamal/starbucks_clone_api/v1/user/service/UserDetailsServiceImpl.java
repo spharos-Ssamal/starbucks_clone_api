@@ -14,17 +14,18 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
+
     private final ServiceUserRepository serviceUserRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         ServiceUser user = serviceUserRepository.findByUserEmail(username)
-                .orElseThrow(() -> new CustomException(CustomError.USER_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(CustomError.USER_NOT_FOUND));
 
         return User.builder()
-                .username(user.getUsername())
-                .password(user.getUserPassword())
-                .roles(user.getRole().toString())
-                .build();
+            .username(user.getUsername())
+            .password(user.getUserPassword())
+            .roles(user.getRole().toString())
+            .build();
     }
 }
