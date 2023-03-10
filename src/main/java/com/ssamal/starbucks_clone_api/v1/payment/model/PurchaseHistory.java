@@ -21,7 +21,7 @@ import lombok.*;
 public class PurchaseHistory extends BaseTimeEntity {
     @Id
     @Column(name = "id")
-    private String id = StringUtils.generatePurchaseCode();
+    private String historyId = StringUtils.generatePurchaseCode();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

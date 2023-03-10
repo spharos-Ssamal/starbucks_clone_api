@@ -9,7 +9,6 @@ import com.ssamal.starbucks_clone_api.v1.payment.dto.vo.PaymentRes.DeliveryStatu
 import com.ssamal.starbucks_clone_api.v1.payment.dto.vo.PaymentRes.HistoryDetailInfo;
 import com.ssamal.starbucks_clone_api.v1.payment.dto.vo.PaymentRes.PurchaseRes;
 import com.ssamal.starbucks_clone_api.v1.payment.dto.vo.PaymentRes.UserHistoryRes;
-import com.ssamal.starbucks_clone_api.v1.payment.enums.ShippingStatus;
 import com.ssamal.starbucks_clone_api.v1.payment.model.PurchaseHistory;
 import com.ssamal.starbucks_clone_api.v1.payment.model.PurchaseProducts;
 import com.ssamal.starbucks_clone_api.v1.payment.model.repository.PurchaseHistoryRepository;
@@ -48,8 +47,8 @@ public class PaymentServiceImpl implements PaymentService {
 
         List<UserHistory> response = result.stream().map(i -> {
             List<PurchaseProducts> purchaseProducts = purchaseProductsRepository.findAllByPurchaseHistoryId(
-                i.getId());
-            return UserHistory.of(i.getId(), i.getRegTime().toLocalDate(), purchaseProducts);
+                i.getHistoryId());
+            return UserHistory.of(i.getHistoryId(), i.getRegTime().toLocalDate(), purchaseProducts);
         }).collect(Collectors.toList());
 
         return new UserHistoryRes(response);
@@ -72,18 +71,8 @@ public class PaymentServiceImpl implements PaymentService {
 
         List<PurchaseProducts> purchaseProducts = purchaseProductsRepository.findAllByPurchaseHistoryId(
             historyId);
-        return HistoryDetailInfo.builder()
-            .purchaseHistoryId(history.getId())
-            .productInfoList(
-                purchaseProducts.stream().map(t -> ProductInfo.of(t.getProduct())).toList())
-            .address(history.getShippingAddress().getBaseAddress())
-            .message(history.getMessage())
-            .date(history.getRegTime().toLocalDate())
-            .canceledDate(history.getUpdateTime().toLocalDate())
-            .price(history.getPurchasePrice())
-            .discountPrice(history.getDiscountPrice())
-            .isCanceled(history.getIsCanceled())
-            .build();
+        return HistoryDetailInfo.of(history,
+            purchaseProducts.stream().map(t -> ProductInfo.of(t.getProduct())).toList());
     }
 
     @Override
@@ -117,6 +106,6 @@ public class PaymentServiceImpl implements PaymentService {
         });
 
         history.calculatePriceConfirm(totalPrice, 0, totalPrice);
-        return new PurchaseRes(history.getId());
+        return new PurchaseRes(history.getHistoryId());
     }
 }
