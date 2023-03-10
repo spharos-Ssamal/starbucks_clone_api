@@ -8,12 +8,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name ="product_event")
+@Table(name = "product_event")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class ProductEvent extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -8,12 +8,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name ="product_recommend")
+@Table(name = "product_recommend")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class ProductRecommend extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

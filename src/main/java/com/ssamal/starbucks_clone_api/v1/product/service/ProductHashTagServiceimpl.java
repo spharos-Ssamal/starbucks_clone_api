@@ -20,6 +20,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ProductHashTagServiceimpl implements ProductHashTagService {
+
     private final ProductRepository productRepository;
     private final HashTagRepository hashTagRepository;
     private final ProductHashTagRepository productHashTagRepository;
@@ -34,8 +35,8 @@ public class ProductHashTagServiceimpl implements ProductHashTagService {
                 throw new CustomException(CustomError.DUPLICATED_HASHTAG_NAME);
             } else {
                 HashTag newHashTag = HashTag.builder()
-                        .name(request.getName())
-                        .build();
+                    .name(request.getName())
+                    .build();
                 hashTagRepository.save(newHashTag);
                 response.add(new ProdAdminRes.AddMenuRes(newHashTag.getId()));
             }
@@ -48,13 +49,13 @@ public class ProductHashTagServiceimpl implements ProductHashTagService {
     public ProdAdminRes.AddProductToMenuRes addProductToHashTag(ProdAdminReq.AddProductTo req) {
 
         Product product = productRepository.findById(req.getProductId())
-                .orElseThrow(() -> new CustomException(CustomError.PRODUCT_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(CustomError.PRODUCT_NOT_FOUND));
         HashTag hashTag = hashTagRepository.findById(req.getMenuId())
-                .orElseThrow(() -> new CustomException(CustomError.HASH_TAG_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(CustomError.HASH_TAG_NOT_FOUND));
         ProductHashTag productHashTag = ProductHashTag.builder()
-                .product(product)
-                .hashTag(hashTag)
-                .build();
+            .product(product)
+            .hashTag(hashTag)
+            .build();
         productHashTagRepository.save(productHashTag);
         return new ProdAdminRes.AddProductToMenuRes(product.getId(), hashTag.getId());
     }

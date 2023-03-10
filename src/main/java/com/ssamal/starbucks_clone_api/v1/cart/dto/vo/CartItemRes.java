@@ -11,6 +11,6 @@ import lombok.*;
 public class CartItemRes {
 
     private Long id;
-    private ProductDTO product;
+    private ProductDTO.DTO product;
     private int count;
 }

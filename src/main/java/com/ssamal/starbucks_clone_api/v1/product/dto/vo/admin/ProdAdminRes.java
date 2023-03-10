@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 public class ProdAdminRes {
-    private ProdAdminRes () {
+
+    private ProdAdminRes() {
         throw new IllegalStateException("Utility class");
     }
 
@@ -15,6 +16,7 @@ public class ProdAdminRes {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class AddProductRes {
+
         private Long productId;
     }
 
@@ -23,6 +25,7 @@ public class ProdAdminRes {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class DeleteProductRes {
+
         private Long productId;
         private String deleteAt;
     }
@@ -32,6 +35,7 @@ public class ProdAdminRes {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class AddMenuRes {
+
         private Long menuId;
     }
 
@@ -40,6 +44,7 @@ public class ProdAdminRes {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class AddProductToMenuRes {
+
         private Long productId;
         private Long menuId;
     }

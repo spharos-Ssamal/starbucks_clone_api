@@ -69,7 +69,7 @@ public class CartItemServiceImpl implements CartItemService {
 
         return cartItemList.stream().map(t -> CartItemRes.builder()
             .id(t.getId())
-            .product(ProductDTO.of(t.getProduct()))
+            .product(ProductDTO.DTO.of(t.getProduct()))
             .count(t.getCount())
             .build()).toList();
     }

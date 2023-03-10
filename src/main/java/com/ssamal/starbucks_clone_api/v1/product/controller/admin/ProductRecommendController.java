@@ -17,16 +17,19 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/admin/recommend")
 public class ProductRecommendController {
+
     private final ProductRecommendService adminService;
 
     @PostMapping("/recommend/new")
-    public ResponseEntity<BaseRes<List<ProdAdminRes.AddMenuRes>>> addRecommend(@RequestBody List<ProdAdminReq.AddRecommend> req) {
+    public ResponseEntity<BaseRes<List<ProdAdminRes.AddMenuRes>>> addRecommend(
+        @RequestBody List<ProdAdminReq.AddRecommend> req) {
         List<ProdAdminRes.AddMenuRes> result = adminService.addRecommend(req);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
     @PostMapping("/recommend/addProduct")
-    public ResponseEntity<BaseRes<ProdAdminRes.AddProductToMenuRes>> addProductToRecommend(@RequestBody ProdAdminReq.AddProductTo req) {
+    public ResponseEntity<BaseRes<ProdAdminRes.AddProductToMenuRes>> addProductToRecommend(
+        @RequestBody ProdAdminReq.AddProductTo req) {
         ProdAdminRes.AddProductToMenuRes result = adminService.addProductToRecommend(req);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }

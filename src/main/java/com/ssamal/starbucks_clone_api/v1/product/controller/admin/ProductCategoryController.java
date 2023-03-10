@@ -17,15 +17,19 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/admin/category")
 public class ProductCategoryController {
+
     private final ProductCategoryService adminService;
+
     @PostMapping("/category/new")
-    public ResponseEntity<BaseRes<List<ProdAdminRes.AddMenuRes>>> addCategory(@RequestBody List<ProdAdminReq.AddCategory> req) {
+    public ResponseEntity<BaseRes<List<ProdAdminRes.AddMenuRes>>> addCategory(
+        @RequestBody List<ProdAdminReq.AddCategory> req) {
         List<ProdAdminRes.AddMenuRes> result = adminService.addCategory(req);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
     @PostMapping("/category/addProduct")
-    public ResponseEntity<BaseRes<ProdAdminRes.AddProductToMenuRes>> addProductToCategory(@RequestBody ProdAdminReq.AddProductTo req) {
+    public ResponseEntity<BaseRes<ProdAdminRes.AddProductToMenuRes>> addProductToCategory(
+        @RequestBody ProdAdminReq.AddProductTo req) {
         ProdAdminRes.AddProductToMenuRes result = adminService.addProductToCategory(req);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
