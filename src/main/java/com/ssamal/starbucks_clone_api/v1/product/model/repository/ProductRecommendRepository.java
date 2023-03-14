@@ -9,8 +9,10 @@ import java.util.List;
 
 @Repository
 public interface ProductRecommendRepository extends JpaRepository<ProductRecommend, Long> {
+
     Long deleteAllByProductId(Long productId);
-    List<ProductRecommend> findAllByRecommendId(Long recommandId);
+
+    List<ProductRecommend> findAllByRecommendId(Long recommendId);
 
     List<ProductRecommend> findAllByRecommendStatus(EventStatus status);
 }

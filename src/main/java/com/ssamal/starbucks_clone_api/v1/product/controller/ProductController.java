@@ -1,7 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.product.controller;
 
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
-import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.service.inter.ProductService;
@@ -48,18 +47,17 @@ public class ProductController {
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
-    @Operation(summary = "이벤트 상품 조회", description = "단건 이벤트 상품 조회 API 입니다.")
+    @Operation(summary = "이벤트 상품 조회", description = "이벤트 상품 조회 API 입니다.")
     @GetMapping("/read/event")
-    public ResponseEntity<BaseRes<List<ProductDTO.Info>>> getProductsByEvent(
-        @RequestParam(name = "eventId", defaultValue = "") Long eventId) {
-        List<ProductDTO.Info> result = productService.getProductsByEvent(eventId);
+    public ResponseEntity<BaseRes<Map<String, List<ProductRes.EventProductRes>>>> getProductsByEvent() {
+        Map<String, List<ProductRes.EventProductRes>> result = productService.getProductsByActiveEvents();
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
     @Operation(summary = "추천 상품 조회", description = "추천 상품 조회 API 입니다.")
     @GetMapping("/recommend")
     public ResponseEntity<BaseRes<Map<String, List<ProductRes.RecommendProductRes>>>> getProductsByRecommend() {
-        Map<String, List<ProductRes.RecommendProductRes>> result = productService.getProductsByActiveRecommand();
+        Map<String, List<ProductRes.RecommendProductRes>> result = productService.getProductsByActiveRecommend();
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
