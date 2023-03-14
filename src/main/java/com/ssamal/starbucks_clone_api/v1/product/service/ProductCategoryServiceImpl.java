@@ -1,6 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.product.service;
 
-import com.ssamal.starbucks_clone_api.global.enums.CustomError;
+import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminRes;
@@ -31,7 +31,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 
         req.forEach(request -> {
             if (categoryRepository.existsByName(request.getName())) {
-                throw new CustomException(CustomError.DUPLICATED_CATEGORY_NAME);
+                throw new CustomException(ResCode.DUPLICATED_CATEGORY_NAME);
             } else {
                 Category newCategory = Category.builder()
                     .name(request.getName())
@@ -48,9 +48,9 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     @Override
     public ProdAdminRes.AddProductToMenuRes addProductToCategory(ProdAdminReq.AddProductTo req) {
         Product product = productRepository.findById(req.getProductId())
-            .orElseThrow(() -> new CustomException(CustomError.PRODUCT_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
         Category category = categoryRepository.findById(req.getMenuId())
-            .orElseThrow(() -> new CustomException(CustomError.CATEGORY_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.CATEGORY_NOT_FOUND));
         ProductCategory productCategory = ProductCategory.builder()
             .product(product)
             .category(category)

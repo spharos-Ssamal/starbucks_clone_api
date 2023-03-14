@@ -2,7 +2,7 @@ package com.ssamal.starbucks_clone_api.global.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
-import com.ssamal.starbucks_clone_api.global.enums.CustomError;
+import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     private final BaseRes<String> unAuthorizedExceptionResponse =
-            BaseRes.fail(CustomError.UNAUTHORIZED);
+            BaseRes.fail(ResCode.UNAUTHORIZED);
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);

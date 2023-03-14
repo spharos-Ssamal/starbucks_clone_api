@@ -1,6 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.payment.service.impl;
 
-import com.ssamal.starbucks_clone_api.global.enums.CustomError;
+import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.payment.dto.PaymentDTO.ProductInfo;
 import com.ssamal.starbucks_clone_api.v1.payment.dto.PaymentDTO.UserHistory;
@@ -49,7 +49,7 @@ public class PaymentServiceImpl implements PaymentService {
             List<PurchaseProducts> purchaseProducts = purchaseProductsRepository.findAllByPurchaseHistoryHistoryId(
                 i.getHistoryId());
             return UserHistory.of(i.getHistoryId(), i.getRegTime().toLocalDate(), purchaseProducts);
-        }).collect(Collectors.toList());
+        }).toList();
 
         return new UserHistoryRes(response);
     }
@@ -67,7 +67,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public HistoryDetailInfo getUserPurchaseInfo(String historyId) {
         PurchaseHistory history = purchaseHistoryRepository.findById(historyId)
-            .orElseThrow(() -> new CustomException(CustomError.PURCHASE_HISTORY_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.PURCHASE_HISTORY_NOT_FOUND));
 
         List<PurchaseProducts> purchaseProducts = purchaseProductsRepository.findAllByPurchaseHistoryHistoryId(
             historyId);
@@ -80,10 +80,10 @@ public class PaymentServiceImpl implements PaymentService {
     public PurchaseRes confirmRequest(PurchasedInfo req) {
 
         ServiceUser user = serviceUserRepository.findById(req.getUserId())
-            .orElseThrow(() -> new CustomException(CustomError.USER_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.USER_NOT_FOUND));
 
         ShippingAddress address = shippingAddressRepository.findById(req.getAddressId())
-            .orElseThrow(() -> new CustomException(CustomError.ADDRESS_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.ADDRESS_NOT_FOUND));
 
         PurchaseHistory history = PurchaseHistory.of(user, address, req);
         purchaseHistoryRepository.save(history);
@@ -92,7 +92,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         req.getPurchasedList().forEach(element -> {
             Product product = productRepository.findById(element.getProductId())
-                .orElseThrow(() -> new CustomException(CustomError.PRODUCT_NOT_FOUND));
+                .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
 
             totalPrice.addAndGet(product.getPrice() * element.getCount());
             PurchaseProducts purchaseProducts = PurchaseProducts
