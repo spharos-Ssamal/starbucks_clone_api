@@ -5,8 +5,6 @@ import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO.ProductInfo;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductRes;
-import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductRes.EventProductRes;
-import com.ssamal.starbucks_clone_api.v1.product.enums.EventStatus;
 import com.ssamal.starbucks_clone_api.v1.product.model.*;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.*;
 import com.ssamal.starbucks_clone_api.v1.product.service.inter.ProductService;
@@ -17,8 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -35,13 +31,6 @@ public class ProductServiceImpl implements ProductService {
         Product result = productRepository.findById(productId)
             .orElseThrow(() -> new CustomException(CustomError.PRODUCT_NOT_FOUND));
         return new ProductRes.GetProductRes(ProductInfo.of(result));
-    }
-
-    @Override
-    public List<ProductInfo> getProductsByEvent(Long eventId) {
-        List<ProductEvent> result = productEventRepository.findAllByEventId(eventId);
-        List<Product> products = result.stream().map(ProductEvent::getProduct).toList();
-        return ProductInfo.of(products);
     }
 
     /*
@@ -81,20 +70,4 @@ public class ProductServiceImpl implements ProductService {
             pageResult.getTotalPages(), pageResult.getTotalElements());
     }
 
-    @Override
-    public Map<String, List<ProductRes.RecommendProductRes>> getProductsByActiveRecommend() {
-        List<ProductRecommend> result = productRecommendRepository.findAllByRecommendStatus(
-            EventStatus.ACTIVE);
-        return result.stream().map(ProductRes.RecommendProductRes::of).toList()
-            .stream()
-            .collect(Collectors.groupingBy(ProductRes.RecommendProductRes::getCategoryName));
-    }
-
-    @Override
-    public Map<String, List<EventProductRes>> getProductsByActiveEvents() {
-        List<ProductEvent> result = productEventRepository.findAllByEventStatus(EventStatus.ACTIVE);
-        return result.stream().map(ProductRes.EventProductRes::of).toList()
-            .stream()
-            .collect(Collectors.groupingBy(ProductRes.EventProductRes::getEventName));
-    }
 }
