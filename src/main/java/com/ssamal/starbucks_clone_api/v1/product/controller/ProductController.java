@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Tag(name = "상품", description = "상품 조회 및 검색 API 입니다.")
 @RestController
@@ -44,20 +43,6 @@ public class ProductController {
     public ResponseEntity<BaseRes<ProductRes.GetProductRes>> getProductById(
         @RequestParam(name = "productId", defaultValue = "") Long productId) {
         ProductRes.GetProductRes result = productService.getProduct(productId);
-        return ResponseEntity.ok().body(BaseRes.success(result));
-    }
-
-    @Operation(summary = "이벤트 상품 조회", description = "이벤트 상품 조회 API 입니다.")
-    @GetMapping("/read/event")
-    public ResponseEntity<BaseRes<Map<String, List<ProductRes.EventProductRes>>>> getProductsByEvent() {
-        Map<String, List<ProductRes.EventProductRes>> result = productService.getProductsByActiveEvents();
-        return ResponseEntity.ok().body(BaseRes.success(result));
-    }
-
-    @Operation(summary = "추천 상품 조회", description = "추천 상품 조회 API 입니다.")
-    @GetMapping("/recommend")
-    public ResponseEntity<BaseRes<Map<String, List<ProductRes.RecommendProductRes>>>> getProductsByRecommend() {
-        Map<String, List<ProductRes.RecommendProductRes>> result = productService.getProductsByActiveRecommend();
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
