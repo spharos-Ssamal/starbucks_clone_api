@@ -2,10 +2,10 @@ package com.ssamal.starbucks_clone_api.v1.product.service;
 
 import com.ssamal.starbucks_clone_api.global.enums.CustomError;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
-import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
-import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO.Info;
+import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO.ProductInfo;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductRes;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductRes.EventProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.enums.EventStatus;
 import com.ssamal.starbucks_clone_api.v1.product.model.*;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.*;
@@ -28,21 +28,20 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductEventRepository productEventRepository;
     private final ProductCategoryRepository productCategoryRepository;
-    private final ProductRecommendRepository productRecommandRepository;
-    private final RecommendRepository recommendRepository;
+    private final ProductRecommendRepository productRecommendRepository;
 
     @Override
     public ProductRes.GetProductRes getProduct(Long productId) {
         Product result = productRepository.findById(productId)
             .orElseThrow(() -> new CustomException(CustomError.PRODUCT_NOT_FOUND));
-        return new ProductRes.GetProductRes(ProductDTO.Info.of(result));
+        return new ProductRes.GetProductRes(ProductInfo.of(result));
     }
 
     @Override
-    public List<Info> getProductsByEvent(Long eventId) {
+    public List<ProductInfo> getProductsByEvent(Long eventId) {
         List<ProductEvent> result = productEventRepository.findAllByEventId(eventId);
         List<Product> products = result.stream().map(ProductEvent::getProduct).toList();
-        return ProductDTO.Info.of(products);
+        return ProductInfo.of(products);
     }
 
     /*
@@ -65,7 +64,7 @@ public class ProductServiceImpl implements ProductService {
                 .stream().map(ProductCategory::getProduct).toList();
         }
 
-        List<ProductDTO.Info> result = ProductDTO.Info.of(data.stream()
+        List<ProductInfo> result = ProductInfo.of(data.stream()
             .filter(element -> req.getSize().isEmpty() || req.getSize()
                 .contains(element.getSize().toString()))
             .filter(element -> req.getSeasons().isEmpty() || req.getSeasons()
@@ -75,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
         int start = (int) pageable.getOffset();
         int end = (Math.min(start + pageable.getPageSize(), result.size()));
 
-        Page<ProductDTO.Info> pageResult = new PageImpl<>(result.subList(start, end), pageable,
+        Page<ProductInfo> pageResult = new PageImpl<>(result.subList(start, end), pageable,
             result.size());
 
         return new ProductRes.SearchProductRes(pageResult.getContent(), pageResult.isLast(),
@@ -83,11 +82,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Map<String, List<ProductRes.RecommendProductRes>> getProductsByActiveRecommand() {
-        List<ProductRecommend> result = productRecommandRepository.findAllByRecommendStatus(
+    public Map<String, List<ProductRes.RecommendProductRes>> getProductsByActiveRecommend() {
+        List<ProductRecommend> result = productRecommendRepository.findAllByRecommendStatus(
             EventStatus.ACTIVE);
         return result.stream().map(ProductRes.RecommendProductRes::of).toList()
             .stream()
             .collect(Collectors.groupingBy(ProductRes.RecommendProductRes::getCategoryName));
+    }
+
+    @Override
+    public Map<String, List<EventProductRes>> getProductsByActiveEvents() {
+        List<ProductEvent> result = productEventRepository.findAllByEventStatus(EventStatus.ACTIVE);
+        return result.stream().map(ProductRes.EventProductRes::of).toList()
+            .stream()
+            .collect(Collectors.groupingBy(ProductRes.EventProductRes::getEventName));
     }
 }

@@ -38,19 +38,19 @@ public class ProductDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Info {
+    public static class ProductInfo {
         private String name;
         private Integer price;
         private String description;
         private String thumbnail;
         private Size size;
         private Season season;
-        public static Info of(Product entity) {
-            return ModelMapperUtils.getModelMapper().map(entity, Info.class);
+        public static ProductInfo of(Product entity) {
+            return ModelMapperUtils.getModelMapper().map(entity, ProductInfo.class);
         }
 
-        public static List<Info> of(List<Product> entities) {
-            return entities.stream().map(Info::of).toList();
+        public static List<ProductInfo> of(List<Product> entities) {
+            return entities.stream().map(ProductInfo::of).toList();
         }
     }
 
