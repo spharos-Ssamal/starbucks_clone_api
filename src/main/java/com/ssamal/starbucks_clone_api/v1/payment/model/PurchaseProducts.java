@@ -26,4 +26,12 @@ public class PurchaseProducts extends BaseImmutableEntity {
 
     @Column(name = "count")
     private Integer count;
+
+    public static PurchaseProducts of (Product product, PurchaseHistory purchaseHistory, int count) {
+        return PurchaseProducts.builder()
+            .product(product)
+            .purchaseHistory(purchaseHistory)
+            .count(count)
+            .build();
+    }
 }
