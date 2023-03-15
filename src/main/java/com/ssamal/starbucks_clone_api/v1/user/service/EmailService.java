@@ -20,11 +20,21 @@ public class EmailService {
         String setForm = senderEmail;
         String toMail = email;
         String title = "회원가입 인증 이메일입니다.";
-        String content =
-                "가입을 환영합니다." +
-                        "<br><br>" +
-                        "인증 번호는 " + randNum + " 입니다.<br>" +
-                        "해당 인증번호를 인증번호 확인란에 기입 해 주세요.";
+        char [] numArr = String.valueOf(randNum).toCharArray();
+        String content = "";
+        content += "<div style=\"text-align: center; background-size: cover; position: absolute; background: rgba(0,0,0,0.4) url(https://biz.chosun.com/resizer/7r9-wfgzpD5iw4QCXFeVJ4J_X0M=/616x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosunbiz/LFQBPKR6D5BHVNQ2GDB534UUB4.jpg) no-repeat;\">";
+        content += "<img width=\"120\" height=\"120\" style=\"margin: 0 0 32px 0px;padding-right: 30px; padding-left: 30px;\" src=\"https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/800px-Starbucks_Corporation_Logo_2011.svg.png\" loading=\"lazy\">";
+        content += "<h1 style=\"color: white; font-size: 30px; padding-right: 30px; padding-left: 30px;\">가입을 환영 합니다.</h1>";
+        content += "<p style=\"color: white; font-size: 17px; padding-right: 30px; padding-left: 30px;\">해당 인증번호를 인증번호 확인란에 기입 해 주세요.</p>";
+        content += "<table style=\"border-collapse: collapse; background-color: #000000; height: 50px; table-layout: fixed; word-wrap: break-word; border-radius: 6px; margin: auto\">";
+        content += "<tbody><tr><td style=\"text-align: center; vertical-align: middle; font-size: 15px; border-radius: 50%;\">";
+        for (int i = 0; i < 6; i++) {
+          content += "<span style=\"background-color: white;\">"+numArr[i]+"</span>";
+        }
+        content += "</td></tr></tbody></table></br>";
+        content += "<a href=\"https://www.starbucks.co.kr\" style=\"text-decoration: none; color: white;\" rel=\"noreferrer noopener\" target=\"_blank\">ⓒ 2023 Starbucks Coffee Company. All Rights Reserved.</a></div>";
+
+
         mailSend(setForm, toMail, title, content);
 
         return Integer.toString(randNum);
