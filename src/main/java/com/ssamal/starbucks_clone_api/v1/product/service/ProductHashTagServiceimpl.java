@@ -1,6 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.product.service;
 
-import com.ssamal.starbucks_clone_api.global.enums.CustomError;
+import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminRes;
@@ -32,7 +32,7 @@ public class ProductHashTagServiceimpl implements ProductHashTagService {
         req.forEach(request -> {
 
             if (hashTagRepository.existsByName(request.getName())) {
-                throw new CustomException(CustomError.DUPLICATED_HASHTAG_NAME);
+                throw new CustomException(ResCode.DUPLICATED_HASHTAG_NAME);
             } else {
                 HashTag newHashTag = HashTag.builder()
                     .name(request.getName())
@@ -49,9 +49,9 @@ public class ProductHashTagServiceimpl implements ProductHashTagService {
     public ProdAdminRes.AddProductToMenuRes addProductToHashTag(ProdAdminReq.AddProductTo req) {
 
         Product product = productRepository.findById(req.getProductId())
-            .orElseThrow(() -> new CustomException(CustomError.PRODUCT_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
         HashTag hashTag = hashTagRepository.findById(req.getMenuId())
-            .orElseThrow(() -> new CustomException(CustomError.HASH_TAG_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.HASH_TAG_NOT_FOUND));
         ProductHashTag productHashTag = ProductHashTag.builder()
             .product(product)
             .hashTag(hashTag)

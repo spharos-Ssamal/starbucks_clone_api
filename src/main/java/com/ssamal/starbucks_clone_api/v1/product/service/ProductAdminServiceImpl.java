@@ -1,6 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.product.service;
 
-import com.ssamal.starbucks_clone_api.global.enums.CustomError;
+import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminRes;
@@ -29,13 +29,13 @@ public class ProductAdminServiceImpl implements ProductAdminService {
         req.forEach(request -> {
             Product newProduct = Product.of(request.getProductInfo());
             if (productRepository.existsByName(newProduct.getName())) {
-                throw new CustomException(CustomError.DUPLICATED_PRODUCT_NAME);
+                throw new CustomException(ResCode.DUPLICATED_PRODUCT_NAME);
             } else {
                 productRepository.save(newProduct);
 
                 request.getCategoryIds().forEach(categoryId -> {
                     Category category = categoryRepository.findById(categoryId)
-                            .orElseThrow(() -> new CustomException(CustomError.CATEGORY_NOT_FOUND));
+                            .orElseThrow(() -> new CustomException(ResCode.CATEGORY_NOT_FOUND));
 
                     ProductCategory productCategory = ProductCategory.of(newProduct, category);
                     productCategoryRepository.save(productCategory);
@@ -44,7 +44,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 
                 request.getHashTagNames().forEach(hashTagName -> {
                     HashTag hashTag = hashTagRepository.findByName(hashTagName)
-                            .orElseThrow(() -> new CustomException(CustomError.HASH_TAG_NOT_FOUND));
+                            .orElseThrow(() -> new CustomException(ResCode.HASH_TAG_NOT_FOUND));
 
                     ProductHashTag productHashTag = ProductHashTag.of(newProduct, hashTag);
                     productHashTagRepository.save(productHashTag);
@@ -67,7 +67,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
             productHashTagRepository.deleteAllByProductId(req.getProductId());
             productRepository.deleteById(req.getProductId());
         } else {
-            throw new CustomException(CustomError.PRODUCT_NOT_FOUND);
+            throw new CustomException(ResCode.PRODUCT_NOT_FOUND);
         }
 
         return new ProdAdminRes.DeleteProductRes(req.getProductId(), LocalDateTime.now().toString());

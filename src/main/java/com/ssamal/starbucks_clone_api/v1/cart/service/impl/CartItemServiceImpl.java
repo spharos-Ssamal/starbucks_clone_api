@@ -1,6 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.cart.service.impl;
 
-import com.ssamal.starbucks_clone_api.global.enums.CustomError;
+import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartItemReq;
 import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartItemRes;
@@ -33,13 +33,13 @@ public class CartItemServiceImpl implements CartItemService {
     public Long createCartItem(CartItemReq req) {
 
         if (req.getCount() < 1) {
-            throw new CustomException(CustomError.INVALID_CART_REQUEST);
+            throw new CustomException(ResCode.INVALID_CART_REQUEST);
         }
 
         ServiceUser user = userRepository.findById(req.getUserId())
-            .orElseThrow(() -> new CustomException(CustomError.USER_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.USER_NOT_FOUND));
         Product product = productRepository.findById(req.getProductId())
-            .orElseThrow(() -> new CustomException(CustomError.PRODUCT_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
 
         Optional<CartItem> cartItem = cartItemRepository.findByProductIdAndIsDeleted(
             req.getProductId(), false);
@@ -78,10 +78,10 @@ public class CartItemServiceImpl implements CartItemService {
     public Long updateCartItem(Long cartId, int count) {
 
         CartItem cartItem = cartItemRepository.findById(cartId)
-            .orElseThrow(() -> new CustomException(CustomError.CART_ITEM_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.CART_ITEM_NOT_FOUND));
 
         if (count <= 0) {
-            throw new CustomException(CustomError.INVALID_CART_REQUEST);
+            throw new CustomException(ResCode.INVALID_CART_REQUEST);
         }
 
         cartItem.updateCountValue(count);
@@ -94,7 +94,7 @@ public class CartItemServiceImpl implements CartItemService {
     public Long deleteCartItem(Long cartId) {
 
         CartItem cartItem = cartItemRepository.findByIdAndIsDeleted(cartId, false)
-            .orElseThrow(() -> new CustomException(CustomError.CART_ITEM_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.CART_ITEM_NOT_FOUND));
 
         cartItem.setDeleted(true);
         cartItemRepository.save(cartItem);

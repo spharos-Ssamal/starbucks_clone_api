@@ -1,6 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.user.service;
 
-import com.ssamal.starbucks_clone_api.global.enums.CustomError;
+import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.global.utils.RedisUtils;
 import com.ssamal.starbucks_clone_api.global.utils.InternalDataUtils;
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean confirmUsername(String username) {
         if (userRepository.existsByUsername(username)) {
-            throw new CustomException(CustomError.DUPLICATED_USER_NAME);
+            throw new CustomException(ResCode.DUPLICATED_USER_NAME);
         }
         return true;
     }
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean confirmUserNickname(String userNickname) {
         if (userRepository.existsByUserNickname(userNickname)) {
-            throw new CustomException(CustomError.DUPLICATED_USER_NICKNAME);
+            throw new CustomException(ResCode.DUPLICATED_USER_NICKNAME);
         }
         return true;
     }
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String sendVerificationEmail(String toEmail) {
         if (userRepository.existsByUserEmail(toEmail)) {
-            throw new CustomException(CustomError.DUPLICATED_USER_EMAIL);
+            throw new CustomException(ResCode.DUPLICATED_USER_EMAIL);
         } else {
             try {
                 int randNum = InternalDataUtils.makeRandNum();
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
                 redisUtils.setData(String.format(KEY_FORMAT, toEmail), Integer.toString(randNum));
                 return toEmail;
             } catch (Exception e) {
-                throw new CustomException(CustomError.INTERNAL_SERVER_ERROR);
+                throw new CustomException(ResCode.INTERNAL_SERVER_ERROR);
             }
         }
     }
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
             redisUtils.deleteData(String.format(KEY_FORMAT, req.getEmail()));
             return true;
         } else {
-            throw new CustomException(CustomError.INVALID_EMAIL_VERIFICATION_CODE);
+            throw new CustomException(ResCode.INVALID_EMAIL_VERIFICATION_CODE);
         }
     }
 
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
 
         ShippingAddress address = shippingAddressRepository.findByServiceUserIdAndIsDefaultAddress(
                 userId, true)
-            .orElseThrow(() -> new CustomException(CustomError.ADDRESS_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.ADDRESS_NOT_FOUND));
 
         return new UserRes.DefaultAddressRes(DTO.of(address));
     }
@@ -101,14 +101,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public Long addUserAddress(UserReq.AddUserAddressReq req) {
         ServiceUser user = userRepository.findById(req.getUserId())
-            .orElseThrow(() -> new CustomException(CustomError.USER_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.USER_NOT_FOUND));
 
         if (req.getAddressInfo().isDefaultAddress() && shippingAddressRepository
             .existsByServiceUserIdAndIsDefaultAddress(req.getUserId(), true)) {
 
             ShippingAddress defaultAddress = shippingAddressRepository
                 .findByServiceUserIdAndIsDefaultAddress(req.getUserId(), true)
-                .orElseThrow(() -> new CustomException(CustomError.ADDRESS_NOT_FOUND));
+                .orElseThrow(() -> new CustomException(ResCode.ADDRESS_NOT_FOUND));
 
             defaultAddress.setDefaultAddress(false);
             shippingAddressRepository.save(defaultAddress);
@@ -129,14 +129,14 @@ public class UserServiceImpl implements UserService {
 
             ShippingAddress defaultAddress = shippingAddressRepository
                 .findByServiceUserIdAndIsDefaultAddress(req.getUserId(), true)
-                .orElseThrow(() -> new CustomException(CustomError.ADDRESS_NOT_FOUND));
+                .orElseThrow(() -> new CustomException(ResCode.ADDRESS_NOT_FOUND));
 
             defaultAddress.setDefaultAddress(false);
             shippingAddressRepository.save(defaultAddress);
         }
 
         ShippingAddress address = shippingAddressRepository.findById(req.getAddressInfo().getId())
-            .orElseThrow(() -> new CustomException(CustomError.ADDRESS_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.ADDRESS_NOT_FOUND));
         address.editAddressInfo(req);
         shippingAddressRepository.save(address);
 
@@ -147,7 +147,7 @@ public class UserServiceImpl implements UserService {
     public Long deleteUserAddress(Long req) {
 
         ShippingAddress address = shippingAddressRepository.findById(req)
-            .orElseThrow(() -> new CustomException(CustomError.ADDRESS_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.ADDRESS_NOT_FOUND));
         address.setDeleted(true);
 
         shippingAddressRepository.save(address);

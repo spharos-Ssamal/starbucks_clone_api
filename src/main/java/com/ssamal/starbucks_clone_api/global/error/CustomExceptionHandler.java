@@ -1,7 +1,7 @@
 package com.ssamal.starbucks_clone_api.global.error;
 
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
-import com.ssamal.starbucks_clone_api.global.enums.CustomError;
+import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +22,6 @@ public class CustomExceptionHandler {
     protected ResponseEntity<BaseRes<String>> handleException(Exception e) {
         log.error(e.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(BaseRes.fail(CustomError.INTERNAL_SERVER_ERROR));
+                .body(BaseRes.fail(ResCode.INTERNAL_SERVER_ERROR));
     }
 }

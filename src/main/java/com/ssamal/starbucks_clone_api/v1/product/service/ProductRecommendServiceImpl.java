@@ -1,6 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.product.service;
 
-import com.ssamal.starbucks_clone_api.global.enums.CustomError;
+import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminRes;
@@ -33,7 +33,7 @@ public class ProductRecommendServiceImpl implements ProductRecommendService {
         req.forEach(request -> {
 
             if (recommendRepository.existsByName(request.getName())) {
-                throw new CustomException(CustomError.DUPLICATED_RECOMMEND_NAME);
+                throw new CustomException(ResCode.DUPLICATED_RECOMMEND_NAME);
             } else {
                 Recommend recommend = Recommend.builder()
                     .name(request.getName())
@@ -50,9 +50,9 @@ public class ProductRecommendServiceImpl implements ProductRecommendService {
     @Override
     public ProdAdminRes.AddProductToMenuRes addProductToRecommend(ProdAdminReq.AddProductTo req) {
         Product product = productRepository.findById(req.getProductId())
-            .orElseThrow(() -> new CustomException(CustomError.PRODUCT_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
         Recommend recommend = recommendRepository.findById(req.getMenuId())
-            .orElseThrow(() -> new CustomException(CustomError.EVENT_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.EVENT_NOT_FOUND));
         ProductRecommend productRecommend = ProductRecommend.builder()
             .product(product)
             .recommend(recommend)

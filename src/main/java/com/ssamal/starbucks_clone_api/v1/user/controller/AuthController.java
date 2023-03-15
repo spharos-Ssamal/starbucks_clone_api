@@ -1,7 +1,7 @@
 package com.ssamal.starbucks_clone_api.v1.user.controller;
 
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
-import com.ssamal.starbucks_clone_api.global.enums.CustomError;
+import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.global.utils.CookieUtils;
 import com.ssamal.starbucks_clone_api.global.utils.JwtUtils;
@@ -46,7 +46,7 @@ public class AuthController {
             UserRes.TokenInfo res = authService.reissueToken(refreshToken);
             return ResponseEntity.ok(BaseRes.success(res));
         } else {
-            throw new CustomException(CustomError.REFRESH_TOKEN_EXPIRED);
+            throw new CustomException(ResCode.REFRESH_TOKEN_EXPIRED);
         }
     }
 

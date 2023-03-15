@@ -2,10 +2,12 @@ package com.ssamal.starbucks_clone_api.global.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
-import com.ssamal.starbucks_clone_api.global.enums.CustomError;
+import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -15,16 +17,35 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
+@Slf4j
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
-    private final BaseRes<String> expiredExceptionResponse =
-            BaseRes.fail(CustomError.EXPIRED_TOKEN);
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+    public void commence(HttpServletRequest request, HttpServletResponse response,
+        AuthenticationException authException) throws IOException, ServletException {
+        String exception = request.getAttribute("exception").toString();
+        log.error("UNAUTHORIZED ERROR : " + exception);
+        if (!Objects.equals(exception, ResCode.TOKEN_INVALID_SIGNATURE.getErrorCode())) {
+            if (Objects.equals(exception, ResCode.TOKEN_MALFORMED.getErrorCode())) {
+                setErrorResponse(response, ResCode.TOKEN_MALFORMED);
+            } else if (Objects.equals(exception, ResCode.TOKEN_UNSUPPORTED.getErrorCode())) {
+                setErrorResponse(response, ResCode.TOKEN_UNSUPPORTED);
+            } else if (Objects.equals(exception, ResCode.TOKEN_ILLEGAL_ARGUMENT.getErrorCode())) {
+                setErrorResponse(response, ResCode.TOKEN_ILLEGAL_ARGUMENT);
+            } else if (Objects.equals(exception, ResCode.EXPIRED_TOKEN.getErrorCode())) {
+                setErrorResponse(response, ResCode.EXPIRED_TOKEN);
+            } else {
+                setErrorResponse(response, ResCode.UNAUTHORIZED);
+            }
+        } else {
+            setErrorResponse(response, ResCode.TOKEN_INVALID_SIGNATURE);
+        }
+    }
+
+    private void setErrorResponse(HttpServletResponse res, ResCode tokenStatus) throws IOException {
+        res.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        res.setStatus(HttpStatus.UNAUTHORIZED.value());
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.writeValue(response.getOutputStream(), expiredExceptionResponse);
-        response.getOutputStream().flush();
+        objectMapper.writeValue(res.getOutputStream(), BaseRes.fail(tokenStatus));
     }
 }

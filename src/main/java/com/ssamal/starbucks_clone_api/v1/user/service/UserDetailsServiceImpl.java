@@ -1,6 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.user.service;
 
-import com.ssamal.starbucks_clone_api.global.enums.CustomError;
+import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.user.entity.ServiceUser;
 import com.ssamal.starbucks_clone_api.v1.user.entity.repository.ServiceUserRepository;
@@ -20,7 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         ServiceUser user = serviceUserRepository.findByUserEmail(username)
-            .orElseThrow(() -> new CustomException(CustomError.USER_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.USER_NOT_FOUND));
 
         return User.builder()
             .username(user.getUsername())

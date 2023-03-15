@@ -1,6 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.product.service;
 
-import com.ssamal.starbucks_clone_api.global.enums.CustomError;
+import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO.ProductInfo;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductReq;
@@ -29,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductRes.GetProductRes getProduct(Long productId) {
         Product result = productRepository.findById(productId)
-            .orElseThrow(() -> new CustomException(CustomError.PRODUCT_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
         return new ProductRes.GetProductRes(ProductInfo.of(result));
     }
 
