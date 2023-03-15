@@ -27,7 +27,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
     public List<ProdAdminRes.AddProductRes> addProduct(List<ProdAdminReq.AddProductReq> req) {
         List<ProdAdminRes.AddProductRes> result = new ArrayList<>();
         req.forEach(request -> {
-            Product newProduct = Product.of(request.getProductInfo());
+            Product newProduct = Product.of(request.getProductDTO());
             if (productRepository.existsByName(newProduct.getName())) {
                 throw new CustomException(ResCode.DUPLICATED_PRODUCT_NAME);
             } else {

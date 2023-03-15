@@ -9,7 +9,8 @@ import lombok.*;
 
 @Entity
 @Table(name = "ship_address")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

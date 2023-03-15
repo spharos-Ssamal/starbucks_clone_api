@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.*;
+import lombok.Builder.Default;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.springframework.security.core.userdetails.User;
@@ -20,7 +21,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "user")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -62,6 +64,7 @@ public class ServiceUser extends BaseTimeEntity {
     private boolean isAgree;
 
     @OneToMany(mappedBy = "serviceUser")
+    @Default
     private List<ShippingAddress> addressList = new ArrayList<>();
 
 

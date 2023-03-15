@@ -2,7 +2,7 @@ package com.ssamal.starbucks_clone_api.v1.product.service;
 
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
-import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO.ProductInfo;
+import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.model.*;
@@ -30,7 +30,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductRes.GetProductRes getProduct(Long productId) {
         Product result = productRepository.findById(productId)
             .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
-        return new ProductRes.GetProductRes(ProductInfo.of(result));
+        return new ProductRes.GetProductRes(ProductDTO.of(result));
     }
 
     /*
@@ -53,7 +53,7 @@ public class ProductServiceImpl implements ProductService {
                 .stream().map(ProductCategory::getProduct).toList();
         }
 
-        List<ProductInfo> result = ProductInfo.of(data.stream()
+        List<ProductDTO> result = ProductDTO.of(data.stream()
             .filter(element -> req.getSize().isEmpty() || req.getSize()
                 .contains(element.getSize().toString()))
             .filter(element -> req.getSeasons().isEmpty() || req.getSeasons()
@@ -63,7 +63,7 @@ public class ProductServiceImpl implements ProductService {
         int start = (int) pageable.getOffset();
         int end = (Math.min(start + pageable.getPageSize(), result.size()));
 
-        Page<ProductInfo> pageResult = new PageImpl<>(result.subList(start, end), pageable,
+        Page<ProductDTO> pageResult = new PageImpl<>(result.subList(start, end), pageable,
             result.size());
 
         return new ProductRes.SearchProductRes(pageResult.getContent(), pageResult.isLast(),
