@@ -15,7 +15,7 @@ public class EmailService {
 
     private final JavaMailSenderImpl mailSender;
     @Value("${spring.mail.username}")
-    private final String senderEmail;
+    private String senderEmail;
 
     public String joinEmail(String email, int randNum) {
         String setForm = senderEmail;

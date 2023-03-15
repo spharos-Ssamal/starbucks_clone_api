@@ -7,28 +7,51 @@ import com.ssamal.starbucks_clone_api.v1.payment.enums.PaymentMethod;
 import com.ssamal.starbucks_clone_api.v1.payment.enums.ShippingStatus;
 import com.ssamal.starbucks_clone_api.v1.user.entity.ServiceUser;
 import com.ssamal.starbucks_clone_api.v1.user.entity.ShippingAddress;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Builder.Default;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.ToString.Exclude;
+import org.hibernate.Hibernate;
 
 @Entity
 @Table(name = "purchase_history")
 @Getter
-@ToString
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class PurchaseHistory extends BaseTimeEntity {
     @Id
     @Column(name = "id")
+    @Default
     private String historyId = StringUtils.generatePurchaseCode();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @Exclude
     private ServiceUser user;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
+    @Exclude
     private ShippingAddress shippingAddress;
 
     @Column(name = "payment_method")
@@ -72,5 +95,4 @@ public class PurchaseHistory extends BaseTimeEntity {
             .message(req.getMessage())
             .build();
     }
-
 }
