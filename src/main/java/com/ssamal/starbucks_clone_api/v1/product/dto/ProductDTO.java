@@ -1,8 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.product.dto;
 
 import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
-import com.ssamal.starbucks_clone_api.v1.product.enums.Season;
-import com.ssamal.starbucks_clone_api.v1.product.enums.Size;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
 import java.util.List;
 import lombok.*;
@@ -18,8 +16,6 @@ public class ProductDTO {
     private Integer price;
     private String description;
     private String thumbnail;
-    private Size size;
-    private Season season;
 
     public static ProductDTO of(Product entity) {
         return ModelMapperUtils.getModelMapper().map(entity, ProductDTO.class);

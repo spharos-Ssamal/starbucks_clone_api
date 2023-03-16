@@ -28,4 +28,6 @@ public class Event extends BaseTimeEntity {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private EventStatus status;
+
+
 }

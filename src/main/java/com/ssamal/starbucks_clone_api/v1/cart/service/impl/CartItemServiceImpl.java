@@ -53,7 +53,6 @@ public class CartItemServiceImpl implements CartItemService {
                 .user(user)
                 .product(product)
                 .count(req.getCount())
-                .isDeleted(false)
                 .build();
 
         }

@@ -23,9 +23,9 @@ public class ProductReq {
         private Long mainCategory;
         private List<Long> subCategories;
         @Nullable
-        private List<String> seasons;
+        private List<Long> seasonIds;
         @Nullable
-        private List<String> size;
+        private List<Long> sizeIds;
         @Nullable
         private Integer price;
 

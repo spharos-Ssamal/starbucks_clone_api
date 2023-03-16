@@ -3,17 +3,15 @@ package com.ssamal.starbucks_clone_api.v1.product.model;
 import com.ssamal.starbucks_clone_api.global.entity.BaseTimeEntity;
 import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminReq.AddProductInfo;
 import com.ssamal.starbucks_clone_api.v1.product.enums.ProductStatus;
-import com.ssamal.starbucks_clone_api.v1.product.enums.Season;
-import com.ssamal.starbucks_clone_api.v1.product.enums.Size;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "product")
 @Getter
-@ToString
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -35,21 +33,16 @@ public class Product extends BaseTimeEntity {
     @Column(name = "price")
     private Integer price;
 
-    @Column(name = "status")
+    @Column(name = "status", columnDefinition = "VARCHAR(10) default 'ON_SALE' ")
     @Enumerated(value = EnumType.STRING)
-    @ColumnDefault("ON_SALE")
     private ProductStatus status;
 
-    @Column(name = "size")
-    @Enumerated(value = EnumType.STRING)
-    private Size size;
-
-    @Column(name = "season")
-    @Enumerated(value = EnumType.STRING)
-    private Season season;
-
-    public static Product of(ProductDTO dto){
+    public static Product of(ProductDTO dto) {
         return ModelMapperUtils.getModelMapper().map(dto, Product.class);
+    }
+
+    public static Product of(AddProductInfo request) {
+        return ModelMapperUtils.getModelMapper().map(request, Product.class);
     }
 
 }

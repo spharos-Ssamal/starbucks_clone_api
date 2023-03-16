@@ -48,9 +48,6 @@ public class ShippingAddress extends BaseTimeEntity {
     @Column(name = "is_default", columnDefinition = "bit(1) default 0")
     private boolean isDefaultAddress;
 
-    @Column(name = "is_deleted", columnDefinition = "bit(1) default 0")
-    private boolean isDeleted;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private ServiceUser serviceUser;

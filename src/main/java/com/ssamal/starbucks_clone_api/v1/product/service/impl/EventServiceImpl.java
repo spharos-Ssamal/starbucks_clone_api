@@ -1,14 +1,14 @@
-package com.ssamal.starbucks_clone_api.v1.product.service;
+package com.ssamal.starbucks_clone_api.v1.product.service.impl;
 
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.EventRes.ActivatedEventsRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductRes.EventProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.enums.EventStatus;
 import com.ssamal.starbucks_clone_api.v1.product.model.Event;
-import com.ssamal.starbucks_clone_api.v1.product.model.ProductEvent;
+import com.ssamal.starbucks_clone_api.v1.product.model.mapping.ProductEvent;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.EventRepository;
-import com.ssamal.starbucks_clone_api.v1.product.model.repository.ProductEventRepository;
-import com.ssamal.starbucks_clone_api.v1.product.service.inter.EventService;
+import com.ssamal.starbucks_clone_api.v1.product.model.mapping.repository.ProductEventRepository;
+import com.ssamal.starbucks_clone_api.v1.product.service.EventService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

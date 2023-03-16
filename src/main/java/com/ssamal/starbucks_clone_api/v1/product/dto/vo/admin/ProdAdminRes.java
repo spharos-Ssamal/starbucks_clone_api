@@ -34,7 +34,7 @@ public class ProdAdminRes {
     @ToString
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class AddMenuRes {
+    public static class AddOptionRes {
 
         private Long menuId;
     }
@@ -43,10 +43,10 @@ public class ProdAdminRes {
     @ToString
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class AddProductToMenuRes {
+    public static class AddProductOptionRes {
 
         private Long productId;
-        private Long menuId;
+        private Long optionId;
     }
 
 

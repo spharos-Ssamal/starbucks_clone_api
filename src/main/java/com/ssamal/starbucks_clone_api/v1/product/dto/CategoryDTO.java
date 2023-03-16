@@ -1,33 +1,34 @@
 package com.ssamal.starbucks_clone_api.v1.product.dto;
 
+import com.ssamal.starbucks_clone_api.v1.product.model.Category;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.*;
 
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class CategoryDTO {
 
-    private CategoryDTO() {
-        throw new IllegalStateException("DTO Class");
-    }
+    private Long id;
+    private String name;
+    private String type;
+    private Long parentCategoryId;
+    private Set<CategoryDTO> subCategories;
 
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public static class DTO {
+    public static CategoryDTO of(Category category) {
+        CategoryDTO categoryDTO = CategoryDTO.builder()
+            .id(category.getId())
+            .name(category.getName())
+            .subCategories(
+                category.getChildren().stream().map(CategoryDTO::of).collect(Collectors.toSet()))
+            .build();
+        if(category.getParent() == null) {
+            categoryDTO.setParentCategoryId(0L);
+        }
 
-        private Long id;
-        private String name;
-        private String type;
-    }
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public static class Info {
-
-        private String name;
-        private String type;
+        return categoryDTO;
     }
 
 }

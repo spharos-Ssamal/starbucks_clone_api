@@ -21,7 +21,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @Operation(summary = "로그인", description = "로그인 API 입니다.")
+    @Operation(summary = "회원 등록", description = "회원 등록 API 입니다.")
     @PostMapping("/register")
     public ResponseEntity<BaseRes<UserRes.RegisterRes>> registerUser(
         @RequestBody UserReq.RegisterReq req) {

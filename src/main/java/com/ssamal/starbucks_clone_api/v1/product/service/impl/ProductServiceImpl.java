@@ -1,4 +1,4 @@
-package com.ssamal.starbucks_clone_api.v1.product.service;
+package com.ssamal.starbucks_clone_api.v1.product.service.impl;
 
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
@@ -6,8 +6,10 @@ import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.model.*;
+import com.ssamal.starbucks_clone_api.v1.product.model.mapping.ProductOptions;
+import com.ssamal.starbucks_clone_api.v1.product.model.mapping.repository.ProductOptionsRepository;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.*;
-import com.ssamal.starbucks_clone_api.v1.product.service.inter.ProductService;
+import com.ssamal.starbucks_clone_api.v1.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,9 +24,7 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private final ProductEventRepository productEventRepository;
-    private final ProductCategoryRepository productCategoryRepository;
-    private final ProductRecommendRepository productRecommendRepository;
+    private final ProductOptionsRepository productOptionsRepository;
 
     @Override
     public ProductRes.GetProductRes getProduct(Long productId) {
@@ -41,23 +41,25 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductRes.SearchProductRes getProducts(ProductReq.SearchProductsReq req,
         Pageable pageable) {
-        List<Product> data;
+        List<ProductOptions> data;
 
         if (req.getSubCategories().isEmpty()) {
-            data = productCategoryRepository.findAllByCategoryId(req.getMainCategory(),
-                    pageable.getSort())
-                .stream().map(ProductCategory::getProduct).toList();
+            data = productOptionsRepository.findAllByCategoryId(req.getMainCategory(),
+                pageable.getSort());
         } else {
-            data = productCategoryRepository.findAllByCategoryIdIn(req.getSubCategories(),
-                    pageable.getSort())
-                .stream().map(ProductCategory::getProduct).toList();
+            data = productOptionsRepository.findAllByCategoryIdIn(req.getSubCategories(),
+                pageable.getSort());
         }
 
         List<ProductDTO> result = ProductDTO.of(data.stream()
-            .filter(element -> req.getSize().isEmpty() || req.getSize()
-                .contains(element.getSize().toString()))
-            .filter(element -> req.getSeasons().isEmpty() || req.getSeasons()
-                .contains(element.getSeason().toString()))
+            .filter(
+                e -> req.getSeasonIds().isEmpty() || (e.getSeason() != null && req.getSeasonIds()
+                    .contains(e.getSeason().getId())))
+            .filter(e -> req.getSizeIds().isEmpty() || (e.getSize() != null && req.getSizeIds()
+                .contains(e.getSize().getId())))
+            .filter(e -> req.getPrice() == null || (e.getProduct().getPrice() != null
+                && e.getProduct().getPrice() <= req.getPrice()))
+            .map(ProductOptions::getProduct)
             .toList());
 
         int start = (int) pageable.getOffset();

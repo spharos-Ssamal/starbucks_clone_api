@@ -1,8 +1,8 @@
 package com.ssamal.starbucks_clone_api.v1.product.dto.vo.product;
 
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
-import com.ssamal.starbucks_clone_api.v1.product.model.ProductEvent;
-import com.ssamal.starbucks_clone_api.v1.product.model.ProductRecommend;
+import com.ssamal.starbucks_clone_api.v1.product.model.mapping.ProductEvent;
+import com.ssamal.starbucks_clone_api.v1.product.model.mapping.ProductRecommend;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,17 +1,19 @@
-package com.ssamal.starbucks_clone_api.v1.product.service;
+package com.ssamal.starbucks_clone_api.v1.product.service.impl;
 
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminReq;
-import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminRes;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminReq.AddOption;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminRes.AddOptionRes;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminRes.AddProductOptionRes;
 import com.ssamal.starbucks_clone_api.v1.product.enums.EventStatus;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
-import com.ssamal.starbucks_clone_api.v1.product.model.ProductRecommend;
+import com.ssamal.starbucks_clone_api.v1.product.model.mapping.ProductRecommend;
 import com.ssamal.starbucks_clone_api.v1.product.model.Recommend;
-import com.ssamal.starbucks_clone_api.v1.product.model.repository.ProductRecommendRepository;
+import com.ssamal.starbucks_clone_api.v1.product.model.mapping.repository.ProductRecommendRepository;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.ProductRepository;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.RecommendRepository;
-import com.ssamal.starbucks_clone_api.v1.product.service.inter.ProductRecommendService;
+import com.ssamal.starbucks_clone_api.v1.product.service.ProductRecommendService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +29,8 @@ public class ProductRecommendServiceImpl implements ProductRecommendService {
     private final ProductRecommendRepository productRecommendRepository;
 
     @Override
-    public List<ProdAdminRes.AddMenuRes> addRecommend(List<ProdAdminReq.AddRecommend> req) {
-        List<ProdAdminRes.AddMenuRes> response = new ArrayList<>();
+    public List<AddOptionRes> addRecommend(List<AddOption> req) {
+        List<AddOptionRes> response = new ArrayList<>();
 
         req.forEach(request -> {
 
@@ -40,7 +42,7 @@ public class ProductRecommendServiceImpl implements ProductRecommendService {
                     .status(EventStatus.ACTIVE)
                     .build();
                 recommendRepository.save(recommend);
-                response.add(new ProdAdminRes.AddMenuRes(recommend.getId()));
+                response.add(new AddOptionRes(recommend.getId()));
             }
         });
 
@@ -48,7 +50,7 @@ public class ProductRecommendServiceImpl implements ProductRecommendService {
     }
 
     @Override
-    public ProdAdminRes.AddProductToMenuRes addProductToRecommend(ProdAdminReq.AddProductTo req) {
+    public AddProductOptionRes addProductToRecommend(ProdAdminReq.AddProductTo req) {
         Product product = productRepository.findById(req.getProductId())
             .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
         Recommend recommend = recommendRepository.findById(req.getMenuId())
@@ -58,6 +60,6 @@ public class ProductRecommendServiceImpl implements ProductRecommendService {
             .recommend(recommend)
             .build();
         productRecommendRepository.save(productRecommend);
-        return new ProdAdminRes.AddProductToMenuRes(product.getId(), recommend.getId());
+        return new AddProductOptionRes(product.getId(), recommend.getId());
     }
 }

@@ -1,4 +1,4 @@
-package com.ssamal.starbucks_clone_api.v1.product.service.inter;
+package com.ssamal.starbucks_clone_api.v1.product.service;
 
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.EventRes.ActivatedEventsRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductRes.EventProductRes;

@@ -1,33 +1,33 @@
-package com.ssamal.starbucks_clone_api.v1.product.service;
+package com.ssamal.starbucks_clone_api.v1.product.service.impl;
 
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
-import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminReq;
-import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminRes;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminReq.AddOption;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminReq.AddProductTo;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminRes.AddOptionRes;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminRes.AddProductOptionRes;
 import com.ssamal.starbucks_clone_api.v1.product.model.HashTag;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
-import com.ssamal.starbucks_clone_api.v1.product.model.ProductHashTag;
+import com.ssamal.starbucks_clone_api.v1.product.model.mapping.ProductHashTag;
+import com.ssamal.starbucks_clone_api.v1.product.model.mapping.repository.ProductHashTagRepository;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.HashTagRepository;
-import com.ssamal.starbucks_clone_api.v1.product.model.repository.ProductHashTagRepository;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.ProductRepository;
-import com.ssamal.starbucks_clone_api.v1.product.service.inter.ProductHashTagService;
+import com.ssamal.starbucks_clone_api.v1.product.service.ProductHashtagService;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
-public class ProductHashTagServiceimpl implements ProductHashTagService {
+public class ProductHashtagServiceImpl implements ProductHashtagService {
 
     private final ProductRepository productRepository;
     private final HashTagRepository hashTagRepository;
     private final ProductHashTagRepository productHashTagRepository;
-
     @Override
-    public List<ProdAdminRes.AddMenuRes> addHashTag(List<ProdAdminReq.AddHashTag> req) {
-        List<ProdAdminRes.AddMenuRes> response = new ArrayList<>();
+    public List<AddOptionRes> addHashTag(List<AddOption> req) {
+        List<AddOptionRes> response = new ArrayList<>();
 
         req.forEach(request -> {
 
@@ -38,7 +38,7 @@ public class ProductHashTagServiceimpl implements ProductHashTagService {
                     .name(request.getName())
                     .build();
                 hashTagRepository.save(newHashTag);
-                response.add(new ProdAdminRes.AddMenuRes(newHashTag.getId()));
+                response.add(new AddOptionRes(newHashTag.getId()));
             }
         });
 
@@ -46,8 +46,7 @@ public class ProductHashTagServiceimpl implements ProductHashTagService {
     }
 
     @Override
-    public ProdAdminRes.AddProductToMenuRes addProductToHashTag(ProdAdminReq.AddProductTo req) {
-
+    public AddProductOptionRes addProductToHashTag(AddProductTo req) {
         Product product = productRepository.findById(req.getProductId())
             .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
         HashTag hashTag = hashTagRepository.findById(req.getMenuId())
@@ -57,6 +56,6 @@ public class ProductHashTagServiceimpl implements ProductHashTagService {
             .hashTag(hashTag)
             .build();
         productHashTagRepository.save(productHashTag);
-        return new ProdAdminRes.AddProductToMenuRes(product.getId(), hashTag.getId());
+        return new AddProductOptionRes(product.getId(), hashTag.getId());
     }
 }
