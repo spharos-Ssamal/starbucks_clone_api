@@ -1,7 +1,8 @@
 package com.ssamal.starbucks_clone_api.v1.product.controller;
 
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
-import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductReq;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductReq.GetProductsReq;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductReq.SearchProductsReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,8 +25,8 @@ public class ProductController {
     private final ProductService productService;
 
     @Operation(summary = "전체 상품 조회", description = "전체 상품 조회 API 입니다.")
-    @GetMapping("/search")
-    public ResponseEntity<BaseRes<ProductRes.SearchProductRes>> searchProducts(
+    @GetMapping("/get")
+    public ResponseEntity<BaseRes<ProductRes.SearchProductRes>> getProducts(
         @RequestParam(value = "category") Long categoryId,
         @RequestParam(value = "subCategories", required = false, defaultValue = "") List<Long> subCategories,
         @RequestParam(value = "seasons", required = false, defaultValue = "") List<Long> seasonIds,
@@ -33,7 +34,23 @@ public class ProductController {
         @RequestParam(value = "price", required = false, defaultValue = "") Integer price,
         @PageableDefault(size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         ProductRes.SearchProductRes result = productService.getProducts(
-            new ProductReq.SearchProductsReq(categoryId, subCategories, seasonIds, sizeIds, price),
+            new GetProductsReq(categoryId, subCategories, seasonIds, sizeIds, price),
+            pageable);
+        return ResponseEntity.ok().body(BaseRes.success(result));
+    }
+
+    @Operation(summary = "상품 명 기반 검색 API", description = "검색어 기반 상품 조회 API 입니다.")
+    @GetMapping("/search")
+    public ResponseEntity<BaseRes<ProductRes.SearchProductRes>> searchProducts(
+        @RequestParam(value = "productName", defaultValue = "") String productName,
+        @RequestParam(value = "category") Long categoryId,
+        @RequestParam(value = "subCategories", required = false, defaultValue = "") List<Long> subCategories,
+        @RequestParam(value = "seasons", required = false, defaultValue = "") List<Long> seasonIds,
+        @RequestParam(value = "productSize", required = false, defaultValue = "") List<Long> sizeIds,
+        @RequestParam(value = "price", required = false, defaultValue = "") Integer price,
+        @PageableDefault(size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        ProductRes.SearchProductRes result = productService.searchProducts(
+            new SearchProductsReq(productName, categoryId, subCategories, seasonIds, sizeIds, price),
             pageable);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }

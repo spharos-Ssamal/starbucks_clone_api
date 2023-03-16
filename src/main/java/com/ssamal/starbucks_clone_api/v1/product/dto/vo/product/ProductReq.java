@@ -18,7 +18,7 @@ public class ProductReq {
     @ToString
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class SearchProductsReq {
+    public static class GetProductsReq {
 
         private Long mainCategory;
         private List<Long> subCategories;
@@ -34,7 +34,24 @@ public class ProductReq {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class GetRecommandsReq {
+    public static class SearchProductsReq {
+
+        private String productName;
+        private Long mainCategory;
+        private List<Long> subCategories;
+        @Nullable
+        private List<Long> seasonIds;
+        @Nullable
+        private List<Long> sizeIds;
+        @Nullable
+        private Integer price;
+
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class GetRecommendsReq {
 
         private List<Long> recommendIds;
     }

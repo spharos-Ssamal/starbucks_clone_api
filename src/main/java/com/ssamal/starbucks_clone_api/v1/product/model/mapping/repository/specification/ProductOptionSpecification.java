@@ -10,6 +10,9 @@ public class ProductOptionSpecification {
         throw new IllegalStateException("JPA Specification class");
     }
 
+    public static Specification<ProductOptions> likeProductName(String productName) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("product").get("name"), "%" + productName + "%");
+    }
     public static Specification<ProductOptions> inProductId(List<Long> productId) {
         return (root, query, criteriaBuilder) -> root.get("product").get("id").in(productId);
     }
