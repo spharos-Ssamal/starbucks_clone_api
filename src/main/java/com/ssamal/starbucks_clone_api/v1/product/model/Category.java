@@ -2,7 +2,10 @@ package com.ssamal.starbucks_clone_api.v1.product.model;
 
 import com.ssamal.starbucks_clone_api.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.*;
+import lombok.Builder.Default;
 
 @Entity
 @Table(name = "category")
@@ -21,6 +24,12 @@ public class Category extends BaseTimeEntity {
     @Column(name = "name", columnDefinition = "VARCHAR(20) NOT NULL")
     private String name;
 
-    @Column(name = "type", columnDefinition = "VARCHAR(20) NOT NULL")
-    private String type;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private Category parent;
+
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Default
+    private Set<Category> children = new HashSet<>();
+
 }

@@ -3,7 +3,7 @@ package com.ssamal.starbucks_clone_api.v1.product.controller.admin;
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminRes;
-import com.ssamal.starbucks_clone_api.v1.product.service.inter.ProductAdminService;
+import com.ssamal.starbucks_clone_api.v1.product.service.ProductAdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

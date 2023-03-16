@@ -3,7 +3,7 @@ package com.ssamal.starbucks_clone_api.v1.product.controller;
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductRes.RecommendProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.RecommendRes.ActivatedRecommendsRes;
-import com.ssamal.starbucks_clone_api.v1.product.service.inter.RecommendService;
+import com.ssamal.starbucks_clone_api.v1.product.service.RecommendService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;

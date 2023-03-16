@@ -1,17 +1,18 @@
-package com.ssamal.starbucks_clone_api.v1.product.service;
+package com.ssamal.starbucks_clone_api.v1.product.service.impl;
 
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminReq;
-import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminRes;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminRes.AddOptionRes;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminRes.AddProductOptionRes;
 import com.ssamal.starbucks_clone_api.v1.product.enums.EventStatus;
 import com.ssamal.starbucks_clone_api.v1.product.model.Event;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
-import com.ssamal.starbucks_clone_api.v1.product.model.ProductEvent;
+import com.ssamal.starbucks_clone_api.v1.product.model.mapping.ProductEvent;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.EventRepository;
-import com.ssamal.starbucks_clone_api.v1.product.model.repository.ProductEventRepository;
+import com.ssamal.starbucks_clone_api.v1.product.model.mapping.repository.ProductEventRepository;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.ProductRepository;
-import com.ssamal.starbucks_clone_api.v1.product.service.inter.ProductEventService;
+import com.ssamal.starbucks_clone_api.v1.product.service.ProductEventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,9 +28,9 @@ public class ProductEventServiceImpl implements ProductEventService {
     private final ProductEventRepository productEventRepository;
 
     @Override
-    public List<ProdAdminRes.AddMenuRes> addEvent(List<ProdAdminReq.AddEvent> req) {
+    public List<AddOptionRes> addEvent(List<ProdAdminReq.AddOption> req) {
 
-        List<ProdAdminRes.AddMenuRes> response = new ArrayList<>();
+        List<AddOptionRes> response = new ArrayList<>();
 
         req.forEach(request -> {
 
@@ -41,7 +42,7 @@ public class ProductEventServiceImpl implements ProductEventService {
                     .status(EventStatus.ACTIVE)
                     .build();
                 eventRepository.save(newEvent);
-                response.add(new ProdAdminRes.AddMenuRes(newEvent.getId()));
+                response.add(new AddOptionRes(newEvent.getId()));
             }
         });
 
@@ -49,7 +50,7 @@ public class ProductEventServiceImpl implements ProductEventService {
     }
 
     @Override
-    public ProdAdminRes.AddProductToMenuRes addProductToEvent(ProdAdminReq.AddProductTo req) {
+    public AddProductOptionRes addProductToEvent(ProdAdminReq.AddProductTo req) {
         Product product = productRepository.findById(req.getProductId())
             .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
         Event event = eventRepository.findById(req.getMenuId())
@@ -59,6 +60,6 @@ public class ProductEventServiceImpl implements ProductEventService {
             .event(event)
             .build();
         productEventRepository.save(productEvent);
-        return new ProdAdminRes.AddProductToMenuRes(product.getId(), event.getId());
+        return new AddProductOptionRes(product.getId(), event.getId());
     }
 }

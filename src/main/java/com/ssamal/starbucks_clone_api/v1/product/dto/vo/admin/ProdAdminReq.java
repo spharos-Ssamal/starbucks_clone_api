@@ -1,6 +1,5 @@
 package com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin;
 
-import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,14 +14,28 @@ public class ProdAdminReq {
     }
 
     @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class AddProductInfo {
+
+        private String name;
+        private Integer price;
+        private String description;
+        private String thumbnail;
+        private String size;
+        private String season;
+    }
+
+    @Getter
     @ToString
     @AllArgsConstructor
     @NoArgsConstructor
     public static class AddProductReq {
 
-        private ProductDTO productDTO;
+        private AddProductInfo productInfo;
         private List<Long> categoryIds;
-        private List<String> hashTagNames;
+        private Long seasonId;
+        private Long sizeId;
     }
 
     @Getter
@@ -32,41 +45,14 @@ public class ProdAdminReq {
     public static class AddCategory {
 
         private String name;
-        private String type;
+        private Long parentId;
     }
 
     @Getter
     @ToString
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class AddHashTag {
-
-        private String name;
-    }
-
-    @Getter
-    @ToString
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class AddEvent {
-
-        private String name;
-    }
-
-    @Getter
-    @ToString
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class AddRecommend {
-
-        private String name;
-    }
-
-    @Getter
-    @ToString
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class AddSeason {
+    public static class AddOption {
 
         private String name;
     }

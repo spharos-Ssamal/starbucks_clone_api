@@ -1,7 +1,7 @@
-package com.ssamal.starbucks_clone_api.v1.product.model.repository;
+package com.ssamal.starbucks_clone_api.v1.product.model.mapping.repository;
 
 import com.ssamal.starbucks_clone_api.v1.product.enums.EventStatus;
-import com.ssamal.starbucks_clone_api.v1.product.model.ProductEvent;
+import com.ssamal.starbucks_clone_api.v1.product.model.mapping.ProductEvent;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

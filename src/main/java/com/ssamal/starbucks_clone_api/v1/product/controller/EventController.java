@@ -3,7 +3,7 @@ package com.ssamal.starbucks_clone_api.v1.product.controller;
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.EventRes.ActivatedEventsRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductRes.EventProductRes;
-import com.ssamal.starbucks_clone_api.v1.product.service.inter.EventService;
+import com.ssamal.starbucks_clone_api.v1.product.service.EventService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
