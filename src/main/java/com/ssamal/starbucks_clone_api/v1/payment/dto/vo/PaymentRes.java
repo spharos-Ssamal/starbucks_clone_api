@@ -51,18 +51,21 @@ public class PaymentRes {
     public static class HistoryDetailInfo{
         private String purchaseHistoryId;
         private List<ProductInfo> productInfoList;
-        private String address;
+        private String baseAddress;
+        private String detailAddress;
         private String message;
         private LocalDate date;
         private LocalDate canceledDate;
-        private Integer price;
+        private Integer purchasePrice;
         private Integer discountPrice;
-        private Integer shippingPrice;
+        private Integer totalPrice;
         private boolean isCanceled;
 
         public static HistoryDetailInfo of(PurchaseHistory history, List<ProductInfo> productInfoList) {
             HistoryDetailInfo result = ModelMapperUtils.getModelMapper().map(history, HistoryDetailInfo.class);
             result.setProductInfoList(productInfoList);
+            result.setDate(history.getRegTime().toLocalDate());
+            result.setCanceledDate(history.getUpdateTime().toLocalDate());
             return result;
         }
 

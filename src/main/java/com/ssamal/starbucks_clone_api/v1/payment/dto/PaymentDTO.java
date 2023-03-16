@@ -33,9 +33,11 @@ public class PaymentDTO {
         private Integer price;
         private Integer count;
 
-        public static ProductInfo of (Product entity) {
+        public static ProductInfo of (Product entity, int count) {
             ModelMapper modelMapper = new ModelMapper();
-            return modelMapper.map(entity, ProductInfo.class);
+            ProductInfo result = modelMapper.map(entity, ProductInfo.class);
+            result.setCount(count);
+            return result;
         }
 
     }
@@ -50,7 +52,7 @@ public class PaymentDTO {
 
         public static UserHistory of(String historyId, LocalDate date, List<PurchaseProducts> purchaseProducts) {
             List<ProductInfo> productInfo = purchaseProducts.stream()
-                .map(t -> ProductInfo.of(t.getProduct())).toList();
+                .map(t -> ProductInfo.of(t.getProduct(), t.getCount())).toList();
             return new UserHistory(historyId, date, productInfo);
         }
     }

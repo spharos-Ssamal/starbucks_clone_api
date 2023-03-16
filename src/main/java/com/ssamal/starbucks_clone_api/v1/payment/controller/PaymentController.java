@@ -3,6 +3,10 @@ package com.ssamal.starbucks_clone_api.v1.payment.controller;
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
 import com.ssamal.starbucks_clone_api.v1.payment.dto.vo.PaymentReq;
 import com.ssamal.starbucks_clone_api.v1.payment.dto.vo.PaymentRes;
+import com.ssamal.starbucks_clone_api.v1.payment.dto.vo.PaymentRes.HistoryDetailInfo;
+import com.ssamal.starbucks_clone_api.v1.payment.dto.vo.PaymentRes.PurchaseRes;
+import com.ssamal.starbucks_clone_api.v1.payment.dto.vo.PaymentRes.UserHistoryRes;
+import com.ssamal.starbucks_clone_api.v1.payment.service.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.UUID;
@@ -18,13 +22,16 @@ import java.time.LocalDate;
 @RequestMapping("/api/v1/pay")
 public class PaymentController {
 
+    private final PaymentService paymentService;
+
     @Operation(summary = "기간 별 유저 구매 기록 조회", description = "기간 별 유저 구매 기록 조회 API 입니다.")
     @PostMapping("/users/history")
     public ResponseEntity<BaseRes<PaymentRes.UserHistoryRes>> getUserHistory(
         @RequestParam(name = "userId", defaultValue = "") UUID userId,
         @RequestParam(name = "startDate", defaultValue = "") LocalDate startDate,
         @RequestParam(name = "endDate", defaultValue = "") LocalDate endDate) {
-        return null;
+        UserHistoryRes result = paymentService.getUserHistory(userId, startDate, endDate);
+        return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
     @Operation(summary = "실시간 상품 배송 현황 조회", description = "실시간 상품 배송 현황 조회 API 입니다.")
@@ -38,14 +45,17 @@ public class PaymentController {
     @Operation(summary = "유저 구매 기록 상세 조회", description = "유저 구매 기록 상세 조회 API 입니다.")
     @GetMapping("/users/detail")
     public ResponseEntity<BaseRes<PaymentRes.HistoryDetailInfo>> getUsersPurchaseInfo(
-        @RequestParam(name = "historyId", defaultValue = "") Long historyId) {
-        return null;
+        @RequestParam(name = "historyId", defaultValue = "") String historyId) {
+        HistoryDetailInfo result = paymentService.getUserPurchaseInfo(historyId);
+        return ResponseEntity.ok().body(BaseRes.success(result));
     }
+
     @Operation(summary = "구매 확정 및 정산", description = "구매 확정 및 정산 API 입니다.")
     @PostMapping("/confirm")
     public ResponseEntity<BaseRes<PaymentRes.PurchaseRes>> confirmRequest(
         @RequestBody PaymentReq.PurchasedInfo req) {
-        return null;
+        PurchaseRes result = paymentService.confirmRequest(req);
+        return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
 }

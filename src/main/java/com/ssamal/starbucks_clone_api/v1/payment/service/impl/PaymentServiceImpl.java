@@ -21,10 +21,10 @@ import com.ssamal.starbucks_clone_api.v1.user.entity.ShippingAddress;
 import com.ssamal.starbucks_clone_api.v1.user.entity.repository.ServiceUserRepository;
 import com.ssamal.starbucks_clone_api.v1.user.entity.repository.ShippingAddressRepository;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,8 +42,8 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public UserHistoryRes getUserHistory(UUID userId, LocalDate startDate, LocalDate endDate) {
         List<PurchaseHistory> result = purchaseHistoryRepository.findAllByUserIdAndRegTimeBetween(
-            userId, startDate,
-            endDate);
+            userId, startDate.atStartOfDay(),
+            endDate.atTime(LocalTime.MAX));
 
         List<UserHistory> response = result.stream().map(i -> {
             List<PurchaseProducts> purchaseProducts = purchaseProductsRepository.findAllByPurchaseHistoryHistoryId(
@@ -72,7 +72,7 @@ public class PaymentServiceImpl implements PaymentService {
         List<PurchaseProducts> purchaseProducts = purchaseProductsRepository.findAllByPurchaseHistoryHistoryId(
             historyId);
         return HistoryDetailInfo.of(history,
-            purchaseProducts.stream().map(t -> ProductInfo.of(t.getProduct())).toList());
+            purchaseProducts.stream().map(t -> ProductInfo.of(t.getProduct(), t.getCount())).toList());
     }
 
     @Override
@@ -88,24 +88,33 @@ public class PaymentServiceImpl implements PaymentService {
         PurchaseHistory history = PurchaseHistory.of(user, address, req);
         purchaseHistoryRepository.save(history);
 
+        return calculatePayment(history.getHistoryId(), req);
+    }
+
+    @Transactional
+    public PurchaseRes calculatePayment(String historyId, PurchasedInfo req) {
+        PurchaseHistory history = purchaseHistoryRepository.findById(historyId)
+            .orElseThrow(() -> new CustomException(ResCode.PURCHASE_HISTORY_NOT_FOUND));
+
         AtomicInteger totalPrice = new AtomicInteger();
 
         req.getPurchasedList().forEach(element -> {
-            Product product = productRepository.findById(element.getProductId())
-                .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
+            if (element.getCount() > 0) {
+                Product product = productRepository.findById(element.getProductId())
+                    .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
 
-            totalPrice.addAndGet(product.getPrice() * element.getCount());
-            PurchaseProducts purchaseProducts = PurchaseProducts
-                .builder()
-                .product(product)
-                .purchaseHistory(history)
-                .count(element.getCount())
-                .build();
+                totalPrice.addAndGet(product.getPrice() * element.getCount());
+                PurchaseProducts purchaseProducts = PurchaseProducts.of(product, history,
+                    element.getCount());
 
-            purchaseProductsRepository.save(purchaseProducts);
+                purchaseProductsRepository.save(purchaseProducts);
+            }
         });
 
         history.calculatePriceConfirm(totalPrice, 0, totalPrice);
+        purchaseHistoryRepository.save(history);
         return new PurchaseRes(history.getHistoryId());
+
+
     }
 }
