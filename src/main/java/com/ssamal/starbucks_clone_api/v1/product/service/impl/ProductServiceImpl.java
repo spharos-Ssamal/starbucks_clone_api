@@ -8,12 +8,13 @@ import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.model.*;
 import com.ssamal.starbucks_clone_api.v1.product.model.mapping.ProductOptions;
 import com.ssamal.starbucks_clone_api.v1.product.model.mapping.repository.ProductOptionsRepository;
+import com.ssamal.starbucks_clone_api.v1.product.model.mapping.repository.specification.ProductOptionSpecification;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.*;
 import com.ssamal.starbucks_clone_api.v1.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,43 +34,35 @@ public class ProductServiceImpl implements ProductService {
         return new ProductRes.GetProductRes(ProductDTO.of(result));
     }
 
-    /*
-     * 지금은 동적쿼리로 만들기 귀찮아서 필터링 처리하는데
-     * 추후 QueryDSL이든 뭐든 써서 동적쿼리로 바꿔서 쿼리 상에서 단도리 짓는 게 제일 좋은 방법
-     * or 걍 프론트에서 필터링 하든지
-     * */
     @Override
     public ProductRes.SearchProductRes getProducts(ProductReq.SearchProductsReq req,
         Pageable pageable) {
-        List<ProductOptions> data;
+
+        Specification<ProductOptions> spec = (root, query, cb) -> cb.isTrue(cb.literal(true));
 
         if (req.getSubCategories().isEmpty()) {
-            data = productOptionsRepository.findAllByCategoryId(req.getMainCategory(),
-                pageable.getSort());
+            spec = spec.and(
+                ProductOptionSpecification.inCategoryId(List.of(req.getMainCategory())));
         } else {
-            data = productOptionsRepository.findAllByCategoryIdIn(req.getSubCategories(),
-                pageable.getSort());
+            spec = spec.and(ProductOptionSpecification.inCategoryId(req.getSubCategories()));
         }
 
-        List<ProductDTO> result = ProductDTO.of(data.stream()
-            .filter(
-                e -> req.getSeasonIds().isEmpty() || (e.getSeason() != null && req.getSeasonIds()
-                    .contains(e.getSeason().getId())))
-            .filter(e -> req.getSizeIds().isEmpty() || (e.getSize() != null && req.getSizeIds()
-                .contains(e.getSize().getId())))
-            .filter(e -> req.getPrice() == null || (e.getProduct().getPrice() != null
-                && e.getProduct().getPrice() <= req.getPrice()))
-            .map(ProductOptions::getProduct)
-            .toList());
+        if (!req.getSizeIds().isEmpty()) {
+            spec = spec.and(ProductOptionSpecification.inSizeId(req.getSizeIds()));
+        }
 
-        int start = (int) pageable.getOffset();
-        int end = (Math.min(start + pageable.getPageSize(), result.size()));
+        if (!req.getSeasonIds().isEmpty()) {
+            spec = spec.and(ProductOptionSpecification.inSeasonId(req.getSeasonIds()));
+        }
 
-        Page<ProductDTO> pageResult = new PageImpl<>(result.subList(start, end), pageable,
-            result.size());
+        if(req.getPrice() != null) {
+            spec = spec.and(ProductOptionSpecification.lessThanPrice(req.getPrice()));
+        }
 
-        return new ProductRes.SearchProductRes(pageResult.getContent(), pageResult.isLast(),
-            pageResult.getTotalPages(), pageResult.getTotalElements());
+        Page<ProductDTO> result = ProductDTO.of(productOptionsRepository.findAll(spec, pageable));
+
+        return new ProductRes.SearchProductRes(result.getContent(), result.isLast(),
+            result.getTotalPages(), result.getTotalElements());
     }
 
 }
