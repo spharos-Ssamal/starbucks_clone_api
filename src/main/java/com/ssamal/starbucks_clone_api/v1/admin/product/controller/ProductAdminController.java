@@ -1,8 +1,8 @@
 package com.ssamal.starbucks_clone_api.v1.admin.product.controller;
 
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
-import com.ssamal.starbucks_clone_api.v1.admin.product.dto.ProdAdminReq;
-import com.ssamal.starbucks_clone_api.v1.admin.product.dto.ProdAdminRes;
+import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq;
+import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminRes;
 import com.ssamal.starbucks_clone_api.v1.admin.product.service.ProductAdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

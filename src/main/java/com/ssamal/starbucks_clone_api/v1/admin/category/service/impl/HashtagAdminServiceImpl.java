@@ -2,10 +2,10 @@ package com.ssamal.starbucks_clone_api.v1.admin.category.service.impl;
 
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
-import com.ssamal.starbucks_clone_api.v1.admin.category.dto.CategoryAdminReq.AddOption;
-import com.ssamal.starbucks_clone_api.v1.admin.category.dto.CategoryAdminReq.AddProductTo;
-import com.ssamal.starbucks_clone_api.v1.admin.category.dto.CategoryAdminRes.AddOptionRes;
-import com.ssamal.starbucks_clone_api.v1.admin.category.dto.CategoryAdminRes.AddProductOptionRes;
+import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminReq.AddOption;
+import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminReq.AddProductTo;
+import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminRes.AddOptionRes;
+import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminRes.AddProductOptionRes;
 import com.ssamal.starbucks_clone_api.v1.admin.category.service.HashtagAdminService;
 import com.ssamal.starbucks_clone_api.v1.category.model.HashTag;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;

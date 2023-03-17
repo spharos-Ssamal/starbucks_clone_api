@@ -1,13 +1,13 @@
-package com.ssamal.starbucks_clone_api.v1.admin.category.dto;
+package com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-public class CategoryAdminRes {
+public class CategoryAdminReq {
 
-    private CategoryAdminRes() {
+    private CategoryAdminReq() {
         throw new IllegalStateException("VO Class");
     }
 
@@ -15,28 +15,29 @@ public class CategoryAdminRes {
     @ToString
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class AddCategoryRes {
+    public static class AddCategory {
 
-        private Long categoryId;
+        private String name;
+        private Long parentId;
     }
 
     @Getter
     @ToString
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class AddProductOptionRes {
+    public static class AddOption {
 
+        private String name;
+    }
+
+    @Getter
+    @ToString
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class AddProductTo {
+
+        private Long menuId;
         private Long productId;
-        private Long optionId;
-    }
-
-    @Getter
-    @ToString
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class AddOptionRes {
-
-        private Long optionId;
     }
 
 }

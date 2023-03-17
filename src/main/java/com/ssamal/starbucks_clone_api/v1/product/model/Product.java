@@ -3,7 +3,7 @@ package com.ssamal.starbucks_clone_api.v1.product.model;
 import com.ssamal.starbucks_clone_api.global.entity.BaseTimeEntity;
 import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
-import com.ssamal.starbucks_clone_api.v1.admin.product.dto.ProdAdminReq.AddProductInfo;
+import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq.AddProductInfo;
 import com.ssamal.starbucks_clone_api.v1.product.enums.ProductStatus;
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,4 +1,4 @@
-package com.ssamal.starbucks_clone_api.v1.admin.product.dto;
+package com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

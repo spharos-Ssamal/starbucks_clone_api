@@ -1,7 +1,7 @@
 package com.ssamal.starbucks_clone_api.v1.admin.product.service;
 
-import com.ssamal.starbucks_clone_api.v1.admin.product.dto.ProdAdminReq;
-import com.ssamal.starbucks_clone_api.v1.admin.product.dto.ProdAdminRes;
+import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq;
+import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminRes;
 
 import java.util.List;
 
