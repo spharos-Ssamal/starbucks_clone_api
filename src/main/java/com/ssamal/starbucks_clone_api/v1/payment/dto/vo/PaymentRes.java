@@ -23,6 +23,7 @@ public class PaymentRes {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class PurchaseRes {
+
         private String historyId;
     }
 
@@ -30,6 +31,7 @@ public class PaymentRes {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class UserHistoryRes {
+
         private List<UserHistory> histories;
 
     }
@@ -38,6 +40,7 @@ public class PaymentRes {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class DeliveryStatusRes {
+
         private Integer productReady;
         private Integer shippingReady;
         private Integer shipping;
@@ -48,21 +51,27 @@ public class PaymentRes {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class HistoryDetailInfo{
+    public static class HistoryDetailInfo {
+
         private String purchaseHistoryId;
         private List<ProductInfo> productInfoList;
-        private String address;
+        private String baseAddress;
+        private String detailAddress;
         private String message;
         private LocalDate date;
         private LocalDate canceledDate;
-        private Integer price;
+        private Integer purchasePrice;
         private Integer discountPrice;
-        private Integer shippingPrice;
+        private Integer totalPrice;
         private boolean isCanceled;
 
-        public static HistoryDetailInfo of(PurchaseHistory history, List<ProductInfo> productInfoList) {
-            HistoryDetailInfo result = ModelMapperUtils.getModelMapper().map(history, HistoryDetailInfo.class);
+        public static HistoryDetailInfo of(PurchaseHistory history,
+            List<ProductInfo> productInfoList) {
+            HistoryDetailInfo result = ModelMapperUtils.getModelMapper()
+                .map(history, HistoryDetailInfo.class);
             result.setProductInfoList(productInfoList);
+            result.setDate(history.getRegTime().toLocalDate());
+            result.setCanceledDate(history.getUpdateTime().toLocalDate());
             return result;
         }
 

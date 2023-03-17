@@ -15,10 +15,12 @@ public class PaymentDTO {
     private PaymentDTO() {
         throw new IllegalStateException("Data Class");
     }
+
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     public static class ProductBePurchased {
+
         private Long productId;
         private int count;
         private int discountValue;
@@ -28,14 +30,17 @@ public class PaymentDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class ProductInfo {
+
         private Long productId;
         private String thumbnail;
         private Integer price;
         private Integer count;
 
-        public static ProductInfo of (Product entity) {
+        public static ProductInfo of(Product entity, int count) {
             ModelMapper modelMapper = new ModelMapper();
-            return modelMapper.map(entity, ProductInfo.class);
+            ProductInfo result = modelMapper.map(entity, ProductInfo.class);
+            result.setCount(count);
+            return result;
         }
 
     }
@@ -44,13 +49,15 @@ public class PaymentDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class UserHistory {
+
         private String historyId;
         private LocalDate date;
         private List<ProductInfo> productInfoList;
 
-        public static UserHistory of(String historyId, LocalDate date, List<PurchaseProducts> purchaseProducts) {
+        public static UserHistory of(String historyId, LocalDate date,
+            List<PurchaseProducts> purchaseProducts) {
             List<ProductInfo> productInfo = purchaseProducts.stream()
-                .map(t -> ProductInfo.of(t.getProduct())).toList();
+                .map(t -> ProductInfo.of(t.getProduct(), t.getCount())).toList();
             return new UserHistory(historyId, date, productInfo);
         }
     }
