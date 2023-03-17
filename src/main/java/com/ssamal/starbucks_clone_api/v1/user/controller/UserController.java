@@ -4,7 +4,7 @@ import com.ssamal.starbucks_clone_api.global.common.BaseRes;
 import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserReq;
 import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserRes;
 import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserRes.GetUserAddressRes;
-import com.ssamal.starbucks_clone_api.v1.user.service.inter.UserService;
+import com.ssamal.starbucks_clone_api.v1.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

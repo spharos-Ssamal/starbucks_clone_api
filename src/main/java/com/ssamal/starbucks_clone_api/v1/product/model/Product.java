@@ -3,10 +3,11 @@ package com.ssamal.starbucks_clone_api.v1.product.model;
 import com.ssamal.starbucks_clone_api.global.entity.BaseTimeEntity;
 import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
-import com.ssamal.starbucks_clone_api.v1.product.dto.vo.admin.ProdAdminReq.AddProductInfo;
+import com.ssamal.starbucks_clone_api.v1.admin.product.dto.ProdAdminReq.AddProductInfo;
 import com.ssamal.starbucks_clone_api.v1.product.enums.ProductStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.Builder.Default;
 
 @Entity
 @Table(name = "product")
@@ -34,8 +35,9 @@ public class Product extends BaseTimeEntity {
     private Integer price;
 
     @Column(name = "status", columnDefinition = "VARCHAR(10) default 'ON_SALE' ")
+    @Default
     @Enumerated(value = EnumType.STRING)
-    private ProductStatus status;
+    private ProductStatus status = ProductStatus.ON_SALE;
 
     public static Product of(ProductDTO dto) {
         return ModelMapperUtils.getModelMapper().map(dto, Product.class);

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 public class PaymentReq {
+
     private PaymentReq() {
         throw new IllegalStateException("Data class");
     }
@@ -18,6 +19,7 @@ public class PaymentReq {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class PurchasedInfo {
+
         private UUID userId;
         private List<ProductBePurchased> purchasedList;
         private PaymentMethod method;
