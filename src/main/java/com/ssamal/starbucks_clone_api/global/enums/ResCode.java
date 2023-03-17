@@ -34,6 +34,9 @@ public enum ResCode {
     CART_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "장바구니 항목을 찾을 수 없습니다.", "ERROR-NF-009"),
     PURCHASE_HISTORY_NOT_FOUND(HttpStatus.NOT_FOUND, "구매 기록을 찾을 수 없습니다.", "ERROR-NF-010"),
 
+    CARD_NOT_FOUND(HttpStatus.NOT_FOUND,"해당 카드를 찾을 수 없습니다.", "ERROR-NF-011"),
+    COUPON_NOT_FOUND(HttpStatus.NOT_FOUND,"해당 쿠폰를 찾을 수 없습니다.", "ERROR-NF-012"),
+
     //FORBIDDEN
     FORBIDDEN(HttpStatus.FORBIDDEN, "금지된 요청입니다.", "ERROR-FB-000"),
     REFRESH_TOKEN_EXPIRED(HttpStatus.FORBIDDEN, "리프레쉬 토큰이 만료되었습니다.", "ERROR-FB-001"),
