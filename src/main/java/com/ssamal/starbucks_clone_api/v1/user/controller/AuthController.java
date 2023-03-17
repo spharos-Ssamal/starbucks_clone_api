@@ -7,7 +7,7 @@ import com.ssamal.starbucks_clone_api.global.utils.CookieUtils;
 import com.ssamal.starbucks_clone_api.global.utils.JwtUtils;
 import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserReq;
 import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserRes;
-import com.ssamal.starbucks_clone_api.v1.user.service.inter.AuthService;
+import com.ssamal.starbucks_clone_api.v1.user.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;

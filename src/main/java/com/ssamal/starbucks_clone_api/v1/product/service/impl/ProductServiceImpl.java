@@ -3,14 +3,14 @@ package com.ssamal.starbucks_clone_api.v1.product.service.impl;
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
-import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductReq.GetProductsReq;
-import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductReq.SearchProductsReq;
-import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductRes;
-import com.ssamal.starbucks_clone_api.v1.product.dto.vo.product.ProductRes.SearchProductRes;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.GetProductsReq;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.SearchProductsReq;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.SearchProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.model.*;
-import com.ssamal.starbucks_clone_api.v1.product.model.mapping.ProductOptions;
-import com.ssamal.starbucks_clone_api.v1.product.model.mapping.repository.ProductOptionsRepository;
-import com.ssamal.starbucks_clone_api.v1.product.model.mapping.repository.specification.ProductOptionSpecification;
+import com.ssamal.starbucks_clone_api.v1.admin.category.model.ProductOptions;
+import com.ssamal.starbucks_clone_api.v1.admin.category.model.repository.ProductOptionsRepository;
+import com.ssamal.starbucks_clone_api.v1.admin.category.model.repository.specification.ProductOptionSpecification;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.*;
 import com.ssamal.starbucks_clone_api.v1.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -57,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
             spec = spec.and(ProductOptionSpecification.inSeasonId(req.getSeasonIds()));
         }
 
-        if(req.getPrice() != null) {
+        if (req.getPrice() != null) {
             spec = spec.and(ProductOptionSpecification.lessThanPrice(req.getPrice()));
         }
 
@@ -78,7 +78,7 @@ public class ProductServiceImpl implements ProductService {
             spec = spec.and(ProductOptionSpecification.inCategoryId(req.getSubCategories()));
         }
 
-        if(!req.getProductName().isEmpty()) {
+        if (!req.getProductName().isEmpty()) {
             spec = spec.and(ProductOptionSpecification.likeProductName(req.getProductName()));
         }
 
@@ -90,7 +90,7 @@ public class ProductServiceImpl implements ProductService {
             spec = spec.and(ProductOptionSpecification.inSeasonId(req.getSeasonIds()));
         }
 
-        if(req.getPrice() != null) {
+        if (req.getPrice() != null) {
             spec = spec.and(ProductOptionSpecification.lessThanPrice(req.getPrice()));
         }
 

@@ -16,10 +16,10 @@ import com.ssamal.starbucks_clone_api.v1.payment.model.repository.PurchaseProduc
 import com.ssamal.starbucks_clone_api.v1.payment.service.PaymentService;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.ProductRepository;
-import com.ssamal.starbucks_clone_api.v1.user.entity.ServiceUser;
-import com.ssamal.starbucks_clone_api.v1.user.entity.ShippingAddress;
-import com.ssamal.starbucks_clone_api.v1.user.entity.repository.ServiceUserRepository;
-import com.ssamal.starbucks_clone_api.v1.user.entity.repository.ShippingAddressRepository;
+import com.ssamal.starbucks_clone_api.v1.user.model.ServiceUser;
+import com.ssamal.starbucks_clone_api.v1.address.model.ShippingAddress;
+import com.ssamal.starbucks_clone_api.v1.user.model.repository.ServiceUserRepository;
+import com.ssamal.starbucks_clone_api.v1.address.model.repository.ShippingAddressRepository;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
