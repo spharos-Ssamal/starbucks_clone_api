@@ -1,6 +1,6 @@
-package com.ssamal.starbucks_clone_api.v1.user.entity.repository;
+package com.ssamal.starbucks_clone_api.v1.user.model.repository;
 
-import com.ssamal.starbucks_clone_api.v1.user.entity.ServiceUser;
+import com.ssamal.starbucks_clone_api.v1.user.model.ServiceUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

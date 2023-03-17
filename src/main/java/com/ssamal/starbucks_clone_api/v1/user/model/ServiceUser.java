@@ -1,7 +1,8 @@
-package com.ssamal.starbucks_clone_api.v1.user.entity;
+package com.ssamal.starbucks_clone_api.v1.user.model;
 
 
 import com.ssamal.starbucks_clone_api.global.entity.BaseTimeEntity;
+import com.ssamal.starbucks_clone_api.v1.address.model.ShippingAddress;
 import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserReq;
 import com.ssamal.starbucks_clone_api.v1.user.enums.UserRole;
 import jakarta.persistence.*;
@@ -11,8 +12,6 @@ import lombok.*;
 import lombok.Builder.Default;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

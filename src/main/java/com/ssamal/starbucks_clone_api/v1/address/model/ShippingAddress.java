@@ -1,9 +1,10 @@
-package com.ssamal.starbucks_clone_api.v1.user.entity;
+package com.ssamal.starbucks_clone_api.v1.address.model;
 
 import com.ssamal.starbucks_clone_api.global.entity.BaseTimeEntity;
 import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
-import com.ssamal.starbucks_clone_api.v1.user.dto.ShippingAddressDTO;
-import com.ssamal.starbucks_clone_api.v1.user.dto.vo.UserReq;
+import com.ssamal.starbucks_clone_api.v1.address.dto.ShippingAddressDTO;
+import com.ssamal.starbucks_clone_api.v1.address.dto.vo.AddressReq.EditUserAddressReq;
+import com.ssamal.starbucks_clone_api.v1.user.model.ServiceUser;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -60,7 +61,7 @@ public class ShippingAddress extends BaseTimeEntity {
         return ModelMapperUtils.getModelMapper().map(dto, ShippingAddress.class);
     }
 
-    public void editAddressInfo(UserReq.EditUserAddressReq req) {
+    public void editAddressInfo(EditUserAddressReq req) {
         this.alias = req.getAddressInfo().getAlias();
         this.recipient = req.getAddressInfo().getRecipient();
         this.zipCode = req.getAddressInfo().getZipCode();

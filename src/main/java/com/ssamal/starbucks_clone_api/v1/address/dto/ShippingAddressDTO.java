@@ -1,7 +1,7 @@
-package com.ssamal.starbucks_clone_api.v1.user.dto;
+package com.ssamal.starbucks_clone_api.v1.address.dto;
 
 import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
-import com.ssamal.starbucks_clone_api.v1.user.entity.ShippingAddress;
+import com.ssamal.starbucks_clone_api.v1.address.model.ShippingAddress;
 import lombok.*;
 
 

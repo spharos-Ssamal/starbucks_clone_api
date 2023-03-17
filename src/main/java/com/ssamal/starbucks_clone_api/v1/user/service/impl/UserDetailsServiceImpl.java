@@ -2,8 +2,8 @@ package com.ssamal.starbucks_clone_api.v1.user.service.impl;
 
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
-import com.ssamal.starbucks_clone_api.v1.user.entity.ServiceUser;
-import com.ssamal.starbucks_clone_api.v1.user.entity.repository.ServiceUserRepository;
+import com.ssamal.starbucks_clone_api.v1.user.model.ServiceUser;
+import com.ssamal.starbucks_clone_api.v1.user.model.repository.ServiceUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -3,7 +3,7 @@ package com.ssamal.starbucks_clone_api.v1.cart.dto;
 import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
 import com.ssamal.starbucks_clone_api.v1.cart.entity.CartItem;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
-import com.ssamal.starbucks_clone_api.v1.user.entity.ServiceUser;
+import com.ssamal.starbucks_clone_api.v1.user.model.ServiceUser;
 import lombok.*;
 
 

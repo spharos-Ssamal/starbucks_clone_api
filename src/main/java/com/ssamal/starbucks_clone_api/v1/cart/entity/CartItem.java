@@ -2,7 +2,7 @@ package com.ssamal.starbucks_clone_api.v1.cart.entity;
 
 import com.ssamal.starbucks_clone_api.global.entity.BaseTimeEntity;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
-import com.ssamal.starbucks_clone_api.v1.user.entity.ServiceUser;
+import com.ssamal.starbucks_clone_api.v1.user.model.ServiceUser;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

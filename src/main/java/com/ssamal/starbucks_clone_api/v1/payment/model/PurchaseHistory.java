@@ -5,8 +5,8 @@ import com.ssamal.starbucks_clone_api.global.utils.StringUtils;
 import com.ssamal.starbucks_clone_api.v1.payment.dto.vo.PaymentReq.PurchasedInfo;
 import com.ssamal.starbucks_clone_api.v1.payment.enums.PaymentMethod;
 import com.ssamal.starbucks_clone_api.v1.payment.enums.ShippingStatus;
-import com.ssamal.starbucks_clone_api.v1.user.entity.ServiceUser;
-import com.ssamal.starbucks_clone_api.v1.user.entity.ShippingAddress;
+import com.ssamal.starbucks_clone_api.v1.user.model.ServiceUser;
+import com.ssamal.starbucks_clone_api.v1.address.model.ShippingAddress;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,19 +17,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.ToString.Exclude;
-import org.hibernate.Hibernate;
 
 @Entity
 @Table(name = "purchase_history")
