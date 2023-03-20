@@ -1,6 +1,6 @@
-package com.ssamal.starbucks_clone_api.v1.admin.category.model.repository.specification;
+package com.ssamal.starbucks_clone_api.v1.category.model.mapping.repository.specification;
 
-import com.ssamal.starbucks_clone_api.v1.admin.category.model.ProductOptions;
+import com.ssamal.starbucks_clone_api.v1.category.model.mapping.ProductOptions;
 import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 
