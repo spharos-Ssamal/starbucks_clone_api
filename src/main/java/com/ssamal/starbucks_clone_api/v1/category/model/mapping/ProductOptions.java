@@ -1,5 +1,7 @@
-package com.ssamal.starbucks_clone_api.v1.admin.category.model;
+package com.ssamal.starbucks_clone_api.v1.category.model.mapping;
 
+import com.ssamal.starbucks_clone_api.v1.admin.category.model.Season;
+import com.ssamal.starbucks_clone_api.v1.admin.category.model.Size;
 import com.ssamal.starbucks_clone_api.v1.category.model.Category;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
 import jakarta.persistence.Column;
@@ -16,14 +18,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Entity
-@Table(name ="product_option")
+@Table(name = "product_option")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class ProductOptions {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
