@@ -3,6 +3,7 @@ package com.ssamal.starbucks_clone_api.v1.product.dto.vo;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import com.ssamal.starbucks_clone_api.v1.category.model.mapping.ProductEvent;
 import com.ssamal.starbucks_clone_api.v1.category.model.mapping.ProductRecommend;
+import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDetailImageDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,15 @@ public class ProductRes {
     @NoArgsConstructor
     public static class GetProductRes {
 
-        private ProductDTO productDTO;
+        private ProductDTO productInfo;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class GetProductDetailRes {
+        private ProductDTO productInfo;
+        private List<ProductDetailImageDTO> imageList;
     }
 
     @Getter

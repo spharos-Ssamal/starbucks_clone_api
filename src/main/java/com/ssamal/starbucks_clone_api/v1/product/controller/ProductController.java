@@ -79,9 +79,9 @@ public class ProductController {
 
     @Operation(summary = "상품 단건 조회", description = "상품 단건 조회 API 입니다.")
     @GetMapping("/read")
-    public ResponseEntity<BaseRes<ProductRes.GetProductRes>> getProductById(
+    public ResponseEntity<BaseRes<ProductRes.GetProductDetailRes>> getProductById(
         @RequestParam(name = "productId", defaultValue = "") Long productId) {
-        ProductRes.GetProductRes result = productService.getProduct(productId);
+        ProductRes.GetProductDetailRes result = productService.getProduct(productId);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 

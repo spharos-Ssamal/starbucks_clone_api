@@ -2,6 +2,7 @@ package com.ssamal.starbucks_clone_api.v1.admin.product.service.impl;
 
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
+import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq.AddImageReq;
 import com.ssamal.starbucks_clone_api.v1.admin.product.service.ProductAdminService;
 import com.ssamal.starbucks_clone_api.v1.category.model.Category;
 import com.ssamal.starbucks_clone_api.v1.category.model.repository.CategoryRepository;
@@ -35,6 +36,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
     private final SizeRepository sizeRepository;
     private final ProductEventRepository productEventRepository;
     private final ProductOptionsRepository productOptionsRepository;
+    private final ProductDetailImageRepository productDetailImageRepository;
 
     @Override
     @Transactional
@@ -69,11 +71,29 @@ public class ProductAdminServiceImpl implements ProductAdminService {
                     productOptionsRepository.save(option);
 
                 });
+
+                request.getImages().forEach(imageUrl -> {
+                    ProductDetailImage image = ProductDetailImage.of(newProduct, imageUrl);
+                    productDetailImageRepository.save(image);
+                });
+
                 result.add(new ProdAdminRes.AddProductRes(newProduct.getId()));
             }
         });
 
         return result;
+    }
+
+    @Override
+    public List<Long> addProductDetailImages(AddImageReq req) {
+        Product product = productRepository.findById(req.getProductId())
+            .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
+
+        return req.getImageUrls().stream().map(imageUrl -> {
+            ProductDetailImage image = ProductDetailImage.of(product, imageUrl);
+            productDetailImageRepository.save(image);
+            return image.getId();
+        }).toList();
     }
 
     @Override

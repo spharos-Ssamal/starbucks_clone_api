@@ -32,8 +32,17 @@ public class ProdAdminReq {
 
         private AddProductInfo productInfo;
         private List<Long> categoryIds;
+        private List<String> images;
         private Long seasonId;
         private Long sizeId;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class AddImageReq {
+        private Long productId;
+        private List<String> imageUrls;
     }
 
     @Getter

@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface ProductService {
 
-    ProductRes.GetProductRes getProduct(Long productId);
+    ProductRes.GetProductDetailRes getProduct(Long productId);
 
     ProductRes.SearchProductRes getProducts(GetProductsReq req, Pageable pageable);
 
