@@ -10,4 +10,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 public interface ProductOptionsRepository extends JpaRepository<ProductOptions, Long>,
     JpaSpecificationExecutor<ProductOptions> {
     Page<ProductOptions> findAll(Specification<ProductOptions> spec, Pageable pageable);
+    Boolean existsByCategoryIdAndProductId(Long categoryId, Long productId);
 }
