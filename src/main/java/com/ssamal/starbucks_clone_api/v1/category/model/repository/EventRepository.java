@@ -10,4 +10,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     boolean existsByName(String name);
 
     List<Event> findAllByStatus(EventStatus status);
+
+    List<Event> findAllByBannerViewable(Boolean bannerViewable);
 }

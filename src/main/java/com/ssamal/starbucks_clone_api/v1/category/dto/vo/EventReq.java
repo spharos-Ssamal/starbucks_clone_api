@@ -18,6 +18,7 @@ public class EventReq {
         private String name;
         private String detailImage;
         private String bannerImage;
+        private String linkedUrl;
     }
 
 }

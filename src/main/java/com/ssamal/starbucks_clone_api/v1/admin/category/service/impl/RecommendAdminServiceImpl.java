@@ -41,6 +41,7 @@ public class RecommendAdminServiceImpl implements RecommendAdminService {
                     .name(request.getName())
                     .detailImage(request.getDetailImage())
                     .bannerImage(request.getBannerImage())
+                    .linkedUrl(request.getLinkedUrl())
                     .status(EventStatus.ACTIVE)
                     .build();
                 recommendRepository.save(recommend);

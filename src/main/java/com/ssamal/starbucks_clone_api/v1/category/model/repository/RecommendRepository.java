@@ -11,4 +11,6 @@ import java.util.List;
 public interface RecommendRepository extends JpaRepository<Recommend, Long> {
     boolean existsByName(String name);
     List<Recommend> findAllByStatus(EventStatus status);
+
+    List<Recommend> findAllByBannerViewable(Boolean bannerViewable);
 }
