@@ -7,7 +7,7 @@ import com.ssamal.starbucks_clone_api.v1.category.model.repository.RecommendRepo
 import com.ssamal.starbucks_clone_api.v1.category.service.RecommendService;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.RecommendProductRes;
 import com.ssamal.starbucks_clone_api.v1.category.dto.vo.RecommendRes.ActivatedRecommendsRes;
-import com.ssamal.starbucks_clone_api.v1.product.enums.EventStatus;
+import com.ssamal.starbucks_clone_api.v1.category.enums.EventStatus;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

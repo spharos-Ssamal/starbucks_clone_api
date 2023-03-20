@@ -7,6 +7,7 @@ import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartItemRes;
 import com.ssamal.starbucks_clone_api.v1.cart.entity.CartItem;
 import com.ssamal.starbucks_clone_api.v1.cart.repository.CartItemRepository;
 import com.ssamal.starbucks_clone_api.v1.cart.service.CartItemService;
+import com.ssamal.starbucks_clone_api.v1.category.model.mapping.repository.ProductOptionsRepository;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.ProductRepository;
@@ -28,6 +29,7 @@ public class CartItemServiceImpl implements CartItemService {
     private final CartItemRepository cartItemRepository;
     private final ServiceUserRepository userRepository;
     private final ProductRepository productRepository;
+    private final ProductOptionsRepository productOptionsRepository;
 
     @Override
     public Long createCartItem(CartItemReq req) {
@@ -70,6 +72,8 @@ public class CartItemServiceImpl implements CartItemService {
             .id(t.getId())
             .product(ProductDTO.of(t.getProduct()))
             .count(t.getCount())
+            .check(false)
+            .isFrozen(productOptionsRepository.existsByCategoryIdAndProductId(2L, t.getProduct().getId()))
             .build()).toList();
     }
 

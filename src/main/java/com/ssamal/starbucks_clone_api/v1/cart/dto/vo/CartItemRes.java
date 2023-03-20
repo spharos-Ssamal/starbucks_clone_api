@@ -13,4 +13,6 @@ public class CartItemRes {
     private Long id;
     private ProductDTO product;
     private int count;
+    private boolean isFrozen;
+    private boolean check;
 }

@@ -2,11 +2,11 @@ package com.ssamal.starbucks_clone_api.v1.admin.category.service.impl;
 
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
-import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminReq.AddOption;
 import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminReq.AddProductTo;
 import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminRes.AddOptionRes;
 import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminRes.AddProductOptionRes;
-import com.ssamal.starbucks_clone_api.v1.product.enums.EventStatus;
+import com.ssamal.starbucks_clone_api.v1.category.dto.vo.RecommendReq.AddRecommendReq;
+import com.ssamal.starbucks_clone_api.v1.category.enums.EventStatus;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
 import com.ssamal.starbucks_clone_api.v1.category.model.mapping.ProductRecommend;
 import com.ssamal.starbucks_clone_api.v1.category.model.Recommend;
@@ -29,7 +29,7 @@ public class RecommendAdminServiceImpl implements RecommendAdminService {
     private final ProductRecommendRepository productRecommendRepository;
 
     @Override
-    public List<AddOptionRes> addRecommend(List<AddOption> req) {
+    public List<AddOptionRes> addRecommend(List<AddRecommendReq> req) {
         List<AddOptionRes> response = new ArrayList<>();
 
         req.forEach(request -> {
@@ -39,6 +39,8 @@ public class RecommendAdminServiceImpl implements RecommendAdminService {
             } else {
                 Recommend recommend = Recommend.builder()
                     .name(request.getName())
+                    .detailImage(request.getDetailImage())
+                    .bannerImage(request.getBannerImage())
                     .status(EventStatus.ACTIVE)
                     .build();
                 recommendRepository.save(recommend);
@@ -54,12 +56,22 @@ public class RecommendAdminServiceImpl implements RecommendAdminService {
         Product product = productRepository.findById(req.getProductId())
             .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
         Recommend recommend = recommendRepository.findById(req.getMenuId())
-            .orElseThrow(() -> new CustomException(ResCode.EVENT_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.RECOMMEND_NOT_FOUND));
         ProductRecommend productRecommend = ProductRecommend.builder()
             .product(product)
             .recommend(recommend)
             .build();
         productRecommendRepository.save(productRecommend);
         return new AddProductOptionRes(product.getId(), recommend.getId());
+    }
+
+    @Override
+    public Long chgViewable(Long recommendId) {
+        Recommend recommend = recommendRepository.findById(recommendId)
+            .orElseThrow(() -> new CustomException(ResCode.RECOMMEND_NOT_FOUND));
+        recommend.chgViewable();
+        recommendRepository.save(recommend);
+
+        return recommend.getId();
     }
 }

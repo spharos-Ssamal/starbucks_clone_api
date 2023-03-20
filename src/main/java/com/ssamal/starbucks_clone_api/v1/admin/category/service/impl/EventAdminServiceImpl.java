@@ -2,12 +2,12 @@ package com.ssamal.starbucks_clone_api.v1.admin.category.service.impl;
 
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
-import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminReq.AddOption;
 import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminReq.AddProductTo;
 import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminRes.AddOptionRes;
 import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminRes.AddProductOptionRes;
 import com.ssamal.starbucks_clone_api.v1.admin.category.service.EventAdminService;
-import com.ssamal.starbucks_clone_api.v1.product.enums.EventStatus;
+import com.ssamal.starbucks_clone_api.v1.category.dto.vo.EventReq.AddEventReq;
+import com.ssamal.starbucks_clone_api.v1.category.enums.EventStatus;
 import com.ssamal.starbucks_clone_api.v1.category.model.Event;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
 import com.ssamal.starbucks_clone_api.v1.category.model.mapping.ProductEvent;
@@ -29,7 +29,7 @@ public class EventAdminServiceImpl implements EventAdminService {
     private final ProductEventRepository productEventRepository;
 
     @Override
-    public List<AddOptionRes> addEvent(List<AddOption> req) {
+    public List<AddOptionRes> addEvent(List<AddEventReq> req) {
 
         List<AddOptionRes> response = new ArrayList<>();
 
@@ -40,6 +40,8 @@ public class EventAdminServiceImpl implements EventAdminService {
             } else {
                 Event newEvent = Event.builder()
                     .name(request.getName())
+                    .detailImage(request.getDetailImage())
+                    .bannerImage(request.getBannerImage())
                     .status(EventStatus.ACTIVE)
                     .build();
                 eventRepository.save(newEvent);
@@ -62,5 +64,14 @@ public class EventAdminServiceImpl implements EventAdminService {
             .build();
         productEventRepository.save(productEvent);
         return new AddProductOptionRes(product.getId(), event.getId());
+    }
+
+    @Override
+    public Long chgViewable(Long eventId) {
+        Event event = eventRepository.findById(eventId)
+            .orElseThrow(() -> new CustomException(ResCode.EVENT_NOT_FOUND));
+        event.chgViewable();
+        eventRepository.save(event);
+        return event.getId();
     }
 }

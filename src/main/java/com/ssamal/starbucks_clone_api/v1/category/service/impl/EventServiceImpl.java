@@ -8,7 +8,7 @@ import com.ssamal.starbucks_clone_api.v1.category.service.EventService;
 import com.ssamal.starbucks_clone_api.v1.category.dto.vo.EventRes.ActivatedEventsRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.EventProductRes;
-import com.ssamal.starbucks_clone_api.v1.product.enums.EventStatus;
+import com.ssamal.starbucks_clone_api.v1.category.enums.EventStatus;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
