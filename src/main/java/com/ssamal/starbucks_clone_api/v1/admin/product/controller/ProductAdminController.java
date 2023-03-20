@@ -2,6 +2,7 @@ package com.ssamal.starbucks_clone_api.v1.admin.product.controller;
 
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq;
+import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq.AddImageReq;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminRes;
 import com.ssamal.starbucks_clone_api.v1.admin.product.service.ProductAdminService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,6 +26,14 @@ public class ProductAdminController {
     public ResponseEntity<BaseRes<List<ProdAdminRes.AddProductRes>>> insertProduct(
         @RequestBody List<ProdAdminReq.AddProductReq> req) {
         List<ProdAdminRes.AddProductRes> result = adminService.addProduct(req);
+        return ResponseEntity.ok().body(BaseRes.success(result));
+    }
+
+    @Operation(summary = "상품 상세 이미지 등록", description = "상품 상세 이미지 등록 API 입니다.")
+    @PostMapping("/insert/image")
+    public ResponseEntity<BaseRes<List<Long>>> insertProductImages(
+        @RequestBody AddImageReq req) {
+        List<Long> result = adminService.addProductDetailImages(req);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 

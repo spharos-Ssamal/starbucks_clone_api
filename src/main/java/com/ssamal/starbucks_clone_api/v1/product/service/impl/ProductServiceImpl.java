@@ -6,6 +6,7 @@ import com.ssamal.starbucks_clone_api.v1.category.model.HashTag;
 import com.ssamal.starbucks_clone_api.v1.category.model.mapping.repository.ProductHashTagRepository;
 import com.ssamal.starbucks_clone_api.v1.category.model.repository.HashTagRepository;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
+import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDetailImageDTO;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.GetProductsReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.SearchProductsByHashtagReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.SearchProductsReq;
@@ -34,12 +35,18 @@ public class ProductServiceImpl implements ProductService {
     private final ProductOptionsRepository productOptionsRepository;
     private final HashTagRepository hashTagRepository;
     private final ProductHashTagRepository productHashTagRepository;
+    private final ProductDetailImageRepository productDetailImageRepository;
 
     @Override
-    public ProductRes.GetProductRes getProduct(Long productId) {
+    public ProductRes.GetProductDetailRes getProduct(Long productId) {
+
         Product result = productRepository.findById(productId)
             .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
-        return new ProductRes.GetProductRes(ProductDTO.of(result));
+
+        List<ProductDetailImageDTO> imageResults = productDetailImageRepository.findAllByProductIdOrderByIdAsc(
+            productId).stream().map(ProductDetailImageDTO::of).toList();
+
+        return new ProductRes.GetProductDetailRes(ProductDTO.of(result), imageResults);
     }
 
     @Override
