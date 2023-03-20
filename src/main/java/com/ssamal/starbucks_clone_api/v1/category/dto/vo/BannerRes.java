@@ -20,13 +20,19 @@ public class BannerRes {
 
         private String bannerImage;
         private String regTime;
+        private Long eventId;
+        private Long recommendId;
 
         public static BannerInfo of(Event event) {
-            return ModelMapperUtils.getModelMapper().map(event, BannerInfo.class);
+            BannerInfo info = ModelMapperUtils.getModelMapper().map(event, BannerInfo.class);
+            info.setEventId(event.getId());
+            return info;
         }
 
         public static BannerInfo of(Recommend recommend) {
-            return ModelMapperUtils.getModelMapper().map(recommend, BannerInfo.class);
+            BannerInfo info = ModelMapperUtils.getModelMapper().map(recommend, BannerInfo.class);
+            info.setRecommendId(recommend.getId());
+            return info;
         }
     }
 
