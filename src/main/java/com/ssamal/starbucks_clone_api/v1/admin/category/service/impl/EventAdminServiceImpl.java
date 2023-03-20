@@ -42,7 +42,6 @@ public class EventAdminServiceImpl implements EventAdminService {
                     .name(request.getName())
                     .detailImage(request.getDetailImage())
                     .bannerImage(request.getBannerImage())
-                    .linkedUrl(request.getLinkedUrl())
                     .status(EventStatus.ACTIVE)
                     .build();
                 eventRepository.save(newEvent);

@@ -32,9 +32,6 @@ public class Recommend extends BaseTimeEntity {
     @Column(name = "banner_image")
     private String bannerImage;
 
-    @Column(name = "linked_url")
-    private String linkedUrl;
-
     @Column(name = "banner_viewable")
     @Default
     private Boolean bannerViewable = false;

@@ -51,14 +51,14 @@ public class PaymentDTO {
     public static class UserHistory {
 
         private String historyId;
-        private LocalDate date;
+        private String date;
         private List<ProductInfo> productInfoList;
 
         public static UserHistory of(String historyId, LocalDate date,
             List<PurchaseProducts> purchaseProducts) {
             List<ProductInfo> productInfo = purchaseProducts.stream()
                 .map(t -> ProductInfo.of(t.getProduct(), t.getCount())).toList();
-            return new UserHistory(historyId, date, productInfo);
+            return new UserHistory(historyId, date.toString(), productInfo);
         }
     }
 

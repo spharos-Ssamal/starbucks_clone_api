@@ -58,8 +58,8 @@ public class PaymentRes {
         private String baseAddress;
         private String detailAddress;
         private String message;
-        private LocalDate date;
-        private LocalDate canceledDate;
+        private String regTime;
+        private String updateTime;
         private Integer purchasePrice;
         private Integer discountPrice;
         private Integer totalPrice;
@@ -70,8 +70,6 @@ public class PaymentRes {
             HistoryDetailInfo result = ModelMapperUtils.getModelMapper()
                 .map(history, HistoryDetailInfo.class);
             result.setProductInfoList(productInfoList);
-            result.setDate(history.getRegTime().toLocalDate());
-            result.setCanceledDate(history.getUpdateTime().toLocalDate());
             return result;
         }
 

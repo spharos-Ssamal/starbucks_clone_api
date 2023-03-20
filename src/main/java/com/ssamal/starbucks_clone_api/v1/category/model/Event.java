@@ -32,9 +32,6 @@ public class Event extends BaseTimeEntity {
     @Column(name = "detail_image")
     private String detailImage;
 
-    @Column(name = "linked_url")
-    private String linkedUrl;
-
     @Column(name = "banner_viewable")
     @Default
     private Boolean bannerViewable = false;

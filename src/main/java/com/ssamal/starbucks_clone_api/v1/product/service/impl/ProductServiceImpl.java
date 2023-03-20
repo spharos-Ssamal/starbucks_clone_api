@@ -13,7 +13,7 @@ import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.SearchProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.model.*;
 import com.ssamal.starbucks_clone_api.v1.category.model.mapping.ProductOptions;
-import com.ssamal.starbucks_clone_api.v1.admin.category.model.repository.ProductOptionsRepository;
+import com.ssamal.starbucks_clone_api.v1.category.model.mapping.repository.ProductOptionsRepository;
 import com.ssamal.starbucks_clone_api.v1.category.model.mapping.repository.specification.ProductOptionSpecification;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.*;
 import com.ssamal.starbucks_clone_api.v1.product.service.ProductService;

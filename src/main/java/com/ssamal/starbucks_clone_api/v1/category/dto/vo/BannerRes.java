@@ -3,7 +3,6 @@ package com.ssamal.starbucks_clone_api.v1.category.dto.vo;
 import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
 import com.ssamal.starbucks_clone_api.v1.category.model.Event;
 import com.ssamal.starbucks_clone_api.v1.category.model.Recommend;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,8 +19,7 @@ public class BannerRes {
     public static class BannerInfo {
 
         private String bannerImage;
-        private String linkedUrl;
-        private LocalDateTime regTime;
+        private String regTime;
 
         public static BannerInfo of(Event event) {
             return ModelMapperUtils.getModelMapper().map(event, BannerInfo.class);
