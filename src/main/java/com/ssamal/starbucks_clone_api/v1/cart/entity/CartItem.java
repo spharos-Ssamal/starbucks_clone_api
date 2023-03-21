@@ -40,4 +40,7 @@ public class CartItem extends BaseTimeEntity {
         this.count = count;
     }
 
+    public void deleteCartItem() {
+        this.setDeleted(true);
+    }
 }

@@ -2,8 +2,10 @@ package com.ssamal.starbucks_clone_api.v1.cart.service.impl;
 
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
-import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartItemReq;
-import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartItemRes;
+import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartReq.CartItemReq;
+import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartReq.RemoveCartItemReq;
+import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartRes.CartItemRes;
+import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartRes.RemoveCartRes;
 import com.ssamal.starbucks_clone_api.v1.cart.entity.CartItem;
 import com.ssamal.starbucks_clone_api.v1.cart.repository.CartItemRepository;
 import com.ssamal.starbucks_clone_api.v1.cart.service.CartItemService;
@@ -73,7 +75,8 @@ public class CartItemServiceImpl implements CartItemService {
             .product(ProductDTO.of(t.getProduct()))
             .count(t.getCount())
             .check(false)
-            .isFrozen(productOptionsRepository.existsByCategoryIdAndProductId(2L, t.getProduct().getId()))
+            .isFrozen(
+                productOptionsRepository.existsByCategoryIdAndProductId(2L, t.getProduct().getId()))
             .build()).toList();
     }
 
@@ -103,6 +106,17 @@ public class CartItemServiceImpl implements CartItemService {
         cartItemRepository.save(cartItem);
 
         return cartId;
+    }
+
+    @Override
+    public RemoveCartRes removeCartItems(RemoveCartItemReq req) {
+        return new RemoveCartRes(req.getCartItemIds().stream().map(itemId -> {
+            CartItem item = cartItemRepository.findById(itemId)
+                .orElseThrow(() -> new CustomException(ResCode.CART_ITEM_NOT_FOUND));
+            item.deleteCartItem();
+            cartItemRepository.save(item);
+            return item.getId();
+        }).toList());
     }
 }
 

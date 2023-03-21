@@ -1,18 +1,20 @@
 package com.ssamal.starbucks_clone_api.v1.cart.controller;
 
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
-import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartItemReq;
-import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartItemRes;
+import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartReq.CartItemReq;
+import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartReq.RemoveCartItemReq;
 import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartReq.UpdateCartReq;
+import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartRes.CartItemRes;
+import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartRes.RemoveCartRes;
 import com.ssamal.starbucks_clone_api.v1.cart.service.CartItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.util.List;
 import java.util.UUID;
 
 @Tag(name = "장바구니", description = "장바구니 요청 API 문서입니다.")
@@ -54,5 +56,14 @@ public class CartController {
         Long res = cartItemService.deleteCartItem(cartId);
         return ResponseEntity.ok().body(BaseRes.success(res));
     }
+
+    @Operation(summary = "장바구니 데이터 삭제 요청", description = "장바구니 데이터 삭제 요청 API 입니다.")
+    @PostMapping("/cart/confirm")
+    public ResponseEntity<BaseRes<RemoveCartRes>> confirmCartItemReq(
+        @RequestBody RemoveCartItemReq req) {
+        RemoveCartRes res = cartItemService.removeCartItems(req);
+        return ResponseEntity.ok().body(BaseRes.success(res));
+    }
+
 
 }

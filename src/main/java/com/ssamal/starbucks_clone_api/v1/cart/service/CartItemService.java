@@ -1,9 +1,11 @@
 package com.ssamal.starbucks_clone_api.v1.cart.service;
 
 
-import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartItemRes;
-import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartItemReq;
 
+import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartReq.CartItemReq;
+import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartReq.RemoveCartItemReq;
+import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartRes.CartItemRes;
+import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartRes.RemoveCartRes;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,4 +18,5 @@ public interface CartItemService {
     Long updateCartItem(Long cartId, int count);
 
     Long deleteCartItem(Long cartId);
+    RemoveCartRes removeCartItems(RemoveCartItemReq req);
 }
