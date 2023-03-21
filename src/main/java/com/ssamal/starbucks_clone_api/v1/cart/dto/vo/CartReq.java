@@ -1,5 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.cart.dto.vo;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,14 @@ public class CartReq {
     public static class UpdateCartReq {
         private Long cartId;
         private int count;
+    }
+
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class RemoveCartItemReq {
+        private List<Long> cartItemIds;
     }
 
 }

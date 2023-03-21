@@ -69,15 +69,15 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public UserRes.Logout logoutUser(String accessToken, String refreshToken) {
 
+        if (redisUtils.getData(refreshToken) != null) {
+            redisUtils.deleteData(refreshToken);
+        }
+
         if (jwtUtils.validateToken(accessToken) != ResCode.OK) {
             return new UserRes.Logout("토큰 만료로 인한 자동 로그아웃 처리");
         }
 
         Authentication authentication = jwtUtils.getAuthentication(accessToken);
-
-        if (redisUtils.getData(refreshToken) != null) {
-            redisUtils.deleteData(refreshToken);
-        }
 
         Long expiration = jwtUtils.getExpiration(accessToken);
         redisUtils.setDataExpire(accessToken, "logout", expiration);
