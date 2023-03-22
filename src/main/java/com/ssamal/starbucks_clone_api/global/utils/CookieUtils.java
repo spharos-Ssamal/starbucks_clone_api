@@ -9,13 +9,13 @@ public class CookieUtils {
     private CookieUtils() {
         throw new IllegalStateException("Utility class");
     }
-    public static ResponseCookie createCookie(String cookieName, String value) {
+    public static ResponseCookie createCookie(String cookieName, String value, Long validTime) {
         return ResponseCookie.from(cookieName, value)
                 .path("/")
                 .secure(true)
                 .sameSite("None")
                 .httpOnly(true)
-                .maxAge(JwtUtils.REFRESH_TOKEN_VALID_TIME / 1000)
+                .maxAge(validTime / 1000)
                 .build();
     }
 

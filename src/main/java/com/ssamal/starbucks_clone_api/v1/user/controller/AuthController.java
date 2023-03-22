@@ -33,7 +33,7 @@ public class AuthController {
     public ResponseEntity<BaseRes<UserRes.LoginRes>> loginUser(@RequestBody UserReq.LoginReq req) {
         UserRes.LoginRes res = authService.loginUser(req);
         ResponseCookie refreshTokenCookie = CookieUtils.createCookie(JwtUtils.REFRESH_TOKEN_NAME,
-            res.getRefreshToken());
+            res.getRefreshToken(), JwtUtils.REFRESH_TOKEN_VALID_TIME);
         return ResponseEntity.ok().header(SET_COOKIE, refreshTokenCookie.toString())
             .body(BaseRes.success(res));
     }
