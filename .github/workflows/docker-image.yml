@@ -69,7 +69,7 @@ jobs:
           port: ${{ secrets.AWS_SSH_PORT }}
           script_stop: true
           script: |
-            cd /home/ubuntu/dev/starbucks_clone/shells
+            cd /home/ubuntu/dev/starbucks_clone
             sh ./shells/deploy.sh
       - name: Remove Github Actions IP From Security Group
         run: |
