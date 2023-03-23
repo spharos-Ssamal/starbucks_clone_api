@@ -13,7 +13,7 @@ public class CouponReq {
 
     private Long id;
 
-    private String name;
+    private String couponName;
 
     private int price;
 

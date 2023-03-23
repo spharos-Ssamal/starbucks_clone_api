@@ -2,7 +2,7 @@ package com.ssamal.starbucks_clone_api.v1.coupon.entity;
 
 
 import com.ssamal.starbucks_clone_api.global.entity.BaseEntity;
-import com.ssamal.starbucks_clone_api.v1.user.entity.ServiceUser;
+import com.ssamal.starbucks_clone_api.v1.user.model.ServiceUser;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,12 +40,14 @@ public class UserCoupon extends BaseEntity {
     @Column(name = "expiration_date", nullable = false, updatable = false)
     private LocalDate expirationDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    //cascade를 걸기 위해서 onetoMany를 사용하는게 좋을 것 같네요.
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private ServiceUser serviceUser;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "coupon_id")
+    //cascade를 걸기 위해서 onetoMany를 사용하는게 좋을 것 같네요.
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "coupon_id", nullable = false)
     private Coupon coupon;
 
 }

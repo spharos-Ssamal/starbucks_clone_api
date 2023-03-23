@@ -1,6 +1,7 @@
 package com.ssamal.starbucks_clone_api.v1.coupon.entity;
 
 import com.ssamal.starbucks_clone_api.global.entity.BaseEntity;
+import com.ssamal.starbucks_clone_api.global.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Table(name = "coupon_info")
 @Entity
-public class Coupon extends BaseEntity {
+public class Coupon extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

@@ -1,5 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.coupon.service.impl;
 
+import com.ssamal.starbucks_clone_api.global.config.modelmapper.ModelMapperConfig;
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.coupon.dto.CouponDTO;
@@ -16,27 +17,14 @@ import org.webjars.NotFoundException;
 @Service
 @RequiredArgsConstructor
 public class CouponServiceImpl implements CouponService {
-
     private final CouponRepository couponRepository;
-
+    private final ModelMapperConfig modelMapperConfig;
     @Override
     public Long createCoupon(CouponDTO couponDTO) {
-        Optional<Coupon> coupon = couponRepository.findByCouponIdAndIsDeleted(couponDTO.getId(), false);
-        Coupon newCoupon;
-        if(coupon.isPresent()){
-            newCoupon = coupon.get();
-            newCoupon.updateCoupon(couponDTO.getName(), couponDTO.getPrice(), couponDTO.getCompany());
-        }else{
-            newCoupon = Coupon.builder()
-                .name(couponDTO.getName())
-                .price(couponDTO.getPrice())
-                .company(couponDTO.getCompany())
-                .build();
-        }
-        couponRepository.save(newCoupon);
-        return newCoupon.getId();
+        Coupon coupon = modelMapperConfig.modelMapper().map(couponDTO,Coupon.class);
+        couponRepository.save(coupon);
+        return coupon.getId();
     }
-
     @Override
     public List<CouponDTO> couponList() {
         List<Coupon>couponList = couponRepository.findAll();
@@ -46,26 +34,20 @@ public class CouponServiceImpl implements CouponService {
             .company(t.getCompany())
             .build()).toList();
     }
-
     @Override
     public Long updateCoupon(CouponReq couponReq) {
         Coupon coupon = couponRepository.findById(couponReq.getId())
             .orElseThrow(() -> new CustomException(ResCode.COUPON_NOT_FOUND));
-        coupon.updateCoupon( couponReq.getName(), couponReq.getPrice(), couponReq.getCompany());
+        coupon.updateCoupon( couponReq.getCouponName(), couponReq.getPrice(), couponReq.getCompany());
         couponRepository.save(coupon);
         return coupon.getId();
     }
-
     @Override
-    public String deleteCoupon(CouponReq couponReq) {
-        String answer;
-        try{
-            couponRepository.deleteById(couponReq.getId());
-            answer = "삭제 성공";
-        }catch (NotFoundException e){
-            answer = "이미 삭제된 쿠폰";
-        }
+    public String deleteCoupon(Long id) {
+        String answer = "삭제 성공";
+        couponRepository.findById(id)
+                .orElseThrow( () -> new CustomException(ResCode.COUPON_NOT_FOUND));
+        couponRepository.deleteById(id);
         return answer;
     }
-
 }

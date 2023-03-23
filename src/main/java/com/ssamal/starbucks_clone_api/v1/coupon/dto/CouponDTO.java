@@ -1,5 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.coupon.dto;
 
+import com.ssamal.starbucks_clone_api.global.entity.BaseEntity;
 import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
 import com.ssamal.starbucks_clone_api.v1.coupon.entity.Coupon;
 import jakarta.persistence.Column;
@@ -19,7 +20,6 @@ public class CouponDTO {
     private String name;
     private int price;
     private String company;
-    private boolean isDeleted;
 
     public static CouponDTO of(Coupon coupon){
         return ModelMapperUtils.getModelMapper().map(coupon,CouponDTO.class);

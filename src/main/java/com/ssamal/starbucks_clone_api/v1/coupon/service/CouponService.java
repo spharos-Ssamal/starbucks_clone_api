@@ -9,7 +9,7 @@ public interface CouponService {
     List<CouponDTO> couponList();
     Long updateCoupon(CouponReq couponReq);
 
-    String deleteCoupon(CouponReq couponReq);
+    String deleteCoupon(Long id);
 
 
 }
