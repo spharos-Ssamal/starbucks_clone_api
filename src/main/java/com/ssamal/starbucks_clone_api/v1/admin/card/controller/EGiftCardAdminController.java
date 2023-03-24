@@ -22,7 +22,7 @@ public class EGiftCardAdminController {
     private final EGiftCardAdminService eGiftCardService;
 
     @Operation(summary = "기프트 카드 생성", description = "기프트 카드 생성 API 입니다.")
-    @PostMapping("/install")
+    @PostMapping("/create")
     public ResponseEntity<BaseRes<Long>> insertEGiftCard(
         @RequestBody InsertEGiftCardReq req) {
         Long res = eGiftCardService.createEGiftCard(req);
