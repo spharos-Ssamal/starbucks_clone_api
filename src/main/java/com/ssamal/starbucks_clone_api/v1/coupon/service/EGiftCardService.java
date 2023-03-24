@@ -10,9 +10,9 @@ public interface EGiftCardService {
 
     Long createEGiftCard(EGiftCardReq req);
 
-    List<EGiftCardDTO> eGiftCardList(UUID userId);
+    List<EGiftCardRes> eGiftCardList(UUID userId);
 
-    EGiftCardRes updateEGiftCard(EGiftCardReq req);
+    Long updateEGiftCard(Long id, int point, String defaultcard);
 
     String deleteEgiftCard(Long id);
 }

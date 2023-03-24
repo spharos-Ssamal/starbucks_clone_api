@@ -1,5 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.coupon.service.impl;
 
+import com.ssamal.starbucks_clone_api.global.config.modelmapper.ModelMapperConfig;
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.coupon.dto.CardDTO;
@@ -10,29 +11,19 @@ import com.ssamal.starbucks_clone_api.v1.coupon.service.CardService;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class CardServiceImpl implements CardService {
     private final CardRepository cardRepository;
+    private final ModelMapperConfig modelMapperConfig;
 
     @Override
-    public Long createCard(CardDTO cardDTO) {
-//        ServiceUser user = userRepository.findById(req.getUserId())
-//            .orElseThrow(() -> new CustomException(ResCode.USER_NOT_FOUND));
-        Optional<Card> findCard = cardRepository.findByIdAndDeleted(cardDTO.getId(),false);
-
-        Card card;
-        if (findCard.isPresent()) {
-          card = findCard.get();
-          card.updateNameAndCategory(cardDTO.getName(),cardDTO.getCategory());
-        }else{
-            card = Card.builder()
-                .name(cardDTO.getName())
-                .category(cardDTO.getCategory())
-                .build();
-        }
+    public Long createCard(CardReq cardReq) {
+        Card card = modelMapperConfig.modelMapper().map(cardReq, Card.class);
         cardRepository.save(card);
         return card.getId();
     }
@@ -58,10 +49,10 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public String deleteCard(CardReq req) {
+
+        Card card = cardRepository.findById(req.getId())
+                .orElseThrow(() -> new CustomException(ResCode.CARD_NOT_FOUND));
         cardRepository.deleteById(req.getId());
-        if(cardRepository.findById(req.getId()).isPresent()){
-            return "삭제 실패";
-        }
         return "삭제성공";
     }
 

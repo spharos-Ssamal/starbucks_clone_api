@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EGiftCardRepository extends JpaRepository<EGiftCard, Long> {
 
-    List<EGiftCard>findByUserId(UUID uuid);
+    List<EGiftCard> findByServiceUser(UUID serviceUser);
 
 }

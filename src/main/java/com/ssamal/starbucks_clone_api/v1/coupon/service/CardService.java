@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CardService {
 
-    Long createCard(CardDTO cardDTO);
+    Long createCard(CardReq cardReq);
 
     List<CardDTO>cardList();
 

@@ -21,6 +21,5 @@ public class EGiftCardRes {
     private Long id;
     private int amountPoint;
     private String defaultCard;
-    private int balance;
     private Card card;
 }

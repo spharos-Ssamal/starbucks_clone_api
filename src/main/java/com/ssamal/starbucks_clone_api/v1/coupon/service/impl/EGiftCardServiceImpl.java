@@ -1,5 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.coupon.service.impl;
 
+import com.ssamal.starbucks_clone_api.global.config.modelmapper.ModelMapperConfig;
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
@@ -11,11 +12,12 @@ import com.ssamal.starbucks_clone_api.v1.coupon.entity.EGiftCard;
 import com.ssamal.starbucks_clone_api.v1.coupon.repository.CardRepository;
 import com.ssamal.starbucks_clone_api.v1.coupon.repository.EGiftCardRepository;
 import com.ssamal.starbucks_clone_api.v1.coupon.service.EGiftCardService;
-import com.ssamal.starbucks_clone_api.v1.user.entity.ServiceUser;
-import com.ssamal.starbucks_clone_api.v1.user.entity.repository.ServiceUserRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import com.ssamal.starbucks_clone_api.v1.user.model.ServiceUser;
+import com.ssamal.starbucks_clone_api.v1.user.model.repository.ServiceUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
@@ -34,46 +36,40 @@ public class EGiftCardServiceImpl implements EGiftCardService {
             .orElseThrow(() -> new CustomException(ResCode.USER_NOT_FOUND));
         Card card = cardRepository.findById(req.getCard_id())
             .orElseThrow(() -> new CustomException(ResCode.CARD_NOT_FOUND));
-        Optional<EGiftCard>checkEGiftCard = eGiftCardRepository.findById(req.getCard_id());
-        EGiftCard eGiftCard;
-        if(checkEGiftCard.isPresent()){
-            eGiftCard = checkEGiftCard.get();
-        }else{
-            eGiftCard=EGiftCard.builder()
+
+        EGiftCard eGiftCard = EGiftCard.builder()
                 .card(card)
                 .serviceUser(serviceUser)
                 .defaultCard(req.getDefaultCard())
-                .balance(req.getBalance())
                 .amountPoint(req.getAmountPoint())
                 .build();
-        }
+
         eGiftCardRepository.save(eGiftCard);
         return eGiftCard.getId();
     }
 
     @Override
-    public List<EGiftCardDTO> eGiftCardList(UUID userId) {
-        List<EGiftCard> eGiftCardList = eGiftCardRepository.findByUserId(userId);
-        return eGiftCardList.stream().map( t -> EGiftCardDTO.builder()
+    public List<EGiftCardRes> eGiftCardList(UUID userId) {
+        List<EGiftCard> eGiftCardList = eGiftCardRepository.findByServiceUser(userId);
+        return eGiftCardList.stream().map( t -> EGiftCardRes.builder()
             .id(t.getId())
             .amountPoint(t.getAmountPoint())
-            .balance(t.getBalance())
             .defaultCard(t.getDefaultCard())
             .build()).toList();
     }
 
     @Override
-    public EGiftCardRes updateEGiftCard(EGiftCardReq req) {
-        EGiftCard eGiftCard = eGiftCardRepository.findById(req.getId())
+    public Long updateEGiftCard(Long id, int point, String defaultCard) {
+        ModelMapperConfig config = new ModelMapperConfig();
+        EGiftCard eGiftCard = eGiftCardRepository.findById(id)
             .orElseThrow(() -> new CustomException(ResCode.CARD_NOT_FOUND));
-        eGiftCard.builder()
-            .balance(req.getBalance())
-            .amountPoint(req.getAmountPoint())
-            .defaultCard(req.getDefaultCard())
-            .build();
+        EGiftCardDTO eGiftCardDTO = EGiftCardDTO.of(eGiftCard);
+        eGiftCardDTO.setAmountPoint(point);
+        eGiftCardDTO.setDefaultCard(defaultCard);
+        eGiftCard = config.modelMapper().map(eGiftCardDTO, EGiftCard.class);
         eGiftCardRepository.save(eGiftCard);
-        EGiftCardRes eGiftCardRes = ModelMapperUtils.getModelMapper().map(eGiftCard,EGiftCardRes.class);
-        return eGiftCardRes;
+
+        return eGiftCard.getId();
     }
 
     @Override
