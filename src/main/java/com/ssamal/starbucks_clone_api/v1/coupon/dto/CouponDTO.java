@@ -1,14 +1,11 @@
 package com.ssamal.starbucks_clone_api.v1.coupon.dto;
 
-import com.ssamal.starbucks_clone_api.global.entity.BaseEntity;
 import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
-import com.ssamal.starbucks_clone_api.v1.coupon.entity.Coupon;
-import jakarta.persistence.Column;
+import com.ssamal.starbucks_clone_api.v1.coupon.model.Coupon;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @AllArgsConstructor
 @Data

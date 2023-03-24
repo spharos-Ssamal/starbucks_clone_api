@@ -1,7 +1,7 @@
 package com.ssamal.starbucks_clone_api.v1.coupon.dto;
 
-import com.ssamal.starbucks_clone_api.v1.coupon.entity.Coupon;
-import com.ssamal.starbucks_clone_api.v1.user.model.ServiceUser;
+import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
+import com.ssamal.starbucks_clone_api.v1.coupon.model.UserCoupon;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,10 +14,13 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserCouponDTO {
+
     private Long id;
     private String status;
-    private LocalDate userDate;
+    private LocalDate useDate;
     private LocalDate expirationDate;
-    private ServiceUser serviceUser;
-    private Coupon coupon;
+
+    public static UserCouponDTO of(UserCoupon coupon) {
+        return ModelMapperUtils.getModelMapper().map(coupon, UserCouponDTO.class);
+    }
 }

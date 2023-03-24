@@ -1,7 +1,7 @@
 package com.ssamal.starbucks_clone_api.v1.coupon.dto;
 
 import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
-import com.ssamal.starbucks_clone_api.v1.coupon.entity.Card;
+import com.ssamal.starbucks_clone_api.v1.coupon.model.Card;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +15,6 @@ public class CardDTO {
 
         private Long id;
         private String name;
-        private String category;
 
         public static CardDTO of(Card card){
             return ModelMapperUtils.getModelMapper().map(card, CardDTO.class);
