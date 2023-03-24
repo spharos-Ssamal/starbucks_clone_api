@@ -34,6 +34,9 @@ public enum ResCode {
     CART_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "장바구니 항목을 찾을 수 없습니다.", "ERROR-NF-009"),
     PURCHASE_HISTORY_NOT_FOUND(HttpStatus.NOT_FOUND, "구매 기록을 찾을 수 없습니다.", "ERROR-NF-010"),
 
+    CARD_NOT_FOUND(HttpStatus.NOT_FOUND,"해당 카드를 찾을 수 없습니다.", "ERROR-NF-011"),
+    COUPON_NOT_FOUND(HttpStatus.NOT_FOUND,"해당 쿠폰를 찾을 수 없습니다.", "ERROR-NF-012"),
+
     //FORBIDDEN
     FORBIDDEN(HttpStatus.FORBIDDEN, "금지된 요청입니다.", "ERROR-FB-000"),
     REFRESH_TOKEN_EXPIRED(HttpStatus.FORBIDDEN, "리프레쉬 토큰이 만료되었습니다.", "ERROR-FB-001"),
@@ -50,6 +53,7 @@ public enum ResCode {
     DUPLICATED_SEASON_NAME(HttpStatus.CONFLICT, "이미 등록 된 시즌 입니다.", "ERROR-CF-008"),
     DUPLICATED_HASHTAG_NAME(HttpStatus.CONFLICT, "이미 등록 된 해시태그 입니다.", "ERROR-CF-009"),
     DUPLICATED_RECOMMEND_NAME(HttpStatus.CONFLICT, "이미 등록 된 추천 입니다.", "ERROR-CF-010"),
+    DUPLICATED_CARD_NAME(HttpStatus.CONFLICT, "이미 등록 된 카드 입니다.", "ERROR-CF-011"),
     INVALID_EMAIL_VERIFICATION_CODE(HttpStatus.CONFLICT, "이메일 인증 코드를 잘못 입력 하셨습니다.", "ERROF-CF-011"),
 
     //INTERNAL SERVER ERROR
