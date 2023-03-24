@@ -2,8 +2,8 @@ package com.ssamal.starbucks_clone_api.v1.category.controller;
 
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
 import com.ssamal.starbucks_clone_api.v1.category.dto.vo.EventRes.ActivatedEventsRes;
-import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.EventProductRes;
 import com.ssamal.starbucks_clone_api.v1.category.service.EventService;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.EventProductsRes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -31,9 +31,9 @@ public class EventController {
 
     @Operation(summary = "이벤트 항목 단건 조회", description = "이벤트 항목 단건 조회 API 입니다.")
     @GetMapping("/get")
-    public ResponseEntity<BaseRes<List<EventProductRes>>> getProductsByEvent(
+    public ResponseEntity<BaseRes<EventProductsRes>> getProductsByEvent(
         @RequestParam(name = "eventId", defaultValue = "") Long eventId) {
-        List<EventProductRes> result = eventService.getProductsByEvent(eventId);
+        EventProductsRes result = eventService.getProductsByEvent(eventId);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 

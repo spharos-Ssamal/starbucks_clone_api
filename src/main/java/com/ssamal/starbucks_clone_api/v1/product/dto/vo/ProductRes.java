@@ -60,6 +60,14 @@ public class ProductRes {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
+    public static class EventProductsRes {
+        private String detailImage;
+        private List<EventProductRes> eventProductRes;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class EventProductRes {
 
         private String eventName;

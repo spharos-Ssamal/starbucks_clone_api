@@ -1,7 +1,8 @@
 package com.ssamal.starbucks_clone_api.v1.category.service.impl;
 
+import com.ssamal.starbucks_clone_api.global.enums.ResCode;
+import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.category.model.Event;
-import com.ssamal.starbucks_clone_api.v1.category.model.mapping.ProductEvent;
 import com.ssamal.starbucks_clone_api.v1.category.model.mapping.repository.ProductEventRepository;
 import com.ssamal.starbucks_clone_api.v1.category.model.repository.EventRepository;
 import com.ssamal.starbucks_clone_api.v1.category.service.EventService;
@@ -9,6 +10,7 @@ import com.ssamal.starbucks_clone_api.v1.category.dto.vo.EventRes.ActivatedEvent
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.EventProductRes;
 import com.ssamal.starbucks_clone_api.v1.category.enums.EventStatus;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.EventProductsRes;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,8 +29,14 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventProductRes> getProductsByEvent(Long eventId) {
-        List<ProductEvent> result = productEventRepository.findAllByEventId(eventId);
-        return result.stream().map(ProductRes.EventProductRes::of).toList();
+    public EventProductsRes getProductsByEvent(Long eventId) {
+        Event event = eventRepository.findById(eventId)
+            .orElseThrow(() -> new CustomException(ResCode.EVENT_NOT_FOUND));
+
+        List<EventProductRes> results = productEventRepository.findAllByEventId(eventId)
+            .stream().map(ProductRes.EventProductRes::of).toList();
+
+
+        return new EventProductsRes(event.getDetailImage(), results);
     }
 }
