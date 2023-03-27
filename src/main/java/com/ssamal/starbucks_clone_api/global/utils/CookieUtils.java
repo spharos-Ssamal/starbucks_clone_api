@@ -12,6 +12,7 @@ public class CookieUtils {
     public static ResponseCookie createCookie(String cookieName, String value, Long validTime) {
         return ResponseCookie.from(cookieName, value)
                 .path("/")
+                .secure(true)
                 .sameSite("None")
                 .httpOnly(true)
                 .maxAge(validTime / 1000)
