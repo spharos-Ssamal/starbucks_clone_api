@@ -36,7 +36,8 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public GetUserAddressRes getUserAddress(UUID userId) {
-        List<ShippingAddress> addresses = shippingAddressRepository.findAllByServiceUserId(userId);
+        List<ShippingAddress> addresses = shippingAddressRepository.findAllByServiceUserIdAndIsDeletedOrderByIsDefaultAddressDescIdAsc(
+            userId, false);
         return new GetUserAddressRes(addresses.stream().map(DTO::of).toList());
     }
 
