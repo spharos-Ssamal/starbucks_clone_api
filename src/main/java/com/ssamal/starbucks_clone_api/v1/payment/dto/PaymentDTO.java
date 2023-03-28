@@ -32,6 +32,7 @@ public class PaymentDTO {
     public static class ProductInfo {
 
         private Long productId;
+        private String productName;
         private String thumbnail;
         private Integer price;
         private Integer count;
