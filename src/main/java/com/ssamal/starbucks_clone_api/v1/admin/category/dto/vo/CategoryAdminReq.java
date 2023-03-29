@@ -18,6 +18,7 @@ public class CategoryAdminReq {
     public static class AddCategory {
 
         private String name;
+        private Boolean isSizable;
         private Long parentId;
     }
 
