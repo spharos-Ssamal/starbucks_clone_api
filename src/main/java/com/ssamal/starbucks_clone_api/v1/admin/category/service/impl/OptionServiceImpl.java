@@ -27,14 +27,15 @@ public class OptionServiceImpl implements OptionService {
     private final SizeRepository sizeRepository;
 
     @Override
-    public AddCategoryRes addCategories(AddCategory res) {
+    public AddCategoryRes addCategories(AddCategory req) {
 
-        if (res.getParentId() != 0) {
-            Category parent = categoryRepository.findById(res.getParentId())
+        if (req.getParentId() != 0) {
+            Category parent = categoryRepository.findById(req.getParentId())
                 .orElseThrow(() -> new CustomException(ResCode.CATEGORY_NOT_FOUND));
 
             Category newCategory = Category.builder()
-                .name(res.getName())
+                .name(req.getName())
+                .isSizable(req.getIsSizable())
                 .parent(parent)
                 .build();
 
@@ -42,7 +43,7 @@ public class OptionServiceImpl implements OptionService {
             return new AddCategoryRes(newCategory.getId());
         } else {
             Category newCategory = Category.builder()
-                .name(res.getName())
+                .name(req.getName())
                 .build();
 
             categoryRepository.save(newCategory);
