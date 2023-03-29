@@ -37,6 +37,14 @@ public class ProductAdminController {
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
+    @Operation(summary = "상품 업데이트", description = "싱픔 업데이트 API 입니다.")
+    @PutMapping("/update")
+    public ResponseEntity<BaseRes<List<Long>>> updateProduct(
+            @RequestBody ProdAdminReq.UpdateProductInfo req){
+        List<Long> result = adminService.updateProductAndProductDetailImages(req);
+        return ResponseEntity.ok().body(BaseRes.success(result));
+    }
+
     @Operation(summary = "상품 삭제", description = "상품 삭제 API 입니다.")
     @DeleteMapping("/deleteProduct")
     public ResponseEntity<BaseRes<ProdAdminRes.DeleteProductRes>> deleteProduct(

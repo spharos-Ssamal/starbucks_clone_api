@@ -11,4 +11,5 @@ public interface ProductOptionsRepository extends JpaRepository<ProductOptions, 
     JpaSpecificationExecutor<ProductOptions> {
     Page<ProductOptions> findAll(Specification<ProductOptions> spec, Pageable pageable);
     Boolean existsByCategoryIdAndProductId(Long categoryId, Long productId);
+    Long deleteAllByProductId(Long productId);
 }

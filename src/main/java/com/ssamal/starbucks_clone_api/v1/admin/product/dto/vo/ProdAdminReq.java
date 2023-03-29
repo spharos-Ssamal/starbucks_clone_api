@@ -1,5 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo;
 
+import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,6 @@ public class ProdAdminReq {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class AddProductInfo {
-
         private String name;
         private Integer price;
         private String description;
@@ -29,7 +29,6 @@ public class ProdAdminReq {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class AddProductReq {
-
         private AddProductInfo productInfo;
         private List<Long> categoryIds;
         private List<String> images;
@@ -49,8 +48,16 @@ public class ProdAdminReq {
     @ToString
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class DeleteProduct {
+    public static class UpdateProductInfo{
+        private ProductDTO productDTO;
+        private List<String> imageUrls;
+    }
 
+    @Getter
+    @ToString
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class DeleteProduct {
         private Long productId;
     }
 
