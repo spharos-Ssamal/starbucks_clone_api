@@ -1,5 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.product.dto.vo;
 
+import com.ssamal.starbucks_clone_api.v1.category.model.mapping.projection.CategoryAggregate;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import com.ssamal.starbucks_clone_api.v1.category.model.mapping.ProductEvent;
 import com.ssamal.starbucks_clone_api.v1.category.model.mapping.ProductRecommend;
@@ -28,8 +29,24 @@ public class ProductRes {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class GetProductDetailRes {
+
         private ProductDTO productInfo;
         private List<ProductDetailImageDTO> imageList;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class GetProductCategoryAggregationRes {
+
+        private Long categoryId;
+        private String categoryName;
+        private Integer count;
+
+        public static GetProductCategoryAggregationRes of(CategoryAggregate result) {
+            return new GetProductCategoryAggregationRes(result.getCategoryId(), result.getCategoryName(),
+                result.getCount());
+        }
     }
 
     @Getter
@@ -61,6 +78,7 @@ public class ProductRes {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class EventProductsRes {
+
         private String detailImage;
         private List<EventProductRes> eventProductRes;
     }

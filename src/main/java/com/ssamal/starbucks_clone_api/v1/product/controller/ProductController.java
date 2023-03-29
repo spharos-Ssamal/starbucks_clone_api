@@ -5,6 +5,7 @@ import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.GetProductsRe
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.SearchProductsByHashtagReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.SearchProductsReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.GetProductCategoryAggregationRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.SearchProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,6 +39,24 @@ public class ProductController {
         ProductRes.SearchProductRes result = productService.getProducts(
             new GetProductsReq(categoryId, subCategories, seasonIds, sizeIds, price),
             pageable);
+        return ResponseEntity.ok().body(BaseRes.success(result));
+    }
+
+    @Operation(summary = "카테고리 별 상품 갯수 집계 (상품명)", description = "상품명 기반 카테고리 별 상품 갯수 집계 API 입니다.")
+    @GetMapping("/category/aggregation/name")
+    public ResponseEntity<BaseRes<List<GetProductCategoryAggregationRes>>> getCategoryAggregationByProductName(
+        @RequestParam(value = "productName", defaultValue = "") String productName
+    ) {
+        List<GetProductCategoryAggregationRes> result = productService.getProductCategoryAggregationByProductName(productName);
+        return ResponseEntity.ok().body(BaseRes.success(result));
+    }
+
+    @Operation(summary = "카테고리 별 상품 갯수 집계 (해시태그)", description = "해시태그 기반 카테고리 별 상품 갯수 집계 API 입니다.")
+    @GetMapping("/category/aggregation/hashtag")
+    public ResponseEntity<BaseRes<List<GetProductCategoryAggregationRes>>> getCategoryAggregationByHashtag(
+        @RequestParam(value = "hashtag", defaultValue = "") String hashtagName
+    ) {
+        List<GetProductCategoryAggregationRes> result = productService.getProductCategoryAggregationByHashtag(hashtagName);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
