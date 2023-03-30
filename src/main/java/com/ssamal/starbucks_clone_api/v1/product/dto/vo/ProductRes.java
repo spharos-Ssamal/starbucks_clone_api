@@ -39,12 +39,13 @@ public class ProductRes {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class GetPrePurchaseProductsInfoRes {
+        private Long id;
         private String name;
         private Integer price;
         private String thumbnail;
 
         public static GetPrePurchaseProductsInfoRes of (Product entity) {
-            return new GetPrePurchaseProductsInfoRes(entity.getName(), entity.getPrice(),
+            return new GetPrePurchaseProductsInfoRes(entity.getId() ,entity.getName(), entity.getPrice(),
                 entity.getThumbnail());
         }
     }

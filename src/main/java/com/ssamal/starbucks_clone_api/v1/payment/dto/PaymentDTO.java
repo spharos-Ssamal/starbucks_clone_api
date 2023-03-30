@@ -6,14 +6,13 @@ import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 
 public class PaymentDTO {
 
     private PaymentDTO() {
-        throw new IllegalStateException("Data Class");
+        throw new IllegalStateException("DTO Class");
     }
 
     @Data
@@ -21,9 +20,8 @@ public class PaymentDTO {
     @NoArgsConstructor
     public static class ProductBePurchased {
 
-        private Long productId;
+        private Long id;
         private int count;
-        private int discountValue;
     }
 
     @Data
