@@ -86,14 +86,18 @@ public class CartItemServiceImpl implements CartItemService {
         CartItem cartItem = cartItemRepository.findById(cartId)
             .orElseThrow(() -> new CustomException(ResCode.CART_ITEM_NOT_FOUND));
 
-        if (count <= 0) {
-            throw new CustomException(ResCode.INVALID_CART_REQUEST);
+        if(cartItem.isDeleted()) {
+            throw new CustomException(ResCode.BAD_REQUEST);
+        } else {
+            if (count <= 0) {
+                throw new CustomException(ResCode.INVALID_CART_REQUEST);
+            }
+
+            cartItem.updateCountValue(count);
+            cartItemRepository.save(cartItem);
+
+            return cartItem.getId();
         }
-
-        cartItem.updateCountValue(count);
-        cartItemRepository.save(cartItem);
-
-        return cartItem.getId();
     }
 
     @Override
