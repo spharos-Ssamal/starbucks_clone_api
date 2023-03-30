@@ -5,6 +5,7 @@ import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import com.ssamal.starbucks_clone_api.v1.category.model.mapping.ProductEvent;
 import com.ssamal.starbucks_clone_api.v1.category.model.mapping.ProductRecommend;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDetailImageDTO;
+import com.ssamal.starbucks_clone_api.v1.product.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,20 @@ public class ProductRes {
 
         private ProductDTO productInfo;
         private List<ProductDetailImageDTO> imageList;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class GetPrePurchaseProductsInfoRes {
+        private String name;
+        private Integer price;
+        private String thumbnail;
+
+        public static GetPrePurchaseProductsInfoRes of (Product entity) {
+            return new GetPrePurchaseProductsInfoRes(entity.getName(), entity.getPrice(),
+                entity.getThumbnail());
+        }
     }
 
     @Getter

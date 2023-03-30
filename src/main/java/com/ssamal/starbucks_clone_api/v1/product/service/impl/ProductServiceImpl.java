@@ -13,6 +13,7 @@ import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.GetProductsRe
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.SearchProductsByHashtagReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.SearchProductsReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.GetPrePurchaseProductsInfoRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.GetProductCategoryAggregationRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.SearchProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.model.*;
@@ -124,6 +125,12 @@ public class ProductServiceImpl implements ProductService {
                     categoryList)
                 .stream().map(GetProductCategoryAggregationRes::of).toList();
         }
+    }
+
+    @Override
+    public List<GetPrePurchaseProductsInfoRes> getPrePurchaseProductsInfo(List<Long> productId) {
+        return productRepository.findAllByIdIn(productId).stream()
+            .map(GetPrePurchaseProductsInfoRes::of).toList();
     }
 
     @Override

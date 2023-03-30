@@ -11,4 +11,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     boolean existsByName(String name);
 
     List<Product> findAllByNameContaining(String name);
+
+    List<Product> findAllByIdIn(List<Long> productId);
 }

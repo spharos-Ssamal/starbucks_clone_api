@@ -15,6 +15,14 @@ public class ProductReq {
     }
 
     @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class GetPrePurchaseProductsInfoReq {
+
+        private List<Long> productIds;
+    }
+
+    @Getter
     @ToString
     @AllArgsConstructor
     @NoArgsConstructor
