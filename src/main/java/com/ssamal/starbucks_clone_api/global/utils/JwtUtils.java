@@ -1,7 +1,7 @@
 package com.ssamal.starbucks_clone_api.global.utils;
 
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
-import com.ssamal.starbucks_clone_api.v1.user.service.impl.UserDetailsServiceImpl;
+import com.ssamal.starbucks_clone_api.v1.user.serviceuser.service.impl.UserDetailsServiceImpl;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

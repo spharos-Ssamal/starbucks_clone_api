@@ -4,7 +4,7 @@ import com.ssamal.starbucks_clone_api.global.common.BaseRes;
 import com.ssamal.starbucks_clone_api.v1.admin.coupon.vo.card.EGiftCardReq.InsertEGiftCardReq;
 import com.ssamal.starbucks_clone_api.v1.admin.coupon.vo.card.EGiftCardReq.UpdateEGiftCardReq;
 import com.ssamal.starbucks_clone_api.v1.admin.card.service.EGiftCardAdminService;
-import com.ssamal.starbucks_clone_api.v1.coupon.dto.EGiftCardDTO;
+import com.ssamal.starbucks_clone_api.v1.user.coupon.dto.EGiftCardDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
