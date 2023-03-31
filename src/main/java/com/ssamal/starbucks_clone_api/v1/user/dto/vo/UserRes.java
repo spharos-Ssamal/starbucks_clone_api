@@ -28,6 +28,7 @@ public class UserRes {
     public static class LoginRes {
 
         private UUID userId;
+        private String userName;
         private String accessToken;
         private String refreshToken;
     }
