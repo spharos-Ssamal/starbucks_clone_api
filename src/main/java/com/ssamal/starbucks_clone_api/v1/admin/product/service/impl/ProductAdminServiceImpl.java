@@ -4,10 +4,13 @@ import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq.AddImageReq;
 import com.ssamal.starbucks_clone_api.v1.admin.product.service.ProductAdminService;
+import com.ssamal.starbucks_clone_api.v1.cart.repository.CartItemRepository;
 import com.ssamal.starbucks_clone_api.v1.category.model.Category;
 import com.ssamal.starbucks_clone_api.v1.category.model.repository.CategoryRepository;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminRes;
+import com.ssamal.starbucks_clone_api.v1.options.model.mapping.repository.ProductHashTagRepository;
+import com.ssamal.starbucks_clone_api.v1.payment.model.repository.PurchaseProductsRepository;
 import com.ssamal.starbucks_clone_api.v1.product.model.*;
 import com.ssamal.starbucks_clone_api.v1.options.model.mapping.ProductOptions;
 import com.ssamal.starbucks_clone_api.v1.evntsrcmnd.model.mapping.repository.ProductEventRepository;
@@ -17,13 +20,14 @@ import com.ssamal.starbucks_clone_api.v1.options.model.Season;
 import com.ssamal.starbucks_clone_api.v1.options.model.Size;
 import com.ssamal.starbucks_clone_api.v1.options.model.repository.SeasonRespository;
 import com.ssamal.starbucks_clone_api.v1.options.model.repository.SizeRepository;
+
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -37,6 +41,9 @@ public class ProductAdminServiceImpl implements ProductAdminService {
     private final ProductEventRepository productEventRepository;
     private final ProductOptionsRepository productOptionsRepository;
     private final ProductDetailImageRepository productDetailImageRepository;
+    private final ProductHashTagRepository productHashTagRepository;
+    private final CartItemRepository cartItemRepository;
+    private final PurchaseProductsRepository purchaseProductsRepository;
 
     @Override
     @Transactional
@@ -53,7 +60,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
                     ProductOptions option = new ProductOptions();
 
                     Category category = categoryRepository.findById(categoryId)
-                        .orElseThrow(() -> new CustomException(ResCode.CATEGORY_NOT_FOUND));
+                            .orElseThrow(() -> new CustomException(ResCode.CATEGORY_NOT_FOUND));
 
                     option.setProduct(newProduct);
                     option.setCategory(category);
@@ -87,8 +94,21 @@ public class ProductAdminServiceImpl implements ProductAdminService {
     @Override
     public List<Long> addProductDetailImages(AddImageReq req) {
         Product product = productRepository.findById(req.getProductId())
-            .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
+                .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
 
+        return req.getImageUrls().stream().map(imageUrl -> {
+            ProductDetailImage image = ProductDetailImage.of(product, imageUrl);
+            productDetailImageRepository.save(image);
+            return image.getId();
+        }).toList();
+    }
+
+    @Override
+    public List<Long> updateProductAndProductDetailImages(ProdAdminReq.UpdateProductInfo req) {
+        Long id = req.getProductDTO().getId();
+        Product product = Product.of(req.getProductDTO());
+        productRepository.save(product);
+        productDetailImageRepository.deleteAllByProductId(id);
         return req.getImageUrls().stream().map(imageUrl -> {
             ProductDetailImage image = ProductDetailImage.of(product, imageUrl);
             productDetailImageRepository.save(image);
@@ -102,12 +122,17 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 
         if (productRepository.existsById(req.getProductId())) {
             productEventRepository.deleteAllByProductId(req.getProductId());
+            productOptionsRepository.deleteAllByProductId(req.getProductId());
+            productHashTagRepository.deleteAllByProductId(req.getProductId());
+            productDetailImageRepository.deleteAllByProductId(req.getProductId());
+            cartItemRepository.deleteAllByProductId(req.getProductId());
+            purchaseProductsRepository.deleteAllByProductId(req.getProductId());
             productRepository.deleteById(req.getProductId());
         } else {
             throw new CustomException(ResCode.PRODUCT_NOT_FOUND);
         }
 
         return new ProdAdminRes.DeleteProductRes(req.getProductId(),
-            LocalDateTime.now().toString());
+                LocalDateTime.now().toString());
     }
 }

@@ -12,6 +12,7 @@ public interface ProductAdminService {
 
     List<Long> addProductDetailImages(AddImageReq req);
 
+    List<Long> updateProductAndProductDetailImages(ProdAdminReq.UpdateProductInfo req);
     ProdAdminRes.DeleteProductRes deleteProduct(ProdAdminReq.DeleteProduct req);
 
 }
