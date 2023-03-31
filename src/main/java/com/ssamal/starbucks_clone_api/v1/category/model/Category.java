@@ -24,6 +24,10 @@ public class Category extends BaseTimeEntity {
     @Column(name = "name", columnDefinition = "VARCHAR(20) NOT NULL")
     private String name;
 
+    @Column(name = "sizable")
+    @Default
+    private boolean isSizable = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Category parent;

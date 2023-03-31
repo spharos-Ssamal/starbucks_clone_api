@@ -12,7 +12,7 @@ public interface ShippingAddressRepository extends JpaRepository<ShippingAddress
     Optional<ShippingAddress> findByServiceUserIdAndIsDefaultAddress(UUID userId,
         boolean isDefaultAddress);
 
-    List<ShippingAddress> findAllByServiceUserId(UUID userId);
+    List<ShippingAddress> findAllByServiceUserIdAndIsDeletedOrderByIsDefaultAddressDescIdAsc(UUID userId, Boolean isDeleted);
 
     boolean existsByServiceUserIdAndIsDefaultAddress(UUID userId, boolean isDefaultAddress);
 }

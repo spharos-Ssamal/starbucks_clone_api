@@ -25,7 +25,7 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @Operation(summary = "기간 별 유저 구매 기록 조회", description = "기간 별 유저 구매 기록 조회 API 입니다.")
-    @PostMapping("/users/history")
+    @GetMapping("/users/history")
     public ResponseEntity<BaseRes<PaymentRes.UserHistoryRes>> getUserHistory(
         @RequestParam(name = "userId", defaultValue = "") UUID userId,
         @RequestParam(name = "startDate", defaultValue = "") LocalDate startDate,

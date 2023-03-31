@@ -2,8 +2,10 @@ package com.ssamal.starbucks_clone_api.v1.product.service.impl;
 
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
+import com.ssamal.starbucks_clone_api.v1.category.model.Category;
 import com.ssamal.starbucks_clone_api.v1.category.model.HashTag;
 import com.ssamal.starbucks_clone_api.v1.category.model.mapping.repository.ProductHashTagRepository;
+import com.ssamal.starbucks_clone_api.v1.category.model.repository.CategoryRepository;
 import com.ssamal.starbucks_clone_api.v1.category.model.repository.HashTagRepository;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDetailImageDTO;
@@ -11,6 +13,7 @@ import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.GetProductsRe
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.SearchProductsByHashtagReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.SearchProductsReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.GetProductCategoryAggregationRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.SearchProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.model.*;
 import com.ssamal.starbucks_clone_api.v1.category.model.mapping.ProductOptions;
@@ -18,6 +21,7 @@ import com.ssamal.starbucks_clone_api.v1.category.model.mapping.repository.Produ
 import com.ssamal.starbucks_clone_api.v1.category.model.mapping.repository.specification.ProductOptionSpecification;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.*;
 import com.ssamal.starbucks_clone_api.v1.product.service.ProductService;
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +36,7 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
     private final ProductOptionsRepository productOptionsRepository;
     private final HashTagRepository hashTagRepository;
     private final ProductHashTagRepository productHashTagRepository;
@@ -78,6 +83,47 @@ public class ProductServiceImpl implements ProductService {
 
         return new ProductRes.SearchProductRes(result.getContent(), result.isLast(),
             result.getTotalPages(), result.getTotalElements());
+    }
+
+    @Override
+    public List<GetProductCategoryAggregationRes> getProductCategoryAggregationByProductName(
+        String productName) {
+
+        List<Long> productIdList = productRepository.findAllByNameContaining(productName)
+            .stream().map(Product::getId).toList();
+
+        if (productIdList.isEmpty()) {
+            return new ArrayList<>();
+        } else {
+            List<Long> categoryList = categoryRepository.findAllByParentId(1L)
+                .stream().map(Category::getId).toList();
+
+            return productOptionsRepository.categoryAggregate(productIdList,
+                    categoryList)
+                .stream().map(GetProductCategoryAggregationRes::of).toList();
+        }
+    }
+
+    @Override
+    public List<GetProductCategoryAggregationRes> getProductCategoryAggregationByHashtag(
+        String hashtag) {
+
+        List<Long> hashTagIdList = hashTagRepository.findAllByNameStartingWith(hashtag)
+            .stream().map(HashTag::getId).toList();
+
+        if (hashTagIdList.isEmpty()) {
+            return new ArrayList<>();
+        } else {
+            List<Long> categoryList = categoryRepository.findAllByParentId(1L)
+                .stream().map(Category::getId).toList();
+
+            List<Long> productIdList = productHashTagRepository.findAllByHashTagIdIn(hashTagIdList)
+                .stream().map(t -> t.getProduct().getId()).toList();
+
+            return productOptionsRepository.categoryAggregate(productIdList,
+                    categoryList)
+                .stream().map(GetProductCategoryAggregationRes::of).toList();
+        }
     }
 
     @Override

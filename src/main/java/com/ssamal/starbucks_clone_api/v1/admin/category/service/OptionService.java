@@ -7,7 +7,7 @@ import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminRes.
 import java.util.List;
 
 public interface OptionService {
-    AddCategoryRes addCategories(AddCategory res);
+    AddCategoryRes addCategories(AddCategory req);
     List<AddOptionRes> addSeason(List<AddOption> req);
     List<AddOptionRes> addSizeMenu(List<AddOption> req);
 
