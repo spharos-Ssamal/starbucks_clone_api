@@ -4,6 +4,7 @@ import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.GetProductsRe
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.SearchProductsByHashtagReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.SearchProductsReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.GetPrePurchaseProductsInfoRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.GetProductCategoryAggregationRes;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,8 @@ public interface ProductService {
         String productName);
 
     List<GetProductCategoryAggregationRes> getProductCategoryAggregationByHashtag(String hashtag);
+
+    List<GetPrePurchaseProductsInfoRes> getPrePurchaseProductsInfo(List<Long> productId);
 
     ProductRes.SearchProductRes searchProducts(SearchProductsReq req, Pageable pageable);
 

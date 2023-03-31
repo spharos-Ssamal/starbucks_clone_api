@@ -17,7 +17,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.concurrent.atomic.AtomicInteger;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
@@ -57,13 +56,11 @@ public class PurchaseHistory extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private ShippingStatus shippingStatus;
 
-    @Column(name = "shipping_message")
-    private String message;
-    @Column(name = "recipient")
-    private String recipient;
-
     @Column(name = "isCanceled")
     private Boolean isCanceled;
+
+    @Column(name = "shipping_fee")
+    private Integer shippingFee;
 
     @Column(name = "purchase_price")
     private Integer purchasePrice;
@@ -73,21 +70,16 @@ public class PurchaseHistory extends BaseTimeEntity {
 
     @Column(name = "total_price")
     private Integer totalPrice;
-
-    public void calculatePriceConfirm(AtomicInteger purchasePrice, Integer discountPrice, AtomicInteger totalPrice){
-        this.purchasePrice = purchasePrice.get();
-        this.discountPrice = discountPrice;
-        this.totalPrice = totalPrice.get();
-    }
-
     public static PurchaseHistory of(ServiceUser user, ShippingAddress address, PurchasedInfo req){
         return PurchaseHistory.builder()
             .user(user)
             .shippingAddress(address)
-            .paymentMethod(req.getMethod())
+            .paymentMethod(req.getPaymentMethod())
             .shippingStatus(ShippingStatus.PRODUCT_READY)
-            .recipient(req.getRecipient())
-            .message(req.getMessage())
+            .shippingFee(req.getShippingFee())
+            .purchasePrice(req.getAmountOfProductPrice())
+            .discountPrice(req.getAmountOfDiscount())
+            .totalPrice(req.getAmountOfTotalPrice())
             .build();
     }
 }

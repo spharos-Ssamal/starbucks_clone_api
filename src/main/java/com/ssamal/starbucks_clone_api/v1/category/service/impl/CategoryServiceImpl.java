@@ -2,7 +2,7 @@ package com.ssamal.starbucks_clone_api.v1.category.service.impl;
 
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
-import com.ssamal.starbucks_clone_api.v1.admin.category.model.repository.SizeRepository;
+import com.ssamal.starbucks_clone_api.v1.options.model.repository.SizeRepository;
 import com.ssamal.starbucks_clone_api.v1.category.dto.vo.CategoryRes.GetSubCategories;
 import com.ssamal.starbucks_clone_api.v1.category.dto.vo.CategoryRes.SizeInfo;
 import com.ssamal.starbucks_clone_api.v1.category.dto.vo.CategoryRes.SubCategoryInfo;

@@ -6,27 +6,24 @@ import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq.AddIm
 import com.ssamal.starbucks_clone_api.v1.admin.product.service.ProductAdminService;
 import com.ssamal.starbucks_clone_api.v1.cart.repository.CartItemRepository;
 import com.ssamal.starbucks_clone_api.v1.category.model.Category;
-import com.ssamal.starbucks_clone_api.v1.category.model.mapping.repository.ProductHashTagRepository;
 import com.ssamal.starbucks_clone_api.v1.category.model.repository.CategoryRepository;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminRes;
-import com.ssamal.starbucks_clone_api.v1.category.model.repository.RecommendRepository;
+import com.ssamal.starbucks_clone_api.v1.options.model.mapping.repository.ProductHashTagRepository;
 import com.ssamal.starbucks_clone_api.v1.payment.model.repository.PurchaseProductsRepository;
 import com.ssamal.starbucks_clone_api.v1.product.model.*;
-import com.ssamal.starbucks_clone_api.v1.category.model.mapping.ProductOptions;
-import com.ssamal.starbucks_clone_api.v1.category.model.mapping.repository.ProductEventRepository;
-import com.ssamal.starbucks_clone_api.v1.category.model.mapping.repository.ProductOptionsRepository;
+import com.ssamal.starbucks_clone_api.v1.options.model.mapping.ProductOptions;
+import com.ssamal.starbucks_clone_api.v1.evntsrcmnd.model.mapping.repository.ProductEventRepository;
+import com.ssamal.starbucks_clone_api.v1.options.model.mapping.repository.ProductOptionsRepository;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.*;
-import com.ssamal.starbucks_clone_api.v1.admin.category.model.Season;
-import com.ssamal.starbucks_clone_api.v1.admin.category.model.Size;
-import com.ssamal.starbucks_clone_api.v1.admin.category.model.repository.SeasonRespository;
-import com.ssamal.starbucks_clone_api.v1.admin.category.model.repository.SizeRepository;
+import com.ssamal.starbucks_clone_api.v1.options.model.Season;
+import com.ssamal.starbucks_clone_api.v1.options.model.Size;
+import com.ssamal.starbucks_clone_api.v1.options.model.repository.SeasonRespository;
+import com.ssamal.starbucks_clone_api.v1.options.model.repository.SizeRepository;
 
 import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +41,6 @@ public class ProductAdminServiceImpl implements ProductAdminService {
     private final ProductEventRepository productEventRepository;
     private final ProductOptionsRepository productOptionsRepository;
     private final ProductDetailImageRepository productDetailImageRepository;
-    private final RecommendRepository recommendRepository;
     private final ProductHashTagRepository productHashTagRepository;
     private final CartItemRepository cartItemRepository;
     private final PurchaseProductsRepository purchaseProductsRepository;
@@ -110,14 +106,11 @@ public class ProductAdminServiceImpl implements ProductAdminService {
     @Override
     public List<Long> updateProductAndProductDetailImages(ProdAdminReq.UpdateProductInfo req) {
         Long id = req.getProductDTO().getId();
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
-        product = Product.of(req.getProductDTO());
+        Product product = Product.of(req.getProductDTO());
         productRepository.save(product);
         productDetailImageRepository.deleteAllByProductId(id);
-        Product finalProduct = product;
         return req.getImageUrls().stream().map(imageUrl -> {
-            ProductDetailImage image = ProductDetailImage.of(finalProduct, imageUrl);
+            ProductDetailImage image = ProductDetailImage.of(product, imageUrl);
             productDetailImageRepository.save(image);
             return image.getId();
         }).toList();

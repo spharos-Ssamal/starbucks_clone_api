@@ -5,6 +5,7 @@ import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.GetProductsRe
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.SearchProductsByHashtagReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.SearchProductsReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.GetPrePurchaseProductsInfoRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.GetProductCategoryAggregationRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.SearchProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.service.ProductService;
@@ -57,6 +58,15 @@ public class ProductController {
         @RequestParam(value = "hashtag", defaultValue = "") String hashtagName
     ) {
         List<GetProductCategoryAggregationRes> result = productService.getProductCategoryAggregationByHashtag(hashtagName);
+        return ResponseEntity.ok().body(BaseRes.success(result));
+    }
+
+    @Operation(summary = "구매 예정 상품 정보 조회 API", description = "구매 전, 구매 예정 상품 정보 조회 API 입니다.")
+    @GetMapping("/prePurchase")
+    public ResponseEntity<BaseRes<List<GetPrePurchaseProductsInfoRes>>> getPrePurchaseProductsInfo(
+        @RequestParam(value = "productIds", defaultValue = "") List<Long> productIds
+    ) {
+        List<GetPrePurchaseProductsInfoRes> result = productService.getPrePurchaseProductsInfo(productIds);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 

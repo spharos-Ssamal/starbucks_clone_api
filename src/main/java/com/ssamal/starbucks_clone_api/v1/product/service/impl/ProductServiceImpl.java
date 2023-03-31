@@ -3,22 +3,23 @@ package com.ssamal.starbucks_clone_api.v1.product.service.impl;
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.category.model.Category;
-import com.ssamal.starbucks_clone_api.v1.category.model.HashTag;
-import com.ssamal.starbucks_clone_api.v1.category.model.mapping.repository.ProductHashTagRepository;
+import com.ssamal.starbucks_clone_api.v1.options.model.HashTag;
+import com.ssamal.starbucks_clone_api.v1.options.model.mapping.repository.ProductHashTagRepository;
 import com.ssamal.starbucks_clone_api.v1.category.model.repository.CategoryRepository;
-import com.ssamal.starbucks_clone_api.v1.category.model.repository.HashTagRepository;
+import com.ssamal.starbucks_clone_api.v1.options.model.repository.HashTagRepository;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDetailImageDTO;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.GetProductsReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.SearchProductsByHashtagReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductReq.SearchProductsReq;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes;
+import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.GetPrePurchaseProductsInfoRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.GetProductCategoryAggregationRes;
 import com.ssamal.starbucks_clone_api.v1.product.dto.vo.ProductRes.SearchProductRes;
 import com.ssamal.starbucks_clone_api.v1.product.model.*;
-import com.ssamal.starbucks_clone_api.v1.category.model.mapping.ProductOptions;
-import com.ssamal.starbucks_clone_api.v1.category.model.mapping.repository.ProductOptionsRepository;
-import com.ssamal.starbucks_clone_api.v1.category.model.mapping.repository.specification.ProductOptionSpecification;
+import com.ssamal.starbucks_clone_api.v1.options.model.mapping.ProductOptions;
+import com.ssamal.starbucks_clone_api.v1.options.model.mapping.repository.ProductOptionsRepository;
+import com.ssamal.starbucks_clone_api.v1.options.model.mapping.repository.specification.ProductOptionSpecification;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.*;
 import com.ssamal.starbucks_clone_api.v1.product.service.ProductService;
 import java.util.ArrayList;
@@ -124,6 +125,12 @@ public class ProductServiceImpl implements ProductService {
                     categoryList)
                 .stream().map(GetProductCategoryAggregationRes::of).toList();
         }
+    }
+
+    @Override
+    public List<GetPrePurchaseProductsInfoRes> getPrePurchaseProductsInfo(List<Long> productId) {
+        return productRepository.findAllByIdIn(productId).stream()
+            .map(GetPrePurchaseProductsInfoRes::of).toList();
     }
 
     @Override

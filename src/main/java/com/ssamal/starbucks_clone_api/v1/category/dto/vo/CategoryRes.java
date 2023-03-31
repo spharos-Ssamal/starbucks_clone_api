@@ -1,6 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.category.dto.vo;
 
-import com.ssamal.starbucks_clone_api.v1.admin.category.model.Size;
+import com.ssamal.starbucks_clone_api.v1.options.model.Size;
 import com.ssamal.starbucks_clone_api.v1.category.model.Category;
 import java.util.List;
 import lombok.AllArgsConstructor;

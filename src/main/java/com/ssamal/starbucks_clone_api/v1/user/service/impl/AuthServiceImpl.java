@@ -43,6 +43,7 @@ public class AuthServiceImpl implements AuthService {
 
         return UserRes.LoginRes.builder()
             .userId(user.getId())
+            .userName(user.getUserNickname())
             .accessToken(accessToken)
             .refreshToken(refreshToken)
             .build();

@@ -24,12 +24,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
 
@@ -72,11 +72,11 @@ public class PaymentServiceImpl implements PaymentService {
         List<PurchaseProducts> purchaseProducts = purchaseProductsRepository.findAllByPurchaseHistoryHistoryId(
             historyId);
         return HistoryDetailInfo.of(history,
-            purchaseProducts.stream().map(t -> ProductInfo.of(t.getProduct(), t.getCount())).toList());
+            purchaseProducts.stream().map(t -> ProductInfo.of(t.getProduct(), t.getCount()))
+                .toList());
     }
 
     @Override
-    @Transactional
     public PurchaseRes confirmRequest(PurchasedInfo req) {
 
         ServiceUser user = serviceUserRepository.findById(req.getUserId())
@@ -88,22 +88,18 @@ public class PaymentServiceImpl implements PaymentService {
         PurchaseHistory history = PurchaseHistory.of(user, address, req);
         purchaseHistoryRepository.save(history);
 
-        return calculatePayment(history.getHistoryId(), req);
+        return confirmPurchasedProductList(history.getHistoryId(), req);
     }
 
-    @Transactional
-    public PurchaseRes calculatePayment(String historyId, PurchasedInfo req) {
+    public PurchaseRes confirmPurchasedProductList(String historyId, PurchasedInfo req) {
         PurchaseHistory history = purchaseHistoryRepository.findById(historyId)
             .orElseThrow(() -> new CustomException(ResCode.PURCHASE_HISTORY_NOT_FOUND));
 
-        AtomicInteger totalPrice = new AtomicInteger();
-
         req.getPurchasedList().forEach(element -> {
             if (element.getCount() > 0) {
-                Product product = productRepository.findById(element.getProductId())
+                Product product = productRepository.findById(element.getId())
                     .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
 
-                totalPrice.addAndGet(product.getPrice() * element.getCount());
                 PurchaseProducts purchaseProducts = PurchaseProducts.of(product, history,
                     element.getCount());
 
@@ -111,7 +107,6 @@ public class PaymentServiceImpl implements PaymentService {
             }
         });
 
-        history.calculatePriceConfirm(totalPrice, 0, totalPrice);
         purchaseHistoryRepository.save(history);
         return new PurchaseRes(history.getHistoryId());
 

@@ -22,10 +22,12 @@ public class PaymentReq {
 
         private UUID userId;
         private List<ProductBePurchased> purchasedList;
-        private PaymentMethod method;
+        private PaymentMethod paymentMethod;
         private Long addressId;
-        private String recipient;
-        private String message;
+        private Integer shippingFee;
+        private Integer amountOfProductPrice;
+        private Integer amountOfDiscount;
+        private Integer amountOfTotalPrice;
     }
 
 }

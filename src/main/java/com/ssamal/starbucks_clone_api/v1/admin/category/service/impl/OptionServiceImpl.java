@@ -6,10 +6,10 @@ import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminReq.
 import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminReq.AddOption;
 import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminRes.AddCategoryRes;
 import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminRes.AddOptionRes;
-import com.ssamal.starbucks_clone_api.v1.admin.category.model.Season;
-import com.ssamal.starbucks_clone_api.v1.admin.category.model.Size;
-import com.ssamal.starbucks_clone_api.v1.admin.category.model.repository.SeasonRespository;
-import com.ssamal.starbucks_clone_api.v1.admin.category.model.repository.SizeRepository;
+import com.ssamal.starbucks_clone_api.v1.options.model.Season;
+import com.ssamal.starbucks_clone_api.v1.options.model.Size;
+import com.ssamal.starbucks_clone_api.v1.options.model.repository.SeasonRespository;
+import com.ssamal.starbucks_clone_api.v1.options.model.repository.SizeRepository;
 import com.ssamal.starbucks_clone_api.v1.category.model.Category;
 import com.ssamal.starbucks_clone_api.v1.category.model.repository.CategoryRepository;
 import com.ssamal.starbucks_clone_api.v1.admin.category.service.OptionService;

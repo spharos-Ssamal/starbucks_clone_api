@@ -2,7 +2,7 @@ package com.ssamal.starbucks_clone_api.v1.product.dto;
 
 import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
-import com.ssamal.starbucks_clone_api.v1.category.model.mapping.ProductOptions;
+import com.ssamal.starbucks_clone_api.v1.options.model.mapping.ProductOptions;
 import java.util.List;
 import lombok.*;
 import org.springframework.data.domain.Page;
