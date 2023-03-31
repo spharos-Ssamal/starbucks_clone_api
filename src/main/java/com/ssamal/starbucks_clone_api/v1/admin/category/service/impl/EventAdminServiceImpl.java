@@ -6,14 +6,14 @@ import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminReq.
 import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminRes.AddOptionRes;
 import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminRes.AddProductOptionRes;
 import com.ssamal.starbucks_clone_api.v1.admin.category.service.EventAdminService;
-import com.ssamal.starbucks_clone_api.v1.evntsrcmnd.dto.vo.EventReq.AddEventReq;
-import com.ssamal.starbucks_clone_api.v1.evntsrcmnd.enums.EventStatus;
-import com.ssamal.starbucks_clone_api.v1.evntsrcmnd.model.Event;
-import com.ssamal.starbucks_clone_api.v1.product.model.Product;
-import com.ssamal.starbucks_clone_api.v1.evntsrcmnd.model.mapping.ProductEvent;
-import com.ssamal.starbucks_clone_api.v1.evntsrcmnd.model.repository.EventRepository;
-import com.ssamal.starbucks_clone_api.v1.evntsrcmnd.model.mapping.repository.ProductEventRepository;
-import com.ssamal.starbucks_clone_api.v1.product.model.repository.ProductRepository;
+import com.ssamal.starbucks_clone_api.v1.service.evntsrcmnd.dto.vo.EventReq.AddEventReq;
+import com.ssamal.starbucks_clone_api.v1.service.evntsrcmnd.enums.EventStatus;
+import com.ssamal.starbucks_clone_api.v1.service.evntsrcmnd.model.Event;
+import com.ssamal.starbucks_clone_api.v1.service.product.model.Product;
+import com.ssamal.starbucks_clone_api.v1.service.evntsrcmnd.model.mapping.ProductEvent;
+import com.ssamal.starbucks_clone_api.v1.service.evntsrcmnd.model.repository.EventRepository;
+import com.ssamal.starbucks_clone_api.v1.service.evntsrcmnd.model.mapping.repository.ProductEventRepository;
+import com.ssamal.starbucks_clone_api.v1.service.product.model.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.admin.coupon.vo.coupon;
 
-import com.ssamal.starbucks_clone_api.v1.coupon.enums.CouponStatus;
+import com.ssamal.starbucks_clone_api.v1.service.coupon.enums.CouponStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

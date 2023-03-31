@@ -4,17 +4,17 @@ import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.admin.coupon.vo.card.EGiftCardReq.InsertEGiftCardReq;
 import com.ssamal.starbucks_clone_api.v1.admin.coupon.vo.card.EGiftCardReq.UpdateEGiftCardReq;
-import com.ssamal.starbucks_clone_api.v1.coupon.dto.EGiftCardDTO;
-import com.ssamal.starbucks_clone_api.v1.coupon.model.Card;
-import com.ssamal.starbucks_clone_api.v1.coupon.model.EGiftCard;
-import com.ssamal.starbucks_clone_api.v1.coupon.model.repository.CardRepository;
-import com.ssamal.starbucks_clone_api.v1.coupon.model.repository.EGiftCardRepository;
+import com.ssamal.starbucks_clone_api.v1.service.coupon.dto.EGiftCardDTO;
+import com.ssamal.starbucks_clone_api.v1.service.coupon.model.Card;
+import com.ssamal.starbucks_clone_api.v1.service.coupon.model.EGiftCard;
+import com.ssamal.starbucks_clone_api.v1.service.coupon.model.repository.CardRepository;
+import com.ssamal.starbucks_clone_api.v1.service.coupon.model.repository.EGiftCardRepository;
 import com.ssamal.starbucks_clone_api.v1.admin.card.service.EGiftCardAdminService;
 import java.util.List;
 import java.util.UUID;
 
-import com.ssamal.starbucks_clone_api.v1.user.model.ServiceUser;
-import com.ssamal.starbucks_clone_api.v1.user.model.repository.ServiceUserRepository;
+import com.ssamal.starbucks_clone_api.v1.service.user.model.ServiceUser;
+import com.ssamal.starbucks_clone_api.v1.service.user.model.repository.ServiceUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
