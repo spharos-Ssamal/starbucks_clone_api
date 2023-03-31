@@ -5,7 +5,7 @@ import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminReq.
 import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminRes.AddOptionRes;
 import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminRes.AddProductOptionRes;
 import com.ssamal.starbucks_clone_api.v1.admin.category.service.RecommendAdminService;
-import com.ssamal.starbucks_clone_api.v1.category.dto.vo.RecommendReq.AddRecommendReq;
+import com.ssamal.starbucks_clone_api.v1.evntsrcmnd.dto.vo.RecommendReq.AddRecommendReq;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

@@ -9,7 +9,7 @@ import com.ssamal.starbucks_clone_api.v1.cart.dto.vo.CartRes.RemoveCartRes;
 import com.ssamal.starbucks_clone_api.v1.cart.entity.CartItem;
 import com.ssamal.starbucks_clone_api.v1.cart.repository.CartItemRepository;
 import com.ssamal.starbucks_clone_api.v1.cart.service.CartItemService;
-import com.ssamal.starbucks_clone_api.v1.category.model.mapping.repository.ProductOptionsRepository;
+import com.ssamal.starbucks_clone_api.v1.options.model.mapping.repository.ProductOptionsRepository;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.ProductRepository;

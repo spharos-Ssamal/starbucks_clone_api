@@ -1,8 +1,8 @@
 package com.ssamal.starbucks_clone_api.v1.category.dto.vo;
 
 import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
-import com.ssamal.starbucks_clone_api.v1.category.model.Event;
-import com.ssamal.starbucks_clone_api.v1.category.model.Recommend;
+import com.ssamal.starbucks_clone_api.v1.evntsrcmnd.model.Event;
+import com.ssamal.starbucks_clone_api.v1.evntsrcmnd.model.Recommend;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

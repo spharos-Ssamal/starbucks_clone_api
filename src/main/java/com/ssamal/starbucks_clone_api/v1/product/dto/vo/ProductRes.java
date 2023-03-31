@@ -1,9 +1,9 @@
 package com.ssamal.starbucks_clone_api.v1.product.dto.vo;
 
-import com.ssamal.starbucks_clone_api.v1.category.model.mapping.projection.CategoryAggregate;
+import com.ssamal.starbucks_clone_api.v1.category.model.projection.CategoryAggregate;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
-import com.ssamal.starbucks_clone_api.v1.category.model.mapping.ProductEvent;
-import com.ssamal.starbucks_clone_api.v1.category.model.mapping.ProductRecommend;
+import com.ssamal.starbucks_clone_api.v1.evntsrcmnd.model.mapping.ProductEvent;
+import com.ssamal.starbucks_clone_api.v1.evntsrcmnd.model.mapping.ProductRecommend;
 import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDetailImageDTO;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
 import lombok.AllArgsConstructor;

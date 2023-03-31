@@ -7,11 +7,11 @@ import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminReq.
 import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminRes.AddOptionRes;
 import com.ssamal.starbucks_clone_api.v1.admin.category.dto.vo.CategoryAdminRes.AddProductOptionRes;
 import com.ssamal.starbucks_clone_api.v1.admin.category.service.HashtagAdminService;
-import com.ssamal.starbucks_clone_api.v1.category.model.HashTag;
+import com.ssamal.starbucks_clone_api.v1.options.model.HashTag;
 import com.ssamal.starbucks_clone_api.v1.product.model.Product;
-import com.ssamal.starbucks_clone_api.v1.category.model.mapping.ProductHashTag;
-import com.ssamal.starbucks_clone_api.v1.category.model.mapping.repository.ProductHashTagRepository;
-import com.ssamal.starbucks_clone_api.v1.category.model.repository.HashTagRepository;
+import com.ssamal.starbucks_clone_api.v1.options.model.mapping.ProductHashTag;
+import com.ssamal.starbucks_clone_api.v1.options.model.mapping.repository.ProductHashTagRepository;
+import com.ssamal.starbucks_clone_api.v1.options.model.repository.HashTagRepository;
 import com.ssamal.starbucks_clone_api.v1.product.model.repository.ProductRepository;
 import java.util.ArrayList;
 import java.util.List;
