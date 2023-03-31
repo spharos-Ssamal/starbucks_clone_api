@@ -14,8 +14,7 @@ public interface ProductOptionsRepository extends JpaRepository<ProductOptions, 
     JpaSpecificationExecutor<ProductOptions> {
     Page<ProductOptions> findAll(Specification<ProductOptions> spec, Pageable pageable);
     Boolean existsByCategoryIdAndProductId(Long categoryId, Long productId);
-
+    Long deleteAllByProductId(Long productId);
     @Query(value = "SELECT s.category.id as categoryId, s.category.name as categoryName, COUNT(s.id) as count FROM ProductOptions s WHERE s.product.id in :productId AND s.category.id in :categoryId GROUP BY s.category.id ORDER BY s.category.id ")
     List<CategoryAggregate> categoryAggregate(List<Long> productId, List<Long> categoryId);
-
 }

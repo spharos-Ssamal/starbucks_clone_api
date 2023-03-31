@@ -8,4 +8,5 @@ public interface PurchaseProductsRepository extends JpaRepository<PurchaseProduc
 
     List<PurchaseProducts> findAllByPurchaseHistoryHistoryId(String purchaseHistoryId);
 
+    Long deleteAllByProductId(Long productId);
 }
