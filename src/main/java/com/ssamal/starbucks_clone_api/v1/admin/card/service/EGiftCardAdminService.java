@@ -2,7 +2,7 @@ package com.ssamal.starbucks_clone_api.v1.admin.card.service;
 
 import com.ssamal.starbucks_clone_api.v1.admin.coupon.vo.card.EGiftCardReq.InsertEGiftCardReq;
 import com.ssamal.starbucks_clone_api.v1.admin.coupon.vo.card.EGiftCardReq.UpdateEGiftCardReq;
-import com.ssamal.starbucks_clone_api.v1.service.coupon.dto.EGiftCardDTO;
+import com.ssamal.starbucks_clone_api.v1.user.coupon.dto.EGiftCardDTO;
 import java.util.List;
 import java.util.UUID;
 

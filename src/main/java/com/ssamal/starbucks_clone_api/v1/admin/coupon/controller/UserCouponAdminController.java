@@ -4,7 +4,7 @@ import com.ssamal.starbucks_clone_api.global.common.BaseRes;
 import com.ssamal.starbucks_clone_api.v1.admin.coupon.vo.coupon.UserCouponReq.InsertUserCouponReq;
 import com.ssamal.starbucks_clone_api.v1.admin.coupon.service.UserCouponAdminService;
 import com.ssamal.starbucks_clone_api.v1.admin.coupon.vo.coupon.UserCouponRes.UserCouponList;
-import com.ssamal.starbucks_clone_api.v1.service.coupon.enums.CouponStatus;
+import com.ssamal.starbucks_clone_api.v1.user.coupon.enums.CouponStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

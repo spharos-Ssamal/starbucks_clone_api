@@ -2,7 +2,7 @@ package com.ssamal.starbucks_clone_api.v1.admin.coupon.service;
 
 import com.ssamal.starbucks_clone_api.v1.admin.coupon.vo.coupon.CouponReq.CreateCouponReq;
 import com.ssamal.starbucks_clone_api.v1.admin.coupon.vo.coupon.CouponReq.UpdateCouponReq;
-import com.ssamal.starbucks_clone_api.v1.service.coupon.dto.CouponDTO;
+import com.ssamal.starbucks_clone_api.v1.user.coupon.dto.CouponDTO;
 import java.util.List;
 
 public interface CouponAdminService {

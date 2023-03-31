@@ -3,7 +3,7 @@ package com.ssamal.starbucks_clone_api.v1.admin.coupon.controller;
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
 import com.ssamal.starbucks_clone_api.v1.admin.coupon.vo.coupon.CouponReq.CreateCouponReq;
 import com.ssamal.starbucks_clone_api.v1.admin.coupon.vo.coupon.CouponReq.UpdateCouponReq;
-import com.ssamal.starbucks_clone_api.v1.service.coupon.dto.CouponDTO;
+import com.ssamal.starbucks_clone_api.v1.user.coupon.dto.CouponDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
