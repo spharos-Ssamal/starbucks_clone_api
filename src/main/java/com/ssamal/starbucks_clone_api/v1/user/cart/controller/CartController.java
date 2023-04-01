@@ -36,7 +36,8 @@ public class CartController {
 
     @Operation(summary = "현재 유저의 장바구니 상품 갯수 조회", description = "현재 유저 장바구니 상품 갯수 조회 API 입니다.")
     @GetMapping("/cart/amount")
-    public ResponseEntity<BaseRes<Integer>> getCartAmount(@RequestParam(name = "userId", defaultValue = "") UUID userId) {
+    public ResponseEntity<BaseRes<Integer>> getCartAmount(
+        @RequestParam(name = "userId", defaultValue = "") UUID userId) {
         Integer res = cartItemService.getUsersCartItemAmount(userId);
         return ResponseEntity.ok().body(BaseRes.success(res));
     }
@@ -46,6 +47,15 @@ public class CartController {
     public ResponseEntity<BaseRes<List<CartItemRes>>> getCartItemList(
         @RequestParam(name = "userId", defaultValue = "") UUID userId) {
         List<CartItemRes> res = cartItemService.getCartItemList(userId);
+        return ResponseEntity.ok().body(BaseRes.success(res));
+    }
+
+    @Operation(summary = "장바구니 상품 단건 조회", description = "유저 장바구니 데이터 단건 조회입니다. 타 유저는 접근할 수 없습니다.")
+    @GetMapping("/cart/user/item")
+    public ResponseEntity<BaseRes<CartItemRes>> getCartItem(
+        @RequestParam(name = "cartId", defaultValue = "") Long cartId
+    ) {
+        CartItemRes res = cartItemService.getCartItem(cartId);
         return ResponseEntity.ok().body(BaseRes.success(res));
     }
 

@@ -86,12 +86,26 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
+    public CartItemRes getCartItem(Long cartId) {
+        CartItem result = cartItemRepository.findById(cartId)
+            .orElseThrow(() -> new CustomException(ResCode.CART_ITEM_NOT_FOUND));
+        return CartItemRes.builder()
+            .id(result.getId())
+            .product(ProductDTO.of(result.getProduct()))
+            .count(result.getCount())
+            .check(false)
+            .isFrozen(productOptionsRepository.existsByCategoryIdAndProductId(2L,
+                result.getProduct().getId()))
+            .build();
+    }
+
+    @Override
     public Long updateCartItem(Long cartId, int count) {
 
         CartItem cartItem = cartItemRepository.findById(cartId)
             .orElseThrow(() -> new CustomException(ResCode.CART_ITEM_NOT_FOUND));
 
-        if(cartItem.isDeleted()) {
+        if (cartItem.isDeleted()) {
             throw new CustomException(ResCode.BAD_REQUEST);
         } else {
             if (count <= 0) {
