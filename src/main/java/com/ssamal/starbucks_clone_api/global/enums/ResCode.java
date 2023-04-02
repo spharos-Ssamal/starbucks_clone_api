@@ -13,6 +13,7 @@ public enum ResCode {
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 올바르지 않습니다.", "ERROR-BR-001"),
     INVALID_TOKEN(HttpStatus.BAD_REQUEST, "올바르지 않은 토큰 요청입니다.", "ERROR-BR-002"),
     INVALID_CART_REQUEST(HttpStatus.BAD_REQUEST, "잘못 된 장바구니 요청입니다.", "ERROR-BR-003"),
+    USER_CART_ITEM_FULL(HttpStatus.BAD_REQUEST, "장바구니가 가득 찼습니다.", "ERROR-BR-004"),
 
     //UNAUTHORIZED
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "권한이 없습니다.", "ERROR-UA-000"),
@@ -34,8 +35,8 @@ public enum ResCode {
     CART_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "장바구니 항목을 찾을 수 없습니다.", "ERROR-NF-009"),
     PURCHASE_HISTORY_NOT_FOUND(HttpStatus.NOT_FOUND, "구매 기록을 찾을 수 없습니다.", "ERROR-NF-010"),
 
-    CARD_NOT_FOUND(HttpStatus.NOT_FOUND,"해당 카드를 찾을 수 없습니다.", "ERROR-NF-011"),
-    COUPON_NOT_FOUND(HttpStatus.NOT_FOUND,"해당 쿠폰를 찾을 수 없습니다.", "ERROR-NF-012"),
+    CARD_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 카드를 찾을 수 없습니다.", "ERROR-NF-011"),
+    COUPON_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 쿠폰를 찾을 수 없습니다.", "ERROR-NF-012"),
 
     //FORBIDDEN
     FORBIDDEN(HttpStatus.FORBIDDEN, "금지된 요청입니다.", "ERROR-FB-000"),
