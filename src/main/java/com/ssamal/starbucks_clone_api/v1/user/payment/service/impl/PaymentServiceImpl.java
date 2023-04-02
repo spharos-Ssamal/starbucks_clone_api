@@ -41,7 +41,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public UserHistoryRes getUserHistory(UUID userId, LocalDate startDate, LocalDate endDate) {
-        List<PurchaseHistory> result = purchaseHistoryRepository.findAllByUserIdAndRegTimeBetween(
+        List<PurchaseHistory> result = purchaseHistoryRepository.findAllByUserIdAndRegTimeBetweenOrderByRegTimeDesc(
             userId, startDate.atStartOfDay(),
             endDate.atTime(LocalTime.MAX));
 

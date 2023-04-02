@@ -60,6 +60,7 @@ public class PaymentRes {
         private String regTime;
         private String updateTime;
         private Integer purchasePrice;
+        private Integer shippingFee;
         private Integer discountPrice;
         private Integer totalPrice;
         private boolean isCanceled;

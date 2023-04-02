@@ -40,28 +40,35 @@ public class CartItemServiceImpl implements CartItemService {
             throw new CustomException(ResCode.INVALID_CART_REQUEST);
         }
 
-        ServiceUser user = userRepository.findById(req.getUserId())
-            .orElseThrow(() -> new CustomException(ResCode.USER_NOT_FOUND));
-        Product product = productRepository.findById(req.getProductId())
-            .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
-
-        Optional<CartItem> cartItem = cartItemRepository.findByProductIdAndIsDeleted(
-            req.getProductId(), false);
-
-        CartItem item;
-        if (cartItem.isPresent()) {
-            item = cartItem.get();
-            item.updateCountValue(item.getCount() + req.getCount());
+        if(cartItemRepository.findByUserIdAndIsDeleted(req.getUserId(),
+            false).size() >= 20) {
+            throw new CustomException(ResCode.USER_CART_ITEM_FULL);
         } else {
-            item = CartItem.builder()
-                .user(user)
-                .product(product)
-                .count(req.getCount())
-                .build();
+            ServiceUser user = userRepository.findById(req.getUserId())
+                .orElseThrow(() -> new CustomException(ResCode.USER_NOT_FOUND));
+            Product product = productRepository.findById(req.getProductId())
+                .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
 
+            Optional<CartItem> cartItem = cartItemRepository.findByProductIdAndIsDeleted(
+                req.getProductId(), false);
+
+
+
+            CartItem item;
+            if (cartItem.isPresent()) {
+                item = cartItem.get();
+                item.updateCountValue(item.getCount() + req.getCount());
+            } else {
+                item = CartItem.builder()
+                    .user(user)
+                    .product(product)
+                    .count(req.getCount())
+                    .build();
+
+            }
+            cartItemRepository.save(item);
+            return item.getId();
         }
-        cartItemRepository.save(item);
-        return item.getId();
     }
 
     @Override
@@ -71,7 +78,7 @@ public class CartItemServiceImpl implements CartItemService {
 
     @Override
     @Transactional
-    public List<CartItemRes> getCartItemList(UUID userId) {
+    public List<CartItemRes> getUsersCartItemList(UUID userId) {
 
         List<CartItem> cartItemList = cartItemRepository.findByUserIdAndIsDeleted(userId, false);
 
@@ -86,12 +93,44 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
+    public CartItemRes getCartItem(Long cartId) {
+        CartItem result = cartItemRepository.findById(cartId)
+            .orElseThrow(() -> new CustomException(ResCode.CART_ITEM_NOT_FOUND));
+        return CartItemRes.builder()
+            .id(result.getId())
+            .product(ProductDTO.of(result.getProduct()))
+            .count(result.getCount())
+            .check(false)
+            .isFrozen(productOptionsRepository.existsByCategoryIdAndProductId(2L,
+                result.getProduct().getId()))
+            .build();
+    }
+
+    @Override
+    public List<CartItemRes> getCartItemList(List<Long> cartIds) {
+        return cartIds.stream()
+            .map(id -> {
+                CartItem result = cartItemRepository.findById(id)
+                    .orElseThrow(() -> new CustomException(ResCode.CART_ITEM_NOT_FOUND));
+                return CartItemRes.builder()
+                    .id(result.getId())
+                    .product(ProductDTO.of(result.getProduct()))
+                    .count(result.getCount())
+                    .check(false)
+                    .isFrozen(productOptionsRepository.existsByCategoryIdAndProductId(2L,
+                        result.getProduct().getId()))
+                    .build();
+            })
+            .toList();
+    }
+
+    @Override
     public Long updateCartItem(Long cartId, int count) {
 
         CartItem cartItem = cartItemRepository.findById(cartId)
             .orElseThrow(() -> new CustomException(ResCode.CART_ITEM_NOT_FOUND));
 
-        if(cartItem.isDeleted()) {
+        if (cartItem.isDeleted()) {
             throw new CustomException(ResCode.BAD_REQUEST);
         } else {
             if (count <= 0) {
