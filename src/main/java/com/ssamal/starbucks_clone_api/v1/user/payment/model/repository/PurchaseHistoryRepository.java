@@ -7,6 +7,6 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PurchaseHistoryRepository extends JpaRepository<PurchaseHistory, String> {
-    List<PurchaseHistory> findAllByUserIdAndRegTimeBetween(UUID userId, LocalDateTime start, LocalDateTime end);
+    List<PurchaseHistory> findAllByUserIdAndRegTimeBetweenOrderByRegTimeDesc(UUID userId, LocalDateTime start, LocalDateTime end);
 
 }
