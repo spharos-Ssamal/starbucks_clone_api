@@ -71,7 +71,7 @@ public class CartItemServiceImpl implements CartItemService {
 
     @Override
     @Transactional
-    public List<CartItemRes> getCartItemList(UUID userId) {
+    public List<CartItemRes> getUsersCartItemList(UUID userId) {
 
         List<CartItem> cartItemList = cartItemRepository.findByUserIdAndIsDeleted(userId, false);
 
@@ -97,6 +97,24 @@ public class CartItemServiceImpl implements CartItemService {
             .isFrozen(productOptionsRepository.existsByCategoryIdAndProductId(2L,
                 result.getProduct().getId()))
             .build();
+    }
+
+    @Override
+    public List<CartItemRes> getCartItemList(List<Long> cartIds) {
+        return cartIds.stream()
+            .map(id -> {
+                CartItem result = cartItemRepository.findById(id)
+                    .orElseThrow(() -> new CustomException(ResCode.CART_ITEM_NOT_FOUND));
+                return CartItemRes.builder()
+                    .id(result.getId())
+                    .product(ProductDTO.of(result.getProduct()))
+                    .count(result.getCount())
+                    .check(false)
+                    .isFrozen(productOptionsRepository.existsByCategoryIdAndProductId(2L,
+                        result.getProduct().getId()))
+                    .build();
+            })
+            .toList();
     }
 
     @Override

@@ -15,9 +15,11 @@ public interface CartItemService {
 
     Integer getUsersCartItemAmount(UUID userId);
 
-    List<CartItemRes> getCartItemList(UUID userId);
+    List<CartItemRes> getUsersCartItemList(UUID userId);
 
     CartItemRes getCartItem(Long cartId);
+
+    List<CartItemRes> getCartItemList(List<Long> cartIds);
 
     Long updateCartItem(Long cartId, int count);
 
