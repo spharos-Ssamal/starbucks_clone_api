@@ -36,6 +36,9 @@ public class Recommend extends BaseTimeEntity {
     @Default
     private Boolean bannerViewable = false;
 
+    @Column(name = "linked_url")
+    private String linkedUrl;
+
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private EventStatus status;

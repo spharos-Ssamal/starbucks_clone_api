@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 public class SeasonRes {
 
-    private SeasonRes () {
+    private SeasonRes() {
         throw new IllegalStateException("VO Class");
     }
 
@@ -16,11 +16,13 @@ public class SeasonRes {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class SeasonInfo {
+
         private Long id;
         private String name;
+        private String key;
 
-        public static SeasonInfo of (Season entity) {
-            return new SeasonInfo(entity.getId(), entity.getName());
+        public static SeasonInfo of(Season entity) {
+            return new SeasonInfo(entity.getId(), entity.getName(), "season");
         }
     }
 
@@ -28,6 +30,7 @@ public class SeasonRes {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class GetSeasonInfoRes {
+
         private List<SeasonInfo> seasonInfo;
     }
 }
