@@ -22,7 +22,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
-        AuthenticationException authException) throws IOException, ServletException {
+        AuthenticationException authException) throws IOException {
         String exception = request.getAttribute("exception").toString();
         log.error("UNAUTHORIZED ERROR : " + exception);
         if (!Objects.equals(exception, ResCode.TOKEN_INVALID_SIGNATURE.getErrorCode())) {
