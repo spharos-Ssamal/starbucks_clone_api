@@ -1,6 +1,7 @@
 package com.ssamal.starbucks_clone_api.v1.user.product.controller;
 
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
+import com.ssamal.starbucks_clone_api.v1.user.product.dto.vo.ProductReq.FilterParam;
 import com.ssamal.starbucks_clone_api.v1.user.product.dto.vo.ProductReq.GetProductsReq;
 import com.ssamal.starbucks_clone_api.v1.user.product.dto.vo.ProductReq.SearchProductsByHashtagReq;
 import com.ssamal.starbucks_clone_api.v1.user.product.dto.vo.ProductReq.SearchProductsReq;
@@ -35,10 +36,11 @@ public class ProductController {
         @RequestParam(value = "subCategories", required = false, defaultValue = "") List<Long> subCategories,
         @RequestParam(value = "seasons", required = false, defaultValue = "") List<Long> seasonIds,
         @RequestParam(value = "productSize", required = false, defaultValue = "") List<Long> sizeIds,
-        @RequestParam(value = "price", required = false, defaultValue = "") Integer price,
+        @RequestParam(value = "priceStart", required = false, defaultValue = "-1") Integer priceStart,
+        @RequestParam(value = "priceEnd", required = false, defaultValue = "-1") Integer priceEnd,
         @PageableDefault(size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         SearchProductRes result = productService.getProducts(
-            new GetProductsReq(categoryId, subCategories, seasonIds, sizeIds, price),
+            new GetProductsReq( new FilterParam(categoryId, subCategories, seasonIds, sizeIds, priceStart, priceEnd)),
             pageable);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
@@ -78,12 +80,13 @@ public class ProductController {
         @RequestParam(value = "subCategories", required = false, defaultValue = "") List<Long> subCategories,
         @RequestParam(value = "seasons", required = false, defaultValue = "") List<Long> seasonIds,
         @RequestParam(value = "productSize", required = false, defaultValue = "") List<Long> sizeIds,
-        @RequestParam(value = "price", required = false, defaultValue = "") Integer price,
+        @RequestParam(value = "priceStart", required = false, defaultValue = "-1") Integer priceStart,
+        @RequestParam(value = "priceEnd", required = false, defaultValue = "-1") Integer priceEnd,
         @PageableDefault(size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         SearchProductRes result = productService.searchProducts(
-            new SearchProductsReq(productName, categoryId, subCategories, seasonIds, sizeIds,
-                price),
+            new SearchProductsReq(productName, new FilterParam(categoryId, subCategories, seasonIds, sizeIds,
+                priceStart, priceEnd)),
             pageable);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
@@ -96,12 +99,13 @@ public class ProductController {
         @RequestParam(value = "subCategories", required = false, defaultValue = "") List<Long> subCategories,
         @RequestParam(value = "seasons", required = false, defaultValue = "") List<Long> seasonIds,
         @RequestParam(value = "productSize", required = false, defaultValue = "") List<Long> sizeIds,
-        @RequestParam(value = "price", required = false, defaultValue = "") Integer price,
+        @RequestParam(value = "priceStart", required = false, defaultValue = "-1") Integer priceStart,
+        @RequestParam(value = "priceEnd", required = false, defaultValue = "-1") Integer priceEnd,
         @PageableDefault(size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         SearchProductRes result = productService.searchProductsByHashtag(
-            new SearchProductsByHashtagReq(hashtagName, categoryId, subCategories, seasonIds,
-                sizeIds, price), pageable
+            new SearchProductsByHashtagReq(hashtagName, new FilterParam(categoryId, subCategories, seasonIds,
+                sizeIds, priceStart, priceEnd)), pageable
         );
         return ResponseEntity.ok().body(BaseRes.success(result));
     }

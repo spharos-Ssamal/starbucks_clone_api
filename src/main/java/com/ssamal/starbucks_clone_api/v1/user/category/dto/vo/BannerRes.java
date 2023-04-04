@@ -22,10 +22,12 @@ public class BannerRes {
         private String regTime;
         private Long eventId;
         private Long recommendId;
+        private String linkedUrl;
 
         public static BannerInfo of(Event event) {
             BannerInfo info = ModelMapperUtils.getModelMapper().map(event, BannerInfo.class);
             info.setEventId(event.getId());
+            info.setLinkedUrl("");
             return info;
         }
 
