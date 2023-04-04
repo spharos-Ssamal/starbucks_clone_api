@@ -71,6 +71,7 @@ public class ProductRes {
     public static class SearchProductRes {
 
         private List<ProductDTO> content;
+        private Integer pageNo;
         private boolean isLast;
         private int totalPages;
         private Long totalElements;

@@ -4,7 +4,6 @@ import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.util.List;
 
@@ -23,10 +22,9 @@ public class ProductReq {
     }
 
     @Getter
-    @ToString
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class GetProductsReq {
+    public static class FilterParam {
 
         private Long mainCategory;
         private List<Long> subCategories;
@@ -34,9 +32,16 @@ public class ProductReq {
         private List<Long> seasonIds;
         @Nullable
         private List<Long> sizeIds;
-        @Nullable
-        private Integer price;
+        private Integer priceStart;
+        private Integer priceEnd;
+    }
 
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class GetProductsReq {
+
+        private FilterParam filterParam;
     }
 
     @Getter
@@ -45,15 +50,7 @@ public class ProductReq {
     public static class SearchProductsReq {
 
         private String productName;
-        private Long mainCategory;
-        private List<Long> subCategories;
-        @Nullable
-        private List<Long> seasonIds;
-        @Nullable
-        private List<Long> sizeIds;
-        @Nullable
-        private Integer price;
-
+        private FilterParam filterParam;
     }
 
     @Getter
@@ -62,15 +59,7 @@ public class ProductReq {
     public static class SearchProductsByHashtagReq {
 
         private String hashtagName;
-        private Long mainCategory;
-        private List<Long> subCategories;
-        @Nullable
-        private List<Long> seasonIds;
-        @Nullable
-        private List<Long> sizeIds;
-        @Nullable
-        private Integer price;
-
+        private FilterParam filterParam;
     }
 
     @Getter

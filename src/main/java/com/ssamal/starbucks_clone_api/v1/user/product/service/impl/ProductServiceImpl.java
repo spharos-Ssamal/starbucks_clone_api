@@ -62,28 +62,32 @@ public class ProductServiceImpl implements ProductService {
 
         Specification<ProductOptions> spec = (root, query, cb) -> cb.isTrue(cb.literal(true));
 
-        if (req.getSubCategories().isEmpty()) {
+        if (req.getFilterParam().getSubCategories().isEmpty()) {
             spec = spec.and(
-                ProductOptionSpecification.inCategoryId(List.of(req.getMainCategory())));
+                ProductOptionSpecification.inCategoryId(List.of(req.getFilterParam().getMainCategory())));
         } else {
-            spec = spec.and(ProductOptionSpecification.inCategoryId(req.getSubCategories()));
+            spec = spec.and(ProductOptionSpecification.inCategoryId(req.getFilterParam().getSubCategories()));
         }
 
-        if (!req.getSizeIds().isEmpty()) {
-            spec = spec.and(ProductOptionSpecification.inSizeId(req.getSizeIds()));
+        if (!(req.getFilterParam().getSizeIds() != null && req.getFilterParam().getSizeIds().isEmpty())) {
+            spec = spec.and(ProductOptionSpecification.inSizeId(req.getFilterParam().getSizeIds()));
         }
 
-        if (!req.getSeasonIds().isEmpty()) {
-            spec = spec.and(ProductOptionSpecification.inSeasonId(req.getSeasonIds()));
+        if (req.getFilterParam().getSeasonIds() != null && !req.getFilterParam().getSeasonIds().isEmpty()) {
+            spec = spec.and(ProductOptionSpecification.inSeasonId(req.getFilterParam().getSeasonIds()));
         }
 
-        if (req.getPrice() != null) {
-            spec = spec.and(ProductOptionSpecification.lessThanPrice(req.getPrice()));
+        if(req.getFilterParam().getPriceStart() != -1 && req.getFilterParam().getPriceEnd() != -1) {
+            if(req.getFilterParam().getPriceEnd() != 0) {
+                spec = spec.and(ProductOptionSpecification.betweenPrice(req.getFilterParam().getPriceStart(), req.getFilterParam().getPriceEnd()));
+            } else {
+                spec = spec.and(ProductOptionSpecification.greaterThanPrice(req.getFilterParam().getPriceStart()));
+            }
         }
 
         Page<ProductDTO> result = ProductDTO.of(productOptionsRepository.findAll(spec, pageable));
 
-        return new SearchProductRes(result.getContent(), result.isLast(),
+        return new SearchProductRes(result.getContent(), result.getNumber(), result.isLast(),
             result.getTotalPages(), result.getTotalElements());
     }
 
@@ -138,32 +142,36 @@ public class ProductServiceImpl implements ProductService {
     public SearchProductRes searchProducts(SearchProductsReq req, Pageable pageable) {
         Specification<ProductOptions> spec = (root, query, cb) -> cb.isTrue(cb.literal(true));
 
-        if (req.getSubCategories().isEmpty()) {
+        if (req.getFilterParam().getSubCategories().isEmpty()) {
             spec = spec.and(
-                ProductOptionSpecification.inCategoryId(List.of(req.getMainCategory())));
+                ProductOptionSpecification.inCategoryId(List.of(req.getFilterParam().getMainCategory())));
         } else {
-            spec = spec.and(ProductOptionSpecification.inCategoryId(req.getSubCategories()));
+            spec = spec.and(ProductOptionSpecification.inCategoryId(req.getFilterParam().getSubCategories()));
         }
 
         if (!req.getProductName().isEmpty()) {
             spec = spec.and(ProductOptionSpecification.likeProductName(req.getProductName()));
         }
 
-        if (!req.getSizeIds().isEmpty()) {
-            spec = spec.and(ProductOptionSpecification.inSizeId(req.getSizeIds()));
+        if (!req.getFilterParam().getSizeIds().isEmpty()) {
+            spec = spec.and(ProductOptionSpecification.inSizeId(req.getFilterParam().getSizeIds()));
         }
 
-        if (!req.getSeasonIds().isEmpty()) {
-            spec = spec.and(ProductOptionSpecification.inSeasonId(req.getSeasonIds()));
+        if (!req.getFilterParam().getSeasonIds().isEmpty()) {
+            spec = spec.and(ProductOptionSpecification.inSeasonId(req.getFilterParam().getSeasonIds()));
         }
 
-        if (req.getPrice() != null) {
-            spec = spec.and(ProductOptionSpecification.lessThanPrice(req.getPrice()));
+        if(req.getFilterParam().getPriceStart() != -1 && req.getFilterParam().getPriceEnd() != -1) {
+            if(req.getFilterParam().getPriceEnd() != 0) {
+                spec = spec.and(ProductOptionSpecification.betweenPrice(req.getFilterParam().getPriceStart(), req.getFilterParam().getPriceEnd()));
+            } else {
+                spec = spec.and(ProductOptionSpecification.greaterThanPrice(req.getFilterParam().getPriceStart()));
+            }
         }
 
         Page<ProductDTO> result = ProductDTO.of(productOptionsRepository.findAll(spec, pageable));
 
-        return new SearchProductRes(result.getContent(), result.isLast(),
+        return new SearchProductRes(result.getContent(), result.getNumber(), result.isLast(),
             result.getTotalPages(), result.getTotalElements());
     }
 
@@ -181,28 +189,32 @@ public class ProductServiceImpl implements ProductService {
 
         spec = spec.and(ProductOptionSpecification.inProductId(productIdList));
 
-        if (req.getSubCategories().isEmpty()) {
+        if (req.getFilterParam().getSubCategories().isEmpty()) {
             spec = spec.and(
-                ProductOptionSpecification.inCategoryId(List.of(req.getMainCategory())));
+                ProductOptionSpecification.inCategoryId(List.of(req.getFilterParam().getMainCategory())));
         } else {
-            spec = spec.and(ProductOptionSpecification.inCategoryId(req.getSubCategories()));
+            spec = spec.and(ProductOptionSpecification.inCategoryId(req.getFilterParam().getSubCategories()));
         }
 
-        if (!req.getSizeIds().isEmpty()) {
-            spec = spec.and(ProductOptionSpecification.inSizeId(req.getSizeIds()));
+        if (req.getFilterParam().getSizeIds() != null && !req.getFilterParam().getSizeIds().isEmpty()) {
+            spec = spec.and(ProductOptionSpecification.inSizeId(req.getFilterParam().getSizeIds()));
         }
 
-        if (!req.getSeasonIds().isEmpty()) {
-            spec = spec.and(ProductOptionSpecification.inSeasonId(req.getSeasonIds()));
+        if (req.getFilterParam().getSeasonIds() != null && !req.getFilterParam().getSeasonIds().isEmpty()) {
+            spec = spec.and(ProductOptionSpecification.inSeasonId(req.getFilterParam().getSeasonIds()));
         }
 
-        if (req.getPrice() != null) {
-            spec = spec.and(ProductOptionSpecification.lessThanPrice(req.getPrice()));
+        if(req.getFilterParam().getPriceStart() != -1 && req.getFilterParam().getPriceEnd() != -1) {
+            if(req.getFilterParam().getPriceEnd() != 0) {
+                spec = spec.and(ProductOptionSpecification.betweenPrice(req.getFilterParam().getPriceStart(), req.getFilterParam().getPriceEnd()));
+            } else {
+                spec = spec.and(ProductOptionSpecification.greaterThanPrice(req.getFilterParam().getPriceStart()));
+            }
         }
 
         Page<ProductDTO> result = ProductDTO.of(productOptionsRepository.findAll(spec, pageable));
 
-        return new SearchProductRes(result.getContent(), result.isLast(),
+        return new SearchProductRes(result.getContent(), result.getNumber() , result.isLast(),
             result.getTotalPages(), result.getTotalElements());
     }
 

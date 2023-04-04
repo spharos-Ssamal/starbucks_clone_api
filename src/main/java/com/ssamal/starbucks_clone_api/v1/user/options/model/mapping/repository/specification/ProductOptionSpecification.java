@@ -31,8 +31,13 @@ public class ProductOptionSpecification {
         return (root, query, criteriaBuilder) -> root.get("size").get("id").in(sizeId);
     }
 
-    public static Specification<ProductOptions> lessThanPrice(Integer price) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(
+    public static Specification<ProductOptions> betweenPrice(Integer priceStart, Integer priceEnd) {
+        return ((root, query, criteriaBuilder) -> criteriaBuilder.between(
+            root.get("product").get("price"), priceStart, priceEnd));
+    }
+
+    public static Specification<ProductOptions> greaterThanPrice(Integer price) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(
             root.get("product").get("price"), price);
     }
 
