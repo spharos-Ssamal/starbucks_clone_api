@@ -45,6 +45,11 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     private void setErrorResponse(HttpServletResponse res, ResCode tokenStatus) throws IOException {
         res.setContentType(MediaType.APPLICATION_JSON_VALUE);
         res.setStatus(HttpStatus.UNAUTHORIZED.value());
+        res.setHeader("Access-Control-Allow-Origin", "http://localhost:6600");
+        res.setHeader("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT,OPTIONS");
+        res.setHeader("Access-Control-Allow-Headers", "*");
+        res.setHeader("Access-Control-Allow-Credentials", "true");
+        res.setHeader("Access-Control-Max-Age", "3600");
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.writeValue(res.getOutputStream(), BaseRes.fail(tokenStatus));
     }
