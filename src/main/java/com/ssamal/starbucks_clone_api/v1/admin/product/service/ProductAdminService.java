@@ -3,9 +3,8 @@ package com.ssamal.starbucks_clone_api.v1.admin.product.service;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq.AddImageReq;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminRes;
-import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
-import com.ssamal.starbucks_clone_api.v1.product.model.Product;
 
+import com.ssamal.starbucks_clone_api.v1.user.product.dto.ProductDTO;
 import java.util.List;
 
 public interface ProductAdminService {

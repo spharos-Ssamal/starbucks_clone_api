@@ -3,7 +3,7 @@ package com.ssamal.starbucks_clone_api.v1.admin.card.controller;
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
 import com.ssamal.starbucks_clone_api.v1.admin.coupon.vo.card.CardReq.CreateCardReq;
 import com.ssamal.starbucks_clone_api.v1.admin.coupon.vo.card.CardReq.UpdateCardReq;
-import com.ssamal.starbucks_clone_api.v1.coupon.dto.CardDTO;
+import com.ssamal.starbucks_clone_api.v1.user.coupon.dto.CardDTO;
 import com.ssamal.starbucks_clone_api.v1.admin.card.service.CardAdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

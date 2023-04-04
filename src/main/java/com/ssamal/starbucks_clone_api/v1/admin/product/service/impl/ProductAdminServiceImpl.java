@@ -4,30 +4,37 @@ import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq.AddImageReq;
 import com.ssamal.starbucks_clone_api.v1.admin.product.service.ProductAdminService;
-import com.ssamal.starbucks_clone_api.v1.cart.repository.CartItemRepository;
-import com.ssamal.starbucks_clone_api.v1.category.model.Category;
-import com.ssamal.starbucks_clone_api.v1.category.model.repository.CategoryRepository;
+import com.ssamal.starbucks_clone_api.v1.user.cart.repository.CartItemRepository;
+import com.ssamal.starbucks_clone_api.v1.user.category.model.Category;
+import com.ssamal.starbucks_clone_api.v1.user.category.model.repository.CategoryRepository;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminRes;
-import com.ssamal.starbucks_clone_api.v1.options.model.mapping.repository.ProductHashTagRepository;
-import com.ssamal.starbucks_clone_api.v1.payment.model.repository.PurchaseHistoryRepository;
-import com.ssamal.starbucks_clone_api.v1.payment.model.repository.PurchaseProductsRepository;
-import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
-import com.ssamal.starbucks_clone_api.v1.product.model.*;
-import com.ssamal.starbucks_clone_api.v1.options.model.mapping.ProductOptions;
-import com.ssamal.starbucks_clone_api.v1.evntsrcmnd.model.mapping.repository.ProductEventRepository;
-import com.ssamal.starbucks_clone_api.v1.options.model.mapping.repository.ProductOptionsRepository;
-import com.ssamal.starbucks_clone_api.v1.product.model.repository.*;
-import com.ssamal.starbucks_clone_api.v1.options.model.Season;
-import com.ssamal.starbucks_clone_api.v1.options.model.Size;
-import com.ssamal.starbucks_clone_api.v1.options.model.repository.SeasonRespository;
-import com.ssamal.starbucks_clone_api.v1.options.model.repository.SizeRepository;
+import com.ssamal.starbucks_clone_api.v1.user.options.model.mapping.repository.ProductHashTagRepository;
+import com.ssamal.starbucks_clone_api.v1.user.payment.model.repository.PurchaseHistoryRepository;
+import com.ssamal.starbucks_clone_api.v1.user.payment.model.repository.PurchaseProductsRepository;
+import com.ssamal.starbucks_clone_api.v1.user.options.model.mapping.ProductOptions;
+import com.ssamal.starbucks_clone_api.v1.user.evntsrcmnd.model.mapping.repository.ProductEventRepository;
+import com.ssamal.starbucks_clone_api.v1.user.options.model.mapping.repository.ProductOptionsRepository;
+import com.ssamal.starbucks_clone_api.v1.user.options.model.Season;
+import com.ssamal.starbucks_clone_api.v1.user.options.model.Size;
+import com.ssamal.starbucks_clone_api.v1.user.options.model.repository.SeasonRespository;
+import com.ssamal.starbucks_clone_api.v1.user.options.model.repository.SizeRepository;
 
-import java.util.*;
-
+import com.ssamal.starbucks_clone_api.v1.user.product.dto.ProductDTO;
+import com.ssamal.starbucks_clone_api.v1.user.product.model.Product;
+import com.ssamal.starbucks_clone_api.v1.user.product.model.ProductDetailImage;
+import com.ssamal.starbucks_clone_api.v1.user.product.model.repository.ProductDetailImageRepository;
+import com.ssamal.starbucks_clone_api.v1.user.product.model.repository.ProductRepository;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,7 +69,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
                     ProductOptions option = new ProductOptions();
 
                     Category category = categoryRepository.findById(categoryId)
-                            .orElseThrow(() -> new CustomException(ResCode.CATEGORY_NOT_FOUND));
+                        .orElseThrow(() -> new CustomException(ResCode.CATEGORY_NOT_FOUND));
 
                     option.setProduct(newProduct);
                     option.setCategory(category);
@@ -96,7 +103,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
     @Override
     public List<Long> addProductDetailImages(AddImageReq req) {
         Product product = productRepository.findById(req.getProductId())
-                .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ResCode.PRODUCT_NOT_FOUND));
 
         return req.getImageUrls().stream().map(imageUrl -> {
             ProductDetailImage image = ProductDetailImage.of(product, imageUrl);
@@ -135,7 +142,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
         }
 
         return new ProdAdminRes.DeleteProductRes(req.getProductId(),
-                LocalDateTime.now().toString());
+            LocalDateTime.now().toString());
     }
 
     @Override
@@ -143,30 +150,30 @@ public class ProductAdminServiceImpl implements ProductAdminService {
         List<Product> productList = productRepository.findAll();
         List<String> purchaseHistoryId = new ArrayList<>();
         Map<Long, Long> countingPurchaseHistory = new HashMap<>();
-        List<ProductDTO>productDTOList = new ArrayList<>();
-        productList.forEach( t -> {
+        List<ProductDTO> productDTOList = new ArrayList<>();
+        productList.forEach(t -> {
             ProductDTO productDTO = ProductDTO.of(t);
-            if(productDTO.isIsBest()){
+            if (productDTO.isIsBest()) {
                 productDTO.setIsBest(false);
             }
             String HistoryId = purchaseProductsRepository.findByProductId(t.getId());
             Long count = purchaseHistoryRepository.countById(HistoryId);
-            countingPurchaseHistory.put(t.getId(),count);
+            countingPurchaseHistory.put(t.getId(), count);
             productDTOList.add(productDTO);
         });
         List<Map.Entry<Long, Long>> sorting = new LinkedList<>(countingPurchaseHistory.entrySet());
         Collections.sort(sorting, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
 
         int count = 0;
-        for(Map.Entry<Long, Long> sortBest : sorting){
-            if(count<5){
+        for (Map.Entry<Long, Long> sortBest : sorting) {
+            if (count < 5) {
                 Product product = productRepository.findById(sortBest.getValue()).orElseThrow(
-                        () -> new CustomException(ResCode.PRODUCT_NOT_FOUND)
+                    () -> new CustomException(ResCode.PRODUCT_NOT_FOUND)
                 );
                 ProductDTO productDTO = ProductDTO.of(product);
                 productDTO.setIsBest(true);
                 productRepository.save(Product.of(productDTO));
-            }else{
+            } else {
                 break;
             }
             count++;
@@ -175,7 +182,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
     }
 
     @Override
-    public List<ProductDTO> updateBestProductVersion2(){
+    public List<ProductDTO> updateBestProductVersion2() {
 
         return null;
     }

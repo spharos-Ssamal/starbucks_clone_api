@@ -1,6 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.admin.coupon.vo.coupon;
 
-import com.ssamal.starbucks_clone_api.v1.coupon.dto.UserCouponDTO;
+import com.ssamal.starbucks_clone_api.v1.user.coupon.dto.UserCouponDTO;
 import java.util.List;
 import lombok.*;
 
