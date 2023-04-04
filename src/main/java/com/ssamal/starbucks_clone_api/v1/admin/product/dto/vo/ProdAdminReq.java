@@ -61,5 +61,13 @@ public class ProdAdminReq {
         private Long productId;
     }
 
+    @Getter
+    @ToString
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class BestProduct{
+        private String historyId;
+        private Integer cnt;
+    }
 
 }

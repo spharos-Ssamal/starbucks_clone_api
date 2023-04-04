@@ -34,6 +34,9 @@ public class Product extends BaseTimeEntity {
     @Column(name = "price")
     private Integer price;
 
+    @Column(name = "is_Best")
+    private boolean IsBest;
+
     @Column(name = "status", columnDefinition = "VARCHAR(10) default 'ON_SALE' ")
     @Default
     @Enumerated(value = EnumType.STRING)

@@ -5,6 +5,7 @@ import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq.AddImageReq;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminRes;
 import com.ssamal.starbucks_clone_api.v1.admin.product.service.ProductAdminService;
+import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -52,4 +53,19 @@ public class ProductAdminController {
         ProdAdminRes.DeleteProductRes result = adminService.deleteProduct(req);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
+
+    @Operation(summary = "베스트 상품 1", description = "베스트 상품 1 등록 API 입니다")
+    @PutMapping("/bestProduct/version1")
+    public ResponseEntity<BaseRes<List<ProductDTO>>> bestProductVersion1(){
+        List<ProductDTO> bestProductList = adminService.updateBestProductVersion1();
+        return ResponseEntity.ok().body(BaseRes.success(bestProductList));
+    }
+
+    @Operation(summary = "베스트 상품 2", description = "베스트 상품 2 등록 API 입니다")
+    @PutMapping("/bestProduct/version2")
+    public ResponseEntity<BaseRes<List<ProductDTO>>> bestProductVersion2() {
+//        List<ProductDTO> bestProductList = adminService.updateBestProductVersion2();
+        return null;
+    }
+
 }

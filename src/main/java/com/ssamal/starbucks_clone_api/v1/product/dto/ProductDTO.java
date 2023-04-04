@@ -18,6 +18,7 @@ public class ProductDTO {
     private Integer price;
     private String description;
     private String thumbnail;
+    private boolean IsBest;
 
     public static ProductDTO of(Product entity) {
         return ModelMapperUtils.getModelMapper().map(entity, ProductDTO.class);

@@ -10,7 +10,9 @@ import com.ssamal.starbucks_clone_api.v1.category.model.repository.CategoryRepos
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminRes;
 import com.ssamal.starbucks_clone_api.v1.options.model.mapping.repository.ProductHashTagRepository;
+import com.ssamal.starbucks_clone_api.v1.payment.model.repository.PurchaseHistoryRepository;
 import com.ssamal.starbucks_clone_api.v1.payment.model.repository.PurchaseProductsRepository;
+import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
 import com.ssamal.starbucks_clone_api.v1.product.model.*;
 import com.ssamal.starbucks_clone_api.v1.options.model.mapping.ProductOptions;
 import com.ssamal.starbucks_clone_api.v1.evntsrcmnd.model.mapping.repository.ProductEventRepository;
@@ -21,12 +23,11 @@ import com.ssamal.starbucks_clone_api.v1.options.model.Size;
 import com.ssamal.starbucks_clone_api.v1.options.model.repository.SeasonRespository;
 import com.ssamal.starbucks_clone_api.v1.options.model.repository.SizeRepository;
 
-import java.util.Optional;
+import java.util.*;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +45,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
     private final ProductHashTagRepository productHashTagRepository;
     private final CartItemRepository cartItemRepository;
     private final PurchaseProductsRepository purchaseProductsRepository;
+    private final PurchaseHistoryRepository purchaseHistoryRepository;
 
     @Override
     @Transactional
@@ -134,5 +136,47 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 
         return new ProdAdminRes.DeleteProductRes(req.getProductId(),
                 LocalDateTime.now().toString());
+    }
+
+    @Override
+    public List<ProductDTO> updateBestProductVersion1() {
+        List<Product> productList = productRepository.findAll();
+        List<String> purchaseHistoryId = new ArrayList<>();
+        Map<Long, Long> countingPurchaseHistory = new HashMap<>();
+        List<ProductDTO>productDTOList = new ArrayList<>();
+        productList.forEach( t -> {
+            ProductDTO productDTO = ProductDTO.of(t);
+            if(productDTO.isIsBest()){
+                productDTO.setIsBest(false);
+            }
+            String HistoryId = purchaseProductsRepository.findByProductId(t.getId());
+            Long count = purchaseHistoryRepository.countById(HistoryId);
+            countingPurchaseHistory.put(t.getId(),count);
+            productDTOList.add(productDTO);
+        });
+        List<Map.Entry<Long, Long>> sorting = new LinkedList<>(countingPurchaseHistory.entrySet());
+        Collections.sort(sorting, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
+
+        int count = 0;
+        for(Map.Entry<Long, Long> sortBest : sorting){
+            if(count<5){
+                Product product = productRepository.findById(sortBest.getValue()).orElseThrow(
+                        () -> new CustomException(ResCode.PRODUCT_NOT_FOUND)
+                );
+                ProductDTO productDTO = ProductDTO.of(product);
+                productDTO.setIsBest(true);
+                productRepository.save(Product.of(productDTO));
+            }else{
+                break;
+            }
+            count++;
+        }
+        return productDTOList;
+    }
+
+    @Override
+    public List<ProductDTO> updateBestProductVersion2(){
+
+        return null;
     }
 }
