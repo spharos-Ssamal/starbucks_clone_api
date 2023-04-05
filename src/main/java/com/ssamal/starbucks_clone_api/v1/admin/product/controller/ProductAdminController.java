@@ -5,7 +5,7 @@ import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq.AddImageReq;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminRes;
 import com.ssamal.starbucks_clone_api.v1.admin.product.service.ProductAdminService;
-import com.ssamal.starbucks_clone_api.v1.product.dto.ProductDTO;
+import com.ssamal.starbucks_clone_api.v1.user.product.dto.ProductDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
