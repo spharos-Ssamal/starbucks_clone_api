@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface PurchaseHistoryRepository extends JpaRepository<PurchaseHistory, String> {
     List<PurchaseHistory> findAllByUserIdAndRegTimeBetweenOrderByRegTimeDesc(UUID userId, LocalDateTime start, LocalDateTime end);
 
-    Long countById(String purchaseHistoryID);
+    Integer countByHistoryId(String purchaseHistoryID);
 
     @Query("select ph.historyId, count(ph.historyId) AS cnt from PurchaseHistory ph group by ph.historyId order by count(ph.historyId) DESC limit 5")
     List<ProdAdminReq.BestProduct> bestProductHistoryList();

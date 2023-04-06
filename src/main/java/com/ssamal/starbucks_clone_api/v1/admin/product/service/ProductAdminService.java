@@ -16,7 +16,6 @@ public interface ProductAdminService {
     List<Long> updateProductAndProductDetailImages(ProdAdminReq.UpdateProductInfo req);
     ProdAdminRes.DeleteProductRes deleteProduct(ProdAdminReq.DeleteProduct req);
 
-    List<ProductDTO> updateBestProductVersion1();
-    List<ProductDTO> updateBestProductVersion2();
+    List<ProdAdminReq.BestProduct> updateBestProduct(Long categoryId, int rank);
 
 }

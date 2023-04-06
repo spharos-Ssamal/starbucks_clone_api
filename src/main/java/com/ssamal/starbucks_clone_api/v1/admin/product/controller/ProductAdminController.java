@@ -54,18 +54,13 @@ public class ProductAdminController {
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
-    @Operation(summary = "베스트 상품 1", description = "베스트 상품 1 등록 API 입니다")
-    @PutMapping("/bestProduct/version1")
-    public ResponseEntity<BaseRes<List<ProductDTO>>> bestProductVersion1(){
-        List<ProductDTO> bestProductList = adminService.updateBestProductVersion1();
+    @Operation(summary = "베스트 상품", description = "베스트 상품 등록 API 입니다")
+    @PutMapping("/bestProduct")
+    public ResponseEntity<BaseRes<List<ProdAdminReq.BestProduct>>> bestProduct(
+            @RequestParam Long categoryId, @RequestParam int rank
+    ) {
+        List<ProdAdminReq.BestProduct> bestProductList = adminService.updateBestProduct(categoryId, rank);
         return ResponseEntity.ok().body(BaseRes.success(bestProductList));
-    }
-
-    @Operation(summary = "베스트 상품 2", description = "베스트 상품 2 등록 API 입니다")
-    @PutMapping("/bestProduct/version2")
-    public ResponseEntity<BaseRes<List<ProductDTO>>> bestProductVersion2() {
-//        List<ProductDTO> bestProductList = adminService.updateBestProductVersion2();
-        return null;
     }
 
 }

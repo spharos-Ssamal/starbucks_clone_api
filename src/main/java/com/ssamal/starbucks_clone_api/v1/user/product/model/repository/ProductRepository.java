@@ -16,5 +16,4 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findAllByIdIn(List<Long> productId);
     List<Product> findByIsBest(boolean isBest);
-    Boolean existsAllAndIsBest();
 }

@@ -35,7 +35,7 @@ public class Product extends BaseTimeEntity {
     private Integer price;
 
     @Column(name = "is_best")
-    private boolean IsBest;
+    private boolean isBest;
 
     @Column(name = "status", columnDefinition = "VARCHAR(10) default 'ON_SALE' ")
     @Default
