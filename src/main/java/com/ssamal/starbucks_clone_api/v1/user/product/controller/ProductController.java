@@ -5,6 +5,7 @@ import com.ssamal.starbucks_clone_api.v1.user.product.dto.vo.ProductReq.FilterPa
 import com.ssamal.starbucks_clone_api.v1.user.product.dto.vo.ProductReq.GetProductsReq;
 import com.ssamal.starbucks_clone_api.v1.user.product.dto.vo.ProductReq.SearchProductsByHashtagReq;
 import com.ssamal.starbucks_clone_api.v1.user.product.dto.vo.ProductReq.SearchProductsReq;
+import com.ssamal.starbucks_clone_api.v1.user.product.dto.vo.ProductRes.BestProductsRes;
 import com.ssamal.starbucks_clone_api.v1.user.product.dto.vo.ProductRes.GetPrePurchaseProductsInfoRes;
 import com.ssamal.starbucks_clone_api.v1.user.product.dto.vo.ProductRes.GetProductCategoryAggregationRes;
 import com.ssamal.starbucks_clone_api.v1.user.product.dto.vo.ProductRes.SearchProductRes;
@@ -42,6 +43,15 @@ public class ProductController {
         SearchProductRes result = productService.getProducts(
             new GetProductsReq( new FilterParam(categoryId, subCategories, seasonIds, sizeIds, priceStart, priceEnd)),
             pageable);
+        return ResponseEntity.ok().body(BaseRes.success(result));
+    }
+
+    @Operation(summary = "카테고리 별 베스트 상품 조회", description = "카테고리 별 베스트 상품 조회 API 입니다.")
+    @GetMapping("/best")
+    public ResponseEntity<BaseRes<BestProductsRes>> getBestProductsByCategory(
+        @RequestParam(value = "categoryId", defaultValue = "") Long categoryId
+    ) {
+        BestProductsRes result = productService.getBestProducts(categoryId);
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 

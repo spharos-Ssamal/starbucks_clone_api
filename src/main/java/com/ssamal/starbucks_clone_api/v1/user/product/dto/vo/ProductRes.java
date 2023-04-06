@@ -68,6 +68,13 @@ public class ProductRes {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
+    public static class BestProductsRes {
+        private List<ProductDTO> products;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class SearchProductRes {
 
         private List<ProductDTO> content;
