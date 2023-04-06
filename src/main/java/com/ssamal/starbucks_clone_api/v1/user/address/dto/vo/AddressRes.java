@@ -1,6 +1,6 @@
 package com.ssamal.starbucks_clone_api.v1.user.address.dto.vo;
 
-import com.ssamal.starbucks_clone_api.v1.user.address.dto.ShippingAddressDTO.DTO;
+import com.ssamal.starbucks_clone_api.v1.user.address.dto.ShippingAddressDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +15,7 @@ public class AddressRes {
     @AllArgsConstructor
     public static class DefaultAddressRes {
 
-        private DTO result;
+        private ShippingAddressDTO result;
     }
 
     @Getter
@@ -29,6 +29,6 @@ public class AddressRes {
     @AllArgsConstructor
     public static class GetUserAddressRes {
 
-        private List<DTO> addressList;
+        private List<ShippingAddressDTO> addressList;
     }
 }

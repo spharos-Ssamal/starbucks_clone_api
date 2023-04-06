@@ -53,11 +53,7 @@ public class ShippingAddress extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private ServiceUser serviceUser;
 
-    public static ShippingAddress of(ShippingAddressDTO.Info info) {
-        return ModelMapperUtils.getModelMapper().map(info, ShippingAddress.class);
-    }
-
-    public static ShippingAddress of(ShippingAddressDTO.DTO dto) {
+    public static ShippingAddress of(ShippingAddressDTO dto) {
         return ModelMapperUtils.getModelMapper().map(dto, ShippingAddress.class);
     }
 

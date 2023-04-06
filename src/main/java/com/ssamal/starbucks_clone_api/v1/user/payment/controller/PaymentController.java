@@ -34,14 +34,6 @@ public class PaymentController {
         return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
-    @Operation(summary = "실시간 상품 배송 현황 조회", description = "실시간 상품 배송 현황 조회 API 입니다.")
-    @GetMapping("/users/now")
-    public ResponseEntity<BaseRes<PaymentRes.DeliveryStatusRes>> getUsersDeliveryStatus(
-        @RequestParam(name = "userId", defaultValue = "") UUID userId
-    ) {
-        return null;
-    }
-
     @Operation(summary = "유저 구매 기록 상세 조회", description = "유저 구매 기록 상세 조회 API 입니다.")
     @GetMapping("/users/detail")
     public ResponseEntity<BaseRes<PaymentRes.HistoryDetailInfo>> getUsersPurchaseInfo(

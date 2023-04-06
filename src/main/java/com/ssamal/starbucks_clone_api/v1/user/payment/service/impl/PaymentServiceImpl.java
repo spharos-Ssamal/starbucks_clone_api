@@ -5,7 +5,6 @@ import com.ssamal.starbucks_clone_api.global.error.CustomException;
 import com.ssamal.starbucks_clone_api.v1.user.payment.dto.PaymentDTO.ProductInfo;
 import com.ssamal.starbucks_clone_api.v1.user.payment.dto.PaymentDTO.UserHistory;
 import com.ssamal.starbucks_clone_api.v1.user.payment.dto.vo.PaymentReq.PurchasedInfo;
-import com.ssamal.starbucks_clone_api.v1.user.payment.dto.vo.PaymentRes.DeliveryStatusRes;
 import com.ssamal.starbucks_clone_api.v1.user.payment.dto.vo.PaymentRes.HistoryDetailInfo;
 import com.ssamal.starbucks_clone_api.v1.user.payment.dto.vo.PaymentRes.PurchaseRes;
 import com.ssamal.starbucks_clone_api.v1.user.payment.dto.vo.PaymentRes.UserHistoryRes;
@@ -52,16 +51,6 @@ public class PaymentServiceImpl implements PaymentService {
         }).toList();
 
         return new UserHistoryRes(response);
-    }
-
-
-    @Override
-    public DeliveryStatusRes getUserDeliveryStatus(UUID userId) {
-        //TODO
-        /*
-         * 이건 추후 고민좀....
-         * */
-        return null;
     }
 
     @Override
