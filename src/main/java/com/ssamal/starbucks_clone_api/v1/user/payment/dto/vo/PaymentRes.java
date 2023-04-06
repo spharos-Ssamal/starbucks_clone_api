@@ -1,6 +1,7 @@
 package com.ssamal.starbucks_clone_api.v1.user.payment.dto.vo;
 
 import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
+import com.ssamal.starbucks_clone_api.v1.user.address.dto.ShippingAddressDTO;
 import com.ssamal.starbucks_clone_api.v1.user.payment.dto.PaymentDTO.ProductInfo;
 import com.ssamal.starbucks_clone_api.v1.user.payment.dto.PaymentDTO.UserHistory;
 import com.ssamal.starbucks_clone_api.v1.user.payment.model.PurchaseHistory;
@@ -15,7 +16,7 @@ import java.util.List;
 public class PaymentRes {
 
     private PaymentRes() {
-        throw new IllegalStateException("Data class");
+        throw new IllegalStateException("VO class");
     }
 
     @Getter
@@ -54,13 +55,12 @@ public class PaymentRes {
 
         private String purchaseHistoryId;
         private List<ProductInfo> productInfoList;
-        private String baseAddress;
-        private String detailAddress;
-        private String message;
+        private ShippingAddressDTO addressInfo;
         private String regTime;
         private String updateTime;
         private Integer purchasePrice;
         private Integer shippingFee;
+        private String paymentMethod;
         private Integer discountPrice;
         private Integer totalPrice;
         private boolean isCanceled;
@@ -70,6 +70,7 @@ public class PaymentRes {
             HistoryDetailInfo result = ModelMapperUtils.getModelMapper()
                 .map(history, HistoryDetailInfo.class);
             result.setProductInfoList(productInfoList);
+            result.setAddressInfo(ShippingAddressDTO.of(history.getShippingAddress()));
             return result;
         }
 

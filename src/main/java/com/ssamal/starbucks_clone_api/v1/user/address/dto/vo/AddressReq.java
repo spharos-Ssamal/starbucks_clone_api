@@ -18,7 +18,7 @@ public class AddressReq {
     public static class AddUserAddressReq {
 
         private UUID userId;
-        private ShippingAddressDTO.Info addressInfo;
+        private ShippingAddressDTO addressInfo;
     }
 
     @Getter
@@ -27,7 +27,7 @@ public class AddressReq {
     public static class EditUserAddressReq {
 
         private UUID userId;
-        private ShippingAddressDTO.DTO addressInfo;
+        private ShippingAddressDTO addressInfo;
     }
 
 }

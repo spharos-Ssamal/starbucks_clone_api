@@ -2,7 +2,7 @@ package com.ssamal.starbucks_clone_api.v1.user.address.service.impl;
 
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import com.ssamal.starbucks_clone_api.global.error.CustomException;
-import com.ssamal.starbucks_clone_api.v1.user.address.dto.ShippingAddressDTO.DTO;
+import com.ssamal.starbucks_clone_api.v1.user.address.dto.ShippingAddressDTO;
 import com.ssamal.starbucks_clone_api.v1.user.address.dto.vo.AddressReq.AddUserAddressReq;
 import com.ssamal.starbucks_clone_api.v1.user.address.dto.vo.AddressReq.EditUserAddressReq;
 import com.ssamal.starbucks_clone_api.v1.user.address.dto.vo.AddressRes.DefaultAddressRes;
@@ -31,14 +31,14 @@ public class AddressServiceImpl implements AddressService {
                 userId, true)
             .orElseThrow(() -> new CustomException(ResCode.ADDRESS_NOT_FOUND));
 
-        return new DefaultAddressRes(DTO.of(address));
+        return new DefaultAddressRes(ShippingAddressDTO.of(address));
     }
 
     @Override
     public GetUserAddressRes getUserAddress(UUID userId) {
         List<ShippingAddress> addresses = shippingAddressRepository.findAllByServiceUserIdAndIsDeletedOrderByIsDefaultAddressDescIdAsc(
             userId, false);
-        return new GetUserAddressRes(addresses.stream().map(DTO::of).toList());
+        return new GetUserAddressRes(addresses.stream().map(ShippingAddressDTO::of).toList());
     }
 
     @Override
