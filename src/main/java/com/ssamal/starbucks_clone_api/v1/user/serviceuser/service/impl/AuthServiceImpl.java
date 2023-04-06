@@ -40,6 +40,9 @@ public class AuthServiceImpl implements AuthService {
             JwtUtils.REFRESH_TOKEN_VALID_TIME);
         redisUtils.setDataExpire(refreshToken, req.getUserEmail(),
             JwtUtils.REFRESH_TOKEN_VALID_TIME);
+        user.updateLoginTime();
+
+        userRepository.save(user);
 
         return UserRes.LoginRes.builder()
             .userId(user.getId())

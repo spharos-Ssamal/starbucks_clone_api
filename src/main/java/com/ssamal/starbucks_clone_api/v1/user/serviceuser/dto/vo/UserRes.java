@@ -1,16 +1,19 @@
 package com.ssamal.starbucks_clone_api.v1.user.serviceuser.dto.vo;
 
+import com.ssamal.starbucks_clone_api.global.utils.ModelMapperUtils;
+import com.ssamal.starbucks_clone_api.v1.user.serviceuser.model.ServiceUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.UUID;
+import lombok.Setter;
 
 public class UserRes {
 
     private UserRes() {
-        throw new IllegalStateException("Utility class");
+        throw new IllegalStateException("VO class");
     }
 
     @Getter
@@ -19,6 +22,21 @@ public class UserRes {
 
         private String userEmail;
         private String userName;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class UserInfoRes {
+        private String username;
+        private String userNickname;
+        private Boolean isAgree;
+        private String lastLogin;
+
+        public static UserInfoRes of (ServiceUser user){
+            return ModelMapperUtils.getModelMapper().map(user, UserInfoRes.class);
+        }
     }
 
     @Getter

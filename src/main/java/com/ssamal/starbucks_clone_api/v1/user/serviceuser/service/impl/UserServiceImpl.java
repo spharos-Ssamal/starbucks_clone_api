@@ -6,10 +6,12 @@ import com.ssamal.starbucks_clone_api.global.utils.RedisUtils;
 import com.ssamal.starbucks_clone_api.global.utils.InternalDataUtils;
 import com.ssamal.starbucks_clone_api.v1.user.serviceuser.dto.vo.UserReq;
 import com.ssamal.starbucks_clone_api.v1.user.serviceuser.dto.vo.UserRes;
+import com.ssamal.starbucks_clone_api.v1.user.serviceuser.dto.vo.UserRes.UserInfoRes;
 import com.ssamal.starbucks_clone_api.v1.user.serviceuser.model.ServiceUser;
 import com.ssamal.starbucks_clone_api.v1.user.serviceuser.model.repository.ServiceUserRepository;
 import com.ssamal.starbucks_clone_api.v1.user.serviceuser.service.EmailService;
 import com.ssamal.starbucks_clone_api.v1.user.serviceuser.service.UserService;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,13 @@ public class UserServiceImpl implements UserService {
         ServiceUser user = ServiceUser.newUser(req);
         userRepository.save(user);
         return new UserRes.RegisterRes(user.getUserEmail(), user.getUserNickname());
+    }
+
+    @Override
+    public UserInfoRes getUserInfo(UUID userId) {
+        ServiceUser user = userRepository.findById(userId)
+            .orElseThrow(() -> new CustomException(ResCode.USER_NOT_FOUND));
+        return UserInfoRes.of(user);
     }
 
     @Override
