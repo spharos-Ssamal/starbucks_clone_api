@@ -4,6 +4,7 @@ import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminReq.AddImageReq;
 import com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo.ProdAdminRes;
 
+import com.ssamal.starbucks_clone_api.v1.user.product.dto.ProductDTO;
 import java.util.List;
 
 public interface ProductAdminService {
@@ -14,5 +15,7 @@ public interface ProductAdminService {
 
     List<Long> updateProductAndProductDetailImages(ProdAdminReq.UpdateProductInfo req);
     ProdAdminRes.DeleteProductRes deleteProduct(ProdAdminReq.DeleteProduct req);
+
+    List<ProdAdminReq.BestProduct> updateBestProduct(Long categoryId, int rank);
 
 }

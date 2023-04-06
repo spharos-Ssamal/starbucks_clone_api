@@ -1,10 +1,7 @@
 package com.ssamal.starbucks_clone_api.v1.admin.product.dto.vo;
 
 import com.ssamal.starbucks_clone_api.v1.user.product.dto.ProductDTO;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -61,5 +58,24 @@ public class ProdAdminReq {
         private Long productId;
     }
 
+    @Getter
+    @ToString
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class BestProduct implements Comparable<BestProduct>{
+        private Long ProductId;
+        private String historyId;
+        private Integer count;
+
+        @Override
+        public int compareTo(BestProduct bestProduct){
+            if(bestProduct.count<count){
+                return 1;
+            }else if(bestProduct.count>count){
+                return -1;
+            }
+            return 0;
+        }
+    }
 
 }
