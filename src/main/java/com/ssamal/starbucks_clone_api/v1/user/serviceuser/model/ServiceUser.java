@@ -6,6 +6,7 @@ import com.ssamal.starbucks_clone_api.v1.user.address.model.ShippingAddress;
 import com.ssamal.starbucks_clone_api.v1.user.serviceuser.dto.vo.UserReq.RegisterReq;
 import com.ssamal.starbucks_clone_api.v1.user.serviceuser.enums.UserRole;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.*;
@@ -60,13 +61,18 @@ public class ServiceUser extends BaseTimeEntity {
     private String phoneNo;
 
     @Column(name = "is_agree", nullable = false)
-    private boolean isAgree;
+    private Boolean isAgree;
+
+    @Column(name = "last_login")
+    private LocalDateTime lastLogin;
 
     @OneToMany(mappedBy = "serviceUser")
     @Default
     private List<ShippingAddress> addressList = new ArrayList<>();
 
-
+    public void updateLoginTime() {
+        this.lastLogin = LocalDateTime.now();
+    }
     public static ServiceUser newUser(RegisterReq req) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return ServiceUser.builder()

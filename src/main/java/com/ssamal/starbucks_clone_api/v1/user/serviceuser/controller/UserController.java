@@ -3,9 +3,11 @@ package com.ssamal.starbucks_clone_api.v1.user.serviceuser.controller;
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
 import com.ssamal.starbucks_clone_api.v1.user.serviceuser.dto.vo.UserReq;
 import com.ssamal.starbucks_clone_api.v1.user.serviceuser.dto.vo.UserRes;
+import com.ssamal.starbucks_clone_api.v1.user.serviceuser.dto.vo.UserRes.UserInfoRes;
 import com.ssamal.starbucks_clone_api.v1.user.serviceuser.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +56,13 @@ public class UserController {
         @RequestParam(value = "userNickname", defaultValue = "") String userNickname) {
         return ResponseEntity.ok()
             .body(BaseRes.success(userService.confirmUserNickname(userNickname)));
+    }
+
+    @Operation(summary = "유저 정보 조회", description = "유저 정보 조회 API 입니다.")
+    @GetMapping("/info")
+    public ResponseEntity<BaseRes<UserInfoRes>> getUserInfo(@RequestParam(value = "userId", defaultValue = "") UUID userId) {
+        UserInfoRes result = userService.getUserInfo(userId);
+        return ResponseEntity.ok().body(BaseRes.success(result));
     }
 
 }
