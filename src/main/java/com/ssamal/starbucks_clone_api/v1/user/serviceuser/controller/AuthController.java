@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ import static org.springframework.http.HttpHeaders.SET_COOKIE;
 @Tag(name = "인증", description = "인증 API 입니다. (JWT)")
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/api/auth/v1")
 public class AuthController {
 

@@ -30,7 +30,7 @@ public class JwtUtils {
     private final UserDetailsServiceImpl userDetailsService;
     private static final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
     public static final String REFRESH_TOKEN_NAME = "refresh_token";
-    public static final Long ACCESS_TOKEN_VALID_TIME = 60 * 60 * 1000L;
+    public static final Long ACCESS_TOKEN_VALID_TIME = 1 * 60 * 1000L;
     public static final Long REFRESH_TOKEN_VALID_TIME = 30 * 24 * 60 * 60 * 1000L;
 
     public Key getSigningkey(String secretKey) {
@@ -94,10 +94,7 @@ public class JwtUtils {
             UnsupportedJwtException e) {
             return ResCode.TOKEN_UNSUPPORTED;
         } catch (
-            IllegalArgumentException e) {
-            return ResCode.TOKEN_ILLEGAL_ARGUMENT;
-        } catch (
-            ExpiredJwtException e) {
+            ExpiredJwtException | IllegalArgumentException e) {
             return ResCode.EXPIRED_TOKEN;
         }
     }

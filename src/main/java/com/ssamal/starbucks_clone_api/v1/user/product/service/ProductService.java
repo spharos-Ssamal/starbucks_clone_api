@@ -3,6 +3,7 @@ package com.ssamal.starbucks_clone_api.v1.user.product.service;
 import com.ssamal.starbucks_clone_api.v1.user.product.dto.vo.ProductReq.GetProductsReq;
 import com.ssamal.starbucks_clone_api.v1.user.product.dto.vo.ProductReq.SearchProductsByHashtagReq;
 import com.ssamal.starbucks_clone_api.v1.user.product.dto.vo.ProductReq.SearchProductsReq;
+import com.ssamal.starbucks_clone_api.v1.user.product.dto.vo.ProductRes.BestProductsRes;
 import com.ssamal.starbucks_clone_api.v1.user.product.dto.vo.ProductRes.GetPrePurchaseProductsInfoRes;
 import com.ssamal.starbucks_clone_api.v1.user.product.dto.vo.ProductRes.GetProductCategoryAggregationRes;
 import com.ssamal.starbucks_clone_api.v1.user.product.dto.vo.ProductRes.GetProductDetailRes;
@@ -16,6 +17,8 @@ public interface ProductService {
     GetProductDetailRes getProduct(Long productId);
 
     SearchProductRes getProducts(GetProductsReq req, Pageable pageable);
+
+    BestProductsRes getBestProducts(Long categoryId);
 
     List<GetProductCategoryAggregationRes> getProductCategoryAggregationByProductName(
         String productName);
