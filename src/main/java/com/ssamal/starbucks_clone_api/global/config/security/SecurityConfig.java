@@ -14,40 +14,49 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsUtils;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(
+        AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, JwtUtils jwtUtils, RedisUtils redisUtils) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtUtils jwtUtils,
+        RedisUtils redisUtils) throws Exception {
         http
-                .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .addFilterBefore(new JwtAuthenticationFilter(jwtUtils, redisUtils), UsernamePasswordAuthenticationFilter.class)
-//                .exceptionHandling()
-//                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-//                .accessDeniedHandler(new JwtAccessDeniedHandler())
-                .and()
-                .authorizeHttpRequests()
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-//                .requestMatchers("/api/auth/v1/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
-//                .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-//                .requestMatchers("/api/v1/**").authenticated()
-                .requestMatchers("/**").permitAll()
+            .httpBasic().disable()
+            .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .addFilterBefore(new JwtAuthenticationFilter(jwtUtils, redisUtils),
+                UsernamePasswordAuthenticationFilter.class)
+            .exceptionHandling()
+            .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+            .accessDeniedHandler(new JwtAccessDeniedHandler())
+            .and()
+            .authorizeHttpRequests()
+            .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+            .requestMatchers("/api/auth/v1/**", "/v3/api-docs/**", "/swagger-ui/**",
+                "/swagger-resources/**").permitAll()
+            .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+            .requestMatchers("/api/v1/pay/**", "/api/v1/user/info", "api/v1/cart/**").authenticated()
+            .requestMatchers("/api/v1/banner", "/api/v1/season/**", "/api/v1/event/**",
+                "/api/v1/category/subCategories", "/api/v1/product/**", "/api/v1/recommend/**",
+                "/api/v1/user/**")
+            .permitAll()
         ;
 
         return http.build();
