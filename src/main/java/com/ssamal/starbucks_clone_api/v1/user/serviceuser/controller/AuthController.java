@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ import static org.springframework.http.HttpHeaders.SET_COOKIE;
 @Tag(name = "인증", description = "인증 API 입니다. (JWT)")
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/api/auth/v1")
 public class AuthController {
 
@@ -44,6 +46,7 @@ public class AuthController {
         @CookieValue(value = JwtUtils.REFRESH_TOKEN_NAME, defaultValue = "") String refreshToken) {
         if (!refreshToken.isEmpty()) {
             UserRes.TokenInfo res = authService.reissueToken(refreshToken);
+            log.info("reissue Token [DEBUG]");
             return ResponseEntity.ok(BaseRes.success(res));
         } else {
             throw new CustomException(ResCode.REFRESH_TOKEN_EXPIRED);

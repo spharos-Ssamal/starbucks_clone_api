@@ -94,10 +94,7 @@ public class JwtUtils {
             UnsupportedJwtException e) {
             return ResCode.TOKEN_UNSUPPORTED;
         } catch (
-            IllegalArgumentException e) {
-            return ResCode.TOKEN_ILLEGAL_ARGUMENT;
-        } catch (
-            ExpiredJwtException e) {
+            ExpiredJwtException | IllegalArgumentException e) {
             return ResCode.EXPIRED_TOKEN;
         }
     }
