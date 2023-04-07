@@ -46,7 +46,6 @@ public class AuthController {
         @CookieValue(value = JwtUtils.REFRESH_TOKEN_NAME, defaultValue = "") String refreshToken) {
         if (!refreshToken.isEmpty()) {
             UserRes.TokenInfo res = authService.reissueToken(refreshToken);
-            log.info("reissue Token [DEBUG]");
             return ResponseEntity.ok(BaseRes.success(res));
         } else {
             throw new CustomException(ResCode.REFRESH_TOKEN_EXPIRED);
