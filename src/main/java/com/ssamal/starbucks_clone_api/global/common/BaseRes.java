@@ -1,6 +1,6 @@
 package com.ssamal.starbucks_clone_api.global.common;
 
-import com.ssamal.starbucks_clone_api.global.enums.CustomError;
+import com.ssamal.starbucks_clone_api.global.enums.ResCode;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,7 @@ public class BaseRes<T> {
         return new BaseRes<>(HttpStatus.OK, resultData, "SUCCESS");
     }
 
-    public static BaseRes<String> fail(CustomError err) {
+    public static BaseRes<String> fail(ResCode err) {
         return new BaseRes<>(err.getHttpStatus(), err.getErrorCode(), err.getMessage());
     }
 }

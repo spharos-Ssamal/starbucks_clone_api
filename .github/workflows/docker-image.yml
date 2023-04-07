@@ -33,14 +33,12 @@ jobs:
         run: |
           chmod +x ./gradlew
           ./gradlew bootJar
-
       - name: Web Docker build and push (Master)
         if: github.ref_name == 'master'
         run: |
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
           docker build -t ${{ secrets.DOCKER_REPO }}:latest .
           docker push ${{ secrets.DOCKER_REPO }}:latest
-
       - name: Web Docker build and push (Else)
         if: github.ref_name != 'master'
         run: |
@@ -51,28 +49,31 @@ jobs:
       - name: Get Github Actions IP
         id: ip
         uses: haythem/public-ip@v1.3
-        
+
+
       - name: Configure AWS Credentials For GitHub Actions
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_ACCESS_SECRET_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-          
+
+
       - name: Add Github Actions IP to Security Group
         run: |
           aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
-        
+
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v0.1.8
-        with: 
+        with:
+
           host: ${{ secrets.AWS_HOST }}
           username: ${{ secrets.AWS_USERNAME }}
           key: ${{ secrets.AWS_SSH_KEY }}
           port: ${{ secrets.AWS_SSH_PORT }}
           script_stop: true
           script: |
-            cd /home/ubuntu/dev/starbucks_clone/shells
+            cd /home/ubuntu/dev/starbucks_clone
             sh ./shells/deploy.sh
 
       - name: Remove Github Actions IP From Security Group
