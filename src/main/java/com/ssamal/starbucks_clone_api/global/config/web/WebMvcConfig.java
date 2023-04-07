@@ -12,7 +12,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry){
         registry.addMapping("/**")
                 .allowCredentials(true).maxAge(3600)
-                .allowedOriginPatterns("*")
+                .allowedOriginPatterns("https://starbucks-clone-webview-gwyhm1cet-ssamal.vercel.app", "http://localhost:3000","http://localhost:6600")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                 .allowedHeaders("*")
                 .exposedHeaders("*");
