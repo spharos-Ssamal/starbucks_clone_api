@@ -141,11 +141,21 @@ npm install
 <br />
 <br />
 
-# 4. 시연\_demo \* 업데이트 예정
+# 4. 시연\_demo 
+## 검색  
+![KakaoTalk_20230407_121233138](https://user-images.githubusercontent.com/36991763/230533659-c811fdad-f1ad-4c48-b93e-0a53ef7a4a33.gif)
 
-```sh
-링크 / 로그인 아이디 / 비밀번호
-```
+## 주소록 관리  
+![배송지 관리](https://user-images.githubusercontent.com/36991763/230533291-ca4a55be-a5fb-493b-8118-be3077fed447.gif)
+
+## 상품 단건 구매  
+![단건 결제](https://user-images.githubusercontent.com/36991763/230533315-72b5651c-c0d2-4e4a-9a13-cfc676606c86.gif)
+
+## 장바구니 상품 구매  
+![장바구니 및 결제](https://user-images.githubusercontent.com/36991763/230533327-8a5d8d28-a412-4dca-a931-8b2cb2eeba4f.gif)
+
+## 구매 내역 조회  
+![주문 내역 조회](https://user-images.githubusercontent.com/36991763/230533399-9b1d3278-b984-49f1-9926-6f061853bff5.gif)
 
 <br />
 <br />
