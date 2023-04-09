@@ -3,11 +3,14 @@ package com.ssamal.starbucks_clone_api.global.config.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssamal.starbucks_clone_api.global.common.BaseRes;
 import com.ssamal.starbucks_clone_api.global.enums.ResCode;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -17,8 +20,12 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
+@RequiredArgsConstructor
 @Slf4j
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+
+    @Value("${client.url}")
+    private String webClientUrl;
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
@@ -45,8 +52,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     private void setErrorResponse(HttpServletResponse res, ResCode tokenStatus) throws IOException {
         res.setContentType(MediaType.APPLICATION_JSON_VALUE);
         res.setStatus(HttpStatus.UNAUTHORIZED.value());
-        res.setHeader("Access-Control-Allow-Origin", "http://localhost:6600");
-        res.setHeader("Access-Control-Allow-Origin", "https://starbucks-clone-webview.vercel.app");
+        res.setHeader("Access-Control-Allow-Origin", webClientUrl);
         res.setHeader("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT,OPTIONS");
         res.setHeader("Access-Control-Allow-Headers", "*");
         res.setHeader("Access-Control-Allow-Credentials", "true");

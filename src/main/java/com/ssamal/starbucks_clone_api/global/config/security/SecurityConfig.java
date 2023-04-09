@@ -2,6 +2,8 @@ package com.ssamal.starbucks_clone_api.global.config.security;
 
 import com.ssamal.starbucks_clone_api.global.utils.JwtUtils;
 import com.ssamal.starbucks_clone_api.global.utils.RedisUtils;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,8 +21,11 @@ import org.springframework.web.cors.CorsUtils;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
+
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -44,7 +49,7 @@ public class SecurityConfig {
             .addFilterBefore(new JwtAuthenticationFilter(jwtUtils, redisUtils),
                 UsernamePasswordAuthenticationFilter.class)
             .exceptionHandling()
-            .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+            .authenticationEntryPoint(customAuthenticationEntryPoint)
             .accessDeniedHandler(new JwtAccessDeniedHandler())
             .and()
             .authorizeHttpRequests()
@@ -53,9 +58,10 @@ public class SecurityConfig {
                 "/swagger-resources/**", "/api/v1/banner", "/api/v1/season/**", "/api/v1/event/**",
                 "/api/v1/category/subCategories", "/api/v1/product/**", "/api/v1/recommend/**",
                 "/api/v1/user/**").permitAll()
-            .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-            .requestMatchers("/api/v1/pay/**", "/api/v1/user/info/**", "api/v1/cart/**", "/api/v1/address/**")
+            .requestMatchers("/api/v1/pay/**", "/api/v1/user/info/**", "/api/v1/cart/**", "/api/v1/address/**")
             .authenticated()
+            .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+
         ;
 
         return http.build();
