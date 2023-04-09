@@ -54,7 +54,7 @@ public class SecurityConfig {
                 "/api/v1/category/subCategories", "/api/v1/product/**", "/api/v1/recommend/**",
                 "/api/v1/user/**").permitAll()
             .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-            .requestMatchers("/api/v1/pay/**", "/api/v1/user/info", "api/v1/cart/**")
+            .requestMatchers("/api/v1/pay/**", "/api/v1/user/info/**", "api/v1/cart/**")
             .authenticated()
         ;
 

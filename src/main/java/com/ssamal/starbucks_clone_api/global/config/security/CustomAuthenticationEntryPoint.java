@@ -46,7 +46,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         res.setContentType(MediaType.APPLICATION_JSON_VALUE);
         res.setStatus(HttpStatus.UNAUTHORIZED.value());
         res.setHeader("Access-Control-Allow-Origin", "http://localhost:6600");
-        res.setHeader("Access-Control-Allow-Origin", "https://starbucks-clone-webview-f6kk4q344-ssamal.vercel.app");
+        res.setHeader("Access-Control-Allow-Origin", "https://starbucks-clone-webview.vercel.app");
         res.setHeader("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT,OPTIONS");
         res.setHeader("Access-Control-Allow-Headers", "*");
         res.setHeader("Access-Control-Allow-Credentials", "true");
