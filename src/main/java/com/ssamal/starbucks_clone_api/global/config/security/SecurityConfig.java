@@ -50,13 +50,12 @@ public class SecurityConfig {
             .authorizeHttpRequests()
             .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
             .requestMatchers("/api/auth/v1/**", "/v3/api-docs/**", "/swagger-ui/**",
-                "/swagger-resources/**").permitAll()
-            .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-            .requestMatchers("/api/v1/pay/**", "/api/v1/user/info", "api/v1/cart/**").authenticated()
-            .requestMatchers("/api/v1/banner", "/api/v1/season/**", "/api/v1/event/**",
+                "/swagger-resources/**", "/api/v1/banner", "/api/v1/season/**", "/api/v1/event/**",
                 "/api/v1/category/subCategories", "/api/v1/product/**", "/api/v1/recommend/**",
-                "/api/v1/user/**")
-            .permitAll()
+                "/api/v1/user/**").permitAll()
+            .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+            .requestMatchers("/api/v1/pay/**", "/api/v1/user/info", "api/v1/cart/**")
+            .authenticated()
         ;
 
         return http.build();
